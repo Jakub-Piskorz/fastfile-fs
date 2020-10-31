@@ -1,0 +1,37 @@
+import React from 'react'
+import folder from '@/images/folder.svg'
+import share from '@/images/share.svg'
+import plusCircle from '@/images/plus-circle.svg'
+import camera from '@/images/camera.svg'
+import code from '@/images/code.svg'
+
+const Sidebar = (props) => {
+  return (
+    <main className="sidebar">
+      <ul className="menu">
+        <li className="red">
+          <img src={folder} />
+          John Smith
+        </li>
+        <li>
+          <img src={share} />
+          Shared
+        </li>
+        <li>
+          <img src={plusCircle} />
+          Latest files
+        </li>
+        <li>
+          <img src={camera} />
+          Photos
+        </li>
+        <li>
+          <img src={code} />
+          Code hosting
+        </li>
+      </ul>
+    </main>
+  )
+}
+
+export default Sidebar

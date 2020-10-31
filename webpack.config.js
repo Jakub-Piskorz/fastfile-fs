@@ -7,7 +7,7 @@ const { mainModule } = require('process')
 module.exports = {
   mode: 'development',
   entry: {
-    app: './src/main.js',
+    app: './src/index.js',
   },
   devtool: 'inline-source-map',
   devServer: {
