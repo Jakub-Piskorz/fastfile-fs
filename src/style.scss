@@ -10,6 +10,7 @@ $white: #ededed;
 }
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 header {
@@ -103,9 +104,10 @@ header {
   width: 100%;
   height: 100vh;
   min-height: 700px;
+  overflow: hidden;
   .sidebar {
     display: flex;
-    width: 230px;
+    width: 283px;
     background-color: #424242;
     height: 100%;
     .menu {
@@ -129,6 +131,7 @@ header {
         font-size: 16px;
         font-weight: 200;
         font-style: normal;
+        transition: 0.1s;
         img {
           position: absolute;
           width: 20px;
@@ -137,20 +140,80 @@ header {
           transform: translateY(-50%);
           left: 20px;
         }
+        .lock:after {
+          position: absolute;
+          content: '';
+          width: 16px;
+          height: 16px;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-40%);
+          background-image: url('./images/key.svg');
+          background-size: contain;
+          background-repeat: no-repeat;
+        }
         &.red {
           background-color: $red;
           margin-bottom: 15px;
           font-weight: 400;
+          &:hover {
+            background-color: #ff6152;
+          }
           img {
             width: 17px;
             height: 17px;
             left: 22px;
           }
         }
+        &:hover {
+          background-color: #575757;
+        }
+      }
+    }
+  }
+  .files-window {
+    background-color: $white;
+    padding: 45px 70px 125px;
+    width: 100%;
+    h1 {
+      .folder-black {
+        width: 32px;
+        height: 25px;
+        transform: translateY(10%);
+        margin-right: 28px;
+      }
+    }
+    .files {
+      display: flex;
+      margin-top: 25px;
+      flex-wrap: wrap;
+      div {
+        display: flex;
+        flex-direction: column;
+        width: 170px;
+        height: 180px;
+        padding: 15px 20px;
+        margin: 7px;
+        border-radius: 10px;
+        transition: 0.1s;
+        img {
+          height: 75%;
+          width: auto;
+        }
+        p {
+          font-size: 15px;
+          font-weight: 500;
+          text-align: center;
+          margin-top: 10px;
+        }
+        &:hover {
+          background-color: rgba(125, 125, 125, 0.1);
+        }
       }
     }
   }
 }
 h1 {
-  font-size: 30px;
+  font-size: 26px;
+  height: initial;
 }

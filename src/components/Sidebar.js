@@ -28,6 +28,7 @@ const Sidebar = (props) => {
         <li>
           <img src={code} />
           Code hosting
+          <i className="lock"></i>
         </li>
       </ul>
     </main>
