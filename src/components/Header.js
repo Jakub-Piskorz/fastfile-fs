@@ -5,6 +5,7 @@ import trump from '@/images/trump.png'
 const Header = (props) => {
   const toggleNav = (event) => {
     document.querySelector('.sidebar').classList.toggle('show')
+    document.querySelector('.sidebar-mask').classList.toggle('hidden')
     event.target.classList.toggle('show')
   }
 
