@@ -2,6 +2,8 @@
 
 $red: #f63b28;
 $white: #ededed;
+$dark-gray: #434343;
+$light-gray: #b9b9b9;
 $mobile: 800px;
 
 * {
@@ -78,37 +80,76 @@ header {
   }
   #mid {
     display: flex;
-    background-color: #5a5a5a;
-    height: 28px;
-    width: 273px;
-    border-radius: 14px;
-    position: relative;
-    input {
-      background: none;
-      font-weight: 500;
-      font-style: italic;
-      padding: 7px 15px 7px 37px;
+    height: 100%;
+    align-items: center;
+    padding: 0 25px 0 0;
+    @media screen and (max-width: $mobile) {
+      background-color: #434343;
+      position: absolute;
+      left: 0;
+      top: 55px;
       width: 100%;
-      color: white;
-      border: 0;
-      &::placeholder {
-        color: #d4d4d4;
+      height: 55px;
+      .nav-button {
+        padding: 2px 8px 2px 10px;
+        margin-right: 6px;
+        border-radius: 0 22px 22px 0;
+        transition: 0.1s ease-in-out;
+        .nav-icon {
+          display: flex;
+          width: 24px;
+          height: 24px;
+          background-image: url('/src/images/folder-open-light.svg');
+          background-size: cover;
+        }
+        &.open {
+          background-color: $light-gray;
+          .nav-icon {
+            background-image: url('/src/images/folder-open-dark.svg');
+          }
+        }
       }
     }
-    &:before {
-      content: '';
-      position: absolute;
-      height: 11px;
-      width: 11px;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 15px;
-      background-image: url('/src/images/search.svg');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    #text-wrapper {
+      display: flex;
+      align-items: center;
+      top: 0;
+      background-color: #5a5a5a;
+      height: 28px;
+      width: 273px;
+      border-radius: 14px;
+      position: relative;
+      @media screen and (max-width: $mobile) {
+        width: auto;
+      }
+      input {
+        background: none;
+        font-weight: 500;
+        font-style: italic;
+        padding: 7px 15px 7px 37px;
+        width: 100%;
+        color: white;
+        border: 0;
+        &::placeholder {
+          color: #d4d4d4;
+        }
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        height: 11px;
+        width: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 15px;
+        background-image: url('/src/images/search.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
     }
   }
+
   #right {
     height: 100%;
     padding: 12px 0;
@@ -123,6 +164,7 @@ header {
   @media screen and (max-width: $mobile) {
     display: block;
     position: relative;
+    top: 55px;
   }
   .sidebar {
     display: flex;

@@ -1,18 +1,13 @@
 import React from 'react'
+import toggleNav from '@/utilities/toggle-nav.js'
 import logo from '@/images/logo.png'
-import trump from '@/images/trump.png'
+import profilePic from '@/images/trump.png'
 
 const Header = (props) => {
-  const toggleNav = (event) => {
-    document.querySelector('.sidebar').classList.toggle('show')
-    document.querySelector('.sidebar-mask').classList.toggle('hidden')
-    event.target.classList.toggle('show')
-  }
-
   return (
     <header>
       <div id="left">
-        <div className="hamwrapper" onClick={toggleNav}>
+        <div className="hamwrapper">
           <div className="hamburger"></div>
         </div>
 
@@ -21,9 +16,14 @@ const Header = (props) => {
         </a>
       </div>
       <div id="mid">
-        <input type="text" placeholder="Search something..." />
+        <div className="nav-button" onClick={toggleNav}>
+          <i className="nav-icon"></i>
+        </div>
+        <div id="text-wrapper">
+          <input type="text" placeholder="Search something..." />
+        </div>
       </div>
-      <img id="right" src={trump} />
+      <img id="right" src={profilePic} />
     </header>
   )
 }

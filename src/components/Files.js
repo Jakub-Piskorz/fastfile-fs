@@ -1,21 +1,17 @@
 import React from 'react'
+import toggleNav from '@/utilities/toggle-nav.js'
 import folderBlack from '../images/folder-black.svg'
 import pdf from '../images/pdf.svg'
 import jpg from '../images/jpg.svg'
 import mp3 from '../images/mp3.svg'
 
 const Files = (props) => {
-  const toggleNav = (event) => {
-    document.querySelector('.sidebar').classList.toggle('show')
-    document.querySelector('.hamwrapper').classList.toggle('show')
-    event.target.classList.toggle('hidden')
-  }
   return (
     <>
       <span className="sidebar-mask hidden" onClick={toggleNav}></span>
       <div className="files-window">
         <h1>
-          <img className="folder-black" src={folderBlack} title="" alt="" />
+          <img className="folder-black" src={folderBlack} />
           John Smith
           <div className="files">
             <div>
