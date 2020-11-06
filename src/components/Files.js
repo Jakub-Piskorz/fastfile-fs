@@ -1,11 +1,16 @@
-import React from 'react'
-import toggleNav from '@/utilities/toggle-nav.js'
+import React, { useEffect, useState } from 'react'
+import toggleNav from '@/scripts/toggle-nav.js'
+import API from '@/scripts/API.js'
+import File from './File'
 import folderBlack from '../images/folder-black.svg'
-import pdf from '../images/pdf.svg'
-import jpg from '../images/jpg.svg'
-import mp3 from '../images/mp3.svg'
 
 const Files = (props) => {
+  const [files, setFiles] = useState(false)
+  useEffect(() => {
+    API.read(`qbek`).then((response) => setFiles(response))
+    console.log(props)
+  }, [1000])
+
   return (
     <>
       <span className="sidebar-mask hidden" onClick={toggleNav}></span>
@@ -13,21 +18,14 @@ const Files = (props) => {
         <h1>
           <img className="folder-black" src={folderBlack} />
           John Smith
-          <div className="files">
-            <div>
-              <img src={jpg} />
-              <p>psikut.jpg</p>
-            </div>
-            <div>
-              <img src={pdf} />
-              <p>CV.pdf</p>
-            </div>
-            <div>
-              <img src={mp3} />
-              <p>psikut-asmr.mp3</p>
-            </div>
-          </div>
         </h1>
+        <div className="files">
+          {files
+            ? files.data.map((file, i) => (
+                <File name={file.name.slice(0, 20)} type={file.type} key={i} />
+              ))
+            : 'Loading...'}
+        </div>
       </div>
     </>
   )

@@ -1,5 +1,5 @@
 import React from 'react'
-import toggleNav from '@/utilities/toggle-nav.js'
+import toggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo.png'
 import profilePic from '@/images/trump.png'
 
