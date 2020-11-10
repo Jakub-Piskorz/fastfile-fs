@@ -164,6 +164,7 @@ header {
   @media screen and (max-width: $mobile) {
     display: block;
     position: relative;
+    height: 100vh;
     top: 55px;
   }
   .sidebar {
@@ -247,6 +248,7 @@ header {
     position: absolute;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
     pointer-events: none;
     @media screen and (max-width: $mobile) {
       background-color: rgba(0, 0, 0, 0.4);
@@ -263,9 +265,9 @@ header {
   .files-window {
     background-color: $white;
     padding: 45px 70px;
-    min-height: 100vh;
-    margin: 1fr;
+    height: 100vh;
     overflow: scroll;
+    margin: 1fr;
     h1 {
       .folder-black {
         width: 32px;

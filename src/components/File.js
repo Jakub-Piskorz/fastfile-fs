@@ -5,6 +5,7 @@ import mp3 from '../images/mp3.svg'
 import API from '../scripts/API'
 
 const File = ({ name = '', type = '', link = '' }) => {
+  console.log
   const icon = (type) => {
     switch (type) {
       case 'image/jpeg':
@@ -16,6 +17,8 @@ const File = ({ name = '', type = '', link = '' }) => {
       case 'audio/mp3':
         return mp3
       case 'audio/mp4':
+        return mp3
+      case 'audio/mpeg':
         return mp3
       default:
         return
