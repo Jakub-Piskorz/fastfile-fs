@@ -1,9 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Main from '@/components/Main'
-import './style.scss'
+import App from '@/components/App'
+import LandingPage from '@/components/LandingPage'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+  Redirect,
+} from 'react-router-dom'
 
-ReactDOM.render(<Main />, document.getElementById('app'))
+ReactDOM.render(
+  <Router>
+    <Switch>
+      <Route path="/lp" component={LandingPage} />
+      <Route path="/" component={App} />
+      {/* <Route path="*">
+        <Redirect to="/" />
+      </Route> */}
+    </Switch>
+  </Router>,
+  document.getElementById('app')
+)
 
 if (module.hot) {
   // enables hot module replacement if plugin is installed

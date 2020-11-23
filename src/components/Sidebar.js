@@ -4,11 +4,12 @@ import share from '@/images/share.svg'
 import plusCircle from '@/images/plus-circle.svg'
 import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
+import style from '@/style.module.scss'
 
 const Sidebar = (props) => {
   return (
-    <main className="sidebar">
-      <ul className="menu">
+    <main className={style.sidebar}>
+      <ul className={style.menu}>
         <li className="red">
           <img src={folder} />
           John Smith

@@ -13,6 +13,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, './'),
     publicPath: '/',
+    historyApiFallback: true,
   },
   output: {
     filename: 'js/[name].bundle.js',
@@ -40,9 +41,18 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
           },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: true,
+            },
+          },
           {
             loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
           },
         ],
       },

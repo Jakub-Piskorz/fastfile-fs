@@ -2,12 +2,15 @@ import React from 'react'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import Files from '@/components/Files'
+import HtmlHead from '../scripts/HtmlHead'
+import style from '@/style.module.scss'
 
-const Main = (props) => {
+const App = (props) => {
   return (
     <>
+      <HtmlHead title="Fastfile | Your files" />
       <Header />
-      <main className="fs">
+      <main className={style.fs}>
         <Sidebar />
         <Files />
       </main>
@@ -15,4 +18,4 @@ const Main = (props) => {
   )
 }
 
-export default Main
+export default App

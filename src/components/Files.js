@@ -3,6 +3,7 @@ import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
 import folderBlack from '../images/folder-black.svg'
+import style from '@/style.module.scss'
 
 const Files = (props) => {
   const [files, setFiles] = useState(false)
@@ -29,13 +30,16 @@ const Files = (props) => {
   }
   return (
     <>
-      <span className="sidebar-mask hidden" onClick={toggleNav}></span>
-      <div className="files-window" onDrop={upload} onDragOver={stop}>
+      <span
+        className={`${style['sidebar-mask']} ${style.hidden}`}
+        onClick={toggleNav}
+      ></span>
+      <div className={style['files-window']} onDrop={upload} onDragOver={stop}>
         <h1>
-          <img className="folder-black" src={folderBlack} />
+          <img className={style['folder-black']} src={folderBlack} />
           John Smith
         </h1>
-        <div className="files">
+        <div className={style.files}>
           {files
             ? files.data.map((file, i) => (
                 <File name={file.name.slice(0, 20)} type={file.type} key={i} />
