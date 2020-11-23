@@ -81,6 +81,7 @@ body {
 
 .header {
   position: relative;
+  z-index: 2;
   .logo {
     position: absolute;
     left: $containter-padding;
@@ -92,7 +93,7 @@ body {
   }
 }
 main {
-  .header {
+  .first {
     background: $header-background;
     padding: $containter-padding;
     padding-top: 125px;
@@ -365,7 +366,7 @@ aside {
     }
   }
   main {
-    .header {
+    .first {
       .begin {
         padding: 0 100px;
         p {
@@ -463,13 +464,13 @@ aside {
 }
 
 @media (min-width: 1365px) {
-  header {
+  .header {
     .logo {
       left: 250px;
       top: 50px;
       height: 32px;
     }
-    nav {
+    .nav {
       position: absolute;
       display: block;
       top: 50px;
@@ -510,7 +511,7 @@ aside {
   }
 
   main {
-    .header {
+    .first {
       padding: 250px 250px 150px 250px;
       display: flex;
       flex-direction: row-reverse;
@@ -616,7 +617,7 @@ aside {
   }
 
   main {
-    .header {
+    .first {
       padding: 250px 400px 200px 400px;
     }
     .secure {

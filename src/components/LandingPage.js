@@ -2,7 +2,7 @@ import React from 'react'
 import HtmlHead from '@/scripts/HtmlHead'
 import style from '@/landing-page.module.scss'
 
-//A lot of images. Skip to line 45.
+//A lot of images. Skip to line 37.
 import camera from '@/images/graphics/camera.svg'
 import code from '@/images/graphics/code.svg'
 import folder from '@/images/graphics/folder.svg'
@@ -65,7 +65,7 @@ const LandingPage = (props) => {
       {/* <!-- ? Main ? --> */}
       <main>
         {/* <!-- ? Header ? --> */}
-        <section className={style.header}>
+        <section className={style.first}>
           <div className={style['header__wrapper']}>
             <h1>
               <span className={style['main__header__h2']}>Send Files</span>{' '}
