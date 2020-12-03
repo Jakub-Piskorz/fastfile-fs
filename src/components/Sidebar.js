@@ -10,7 +10,7 @@ const Sidebar = (props) => {
   return (
     <main className={style.sidebar}>
       <ul className={style.menu}>
-        <li className="red">
+        <li className={style.red}>
           <img src={folder} />
           John Smith
         </li>

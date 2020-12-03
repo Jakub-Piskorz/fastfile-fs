@@ -40,7 +40,7 @@ const Files = (props) => {
           John Smith
         </h1>
         <div className={style.files}>
-          {files
+          {files.data
             ? files.data.map((file, i) => (
                 <File name={file.name.slice(0, 20)} type={file.type} key={i} />
               ))

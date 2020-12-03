@@ -16,9 +16,6 @@ ReactDOM.render(
     <Switch>
       <Route path="/lp" component={LandingPage} />
       <Route path="/" component={App} />
-      {/* <Route path="*">
-        <Redirect to="/" />
-      </Route> */}
     </Switch>
   </Router>,
   document.getElementById('app')

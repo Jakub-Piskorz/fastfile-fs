@@ -8,7 +8,7 @@ const API = {
           ).then((response) =>
             response.ok
               ? response.json()
-              : `response ain't okay. ${resposne.json()}`
+              : `response ain't okay. ${response.json()}`
           )
     } catch (error) {
       console.log(error)
