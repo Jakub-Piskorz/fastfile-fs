@@ -1,8 +1,8 @@
 /* --- Settings --- */
-@import './fonts/exo.scss';
+@import "./fonts/exo.scss";
 
 //? fonts
-$evo: 'Exo';
+$evo: "Exo";
 
 //? colors
 $white: #fff;
@@ -55,6 +55,7 @@ body {
   color: $font-color;
   max-width: 100vw;
   overflow: scroll;
+  overflow-x: hidden;
 
   h2 {
     font-size: $h2-font-size;
@@ -98,6 +99,14 @@ main {
     padding: $containter-padding;
     padding-top: 125px;
     text-align: center;
+    &.middle {
+      min-height: 100vh;
+      p,
+      a {
+        color: white;
+        font-size: 16px;
+      }
+    }
     h1 {
       text-transform: uppercase;
       font-style: italic;
@@ -119,10 +128,14 @@ main {
         font-weight: normal;
         margin-bottom: 20px;
       }
-      form {
+      #loginForm {
         margin-bottom: 50px;
-        #login__login,
-        #login__password {
+        #username,
+        #password,
+        #register__register,
+        #register__password,
+        #register__password2,
+        #register__email {
           display: block;
           margin: auto;
           background-color: transparent;
@@ -139,7 +152,7 @@ main {
           display: flex;
           justify-content: center;
           margin-top: 40px;
-          #login__submit,
+          #submit,
           #login__sign_up {
             border: 0;
             background-color: $button-grey;
@@ -163,10 +176,10 @@ main {
         }
       }
       .login__another_login__wrapper {
-        margin-bottom: 100px;
         display: flex;
         justify-content: center;
         margin-top: 20px;
+        margin-bottom: 60px;
         .facebook {
           margin: 0 25px;
         }
@@ -515,6 +528,7 @@ aside {
       padding: 250px 250px 150px 250px;
       display: flex;
       flex-direction: row-reverse;
+      justify-content: center;
       .header__wrapper {
         width: 100%;
         text-align: left;

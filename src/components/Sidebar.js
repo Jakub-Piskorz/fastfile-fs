@@ -1,4 +1,3 @@
-import React from 'react'
 import folder from '@/images/folder.svg'
 import share from '@/images/share.svg'
 import plusCircle from '@/images/plus-circle.svg'

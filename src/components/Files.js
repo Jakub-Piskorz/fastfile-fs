@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'

@@ -1,4 +1,3 @@
-import React from 'react'
 import pdf from '../images/pdf.svg'
 import jpg from '../images/jpg.svg'
 import mp3 from '../images/mp3.svg'

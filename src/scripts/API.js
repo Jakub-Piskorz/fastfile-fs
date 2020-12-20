@@ -1,3 +1,6 @@
+// Functions for communication with cloud database
+// API.read(), API.upload()
+
 const API = {
   read: function (user = ``, slug = ``) {
     try {
@@ -17,8 +20,8 @@ const API = {
   upload: function (user = ``, slug = ``, file = null) {
     try {
       const formData = new FormData()
-      formData.append('path', `${slug}`)
-      formData.append('upload', file)
+      formData.append("path", `${slug}`)
+      formData.append("upload", file)
       return !user || !file
         ? `no user/file`
         : fetch(`http://fastfile.deltastorm.pl/api/v1/files/${user}/${slug}`, {
@@ -28,7 +31,24 @@ const API = {
             response.ok ? response.json() : console.log(response.json())
           )
     } catch (error) {
-      console.log(error)
+      console.error(error)
+    }
+  },
+  login: function (login = ``, password = ``) {
+    try {
+      const formData = new FormData()
+      formData.append(login)
+      formData.append(password)
+      return !login || !password
+        ? `Wrong login or password`
+        : fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
+            method: `POST`,
+            body: formData,
+          }).then((response) =>
+            response.ok ? response.json() : console.log(response.json())
+          )
+    } catch (error) {
+      console.error(error)
     }
   },
 }

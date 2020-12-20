@@ -1,7 +1,7 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
 import App from '@/components/App'
 import LandingPage from '@/components/LandingPage'
+import Register from '@/components/Register'
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,7 +15,8 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route path="/lp" component={LandingPage} />
-      <Route path="/" component={App} />
+      <Route path="/register" component={Register} />
+      <Route exact path="/" component={App} />
     </Switch>
   </Router>,
   document.getElementById('app')
