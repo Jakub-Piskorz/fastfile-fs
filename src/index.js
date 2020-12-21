@@ -14,9 +14,24 @@ import {
 ReactDOM.render(
   <Router>
     <Switch>
-      <Route path="/lp" component={LandingPage} />
+      <Route
+        path="/lp"
+        render={() =>
+          document.cookie.includes('token=') ? (
+            <Redirect to="/" />
+          ) : (
+            <LandingPage />
+          )
+        }
+      />
       <Route path="/register" component={Register} />
-      <Route exact path="/" component={App} />
+      <Route
+        exact
+        path="/"
+        render={() =>
+          document.cookie.includes('token=') ? <App /> : <Redirect to="/" />
+        }
+      />
     </Switch>
   </Router>,
   document.getElementById('app')

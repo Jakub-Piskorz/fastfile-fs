@@ -1,5 +1,5 @@
 // Functions for communication with cloud database
-// API.read(), API.upload()
+// API.read(), API.upload(), API.login()
 
 const API = {
   read: function (user = ``, slug = ``) {
@@ -20,8 +20,8 @@ const API = {
   upload: function (user = ``, slug = ``, file = null) {
     try {
       const formData = new FormData()
-      formData.append("path", `${slug}`)
-      formData.append("upload", file)
+      formData.append('path', `${slug}`)
+      formData.append('upload', file)
       return !user || !file
         ? `no user/file`
         : fetch(`http://fastfile.deltastorm.pl/api/v1/files/${user}/${slug}`, {
@@ -37,8 +37,8 @@ const API = {
   login: function (login = ``, password = ``) {
     try {
       const formData = new FormData()
-      formData.append(login)
-      formData.append(password)
+      formData.append(`login`, login)
+      formData.append(`password`, password)
       return !login || !password
         ? `Wrong login or password`
         : fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
