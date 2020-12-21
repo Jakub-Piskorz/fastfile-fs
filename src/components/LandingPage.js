@@ -40,8 +40,6 @@ const LandingPage = (props) => {
   useEffect(() => {
     API.login('qbek', 'qbek').then((result) => {
       CookieScripts.add('token', result.token)
-      document.cookie = `token=${result.token};`
-      console.log(document.cookie)
     })
   }, [])
 

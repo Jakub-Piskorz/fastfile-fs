@@ -17,7 +17,7 @@ ReactDOM.render(
       <Route
         path="/lp"
         render={() =>
-          document.cookie.includes('token=') ? (
+          /token=(.+);/.test(document.cookie) ? (
             <Redirect to="/" />
           ) : (
             <LandingPage />
@@ -29,7 +29,7 @@ ReactDOM.render(
         exact
         path="/"
         render={() =>
-          document.cookie.includes('token=') ? <App /> : <Redirect to="/" />
+          /token=(.+);/.test(document.cookie) ? <App /> : <Redirect to="/lp" />
         }
       />
     </Switch>
