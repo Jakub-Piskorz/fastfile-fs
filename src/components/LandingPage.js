@@ -37,11 +37,15 @@ import fastfile from '@/images/logo/FastFile.jpg'
 import fastfile2 from '@/images/logo/FastFile.png'
 
 const LandingPage = (props) => {
-  useEffect(() => {
-    API.login('qbek', 'qbek').then((result) => {
+  const login = (e) => {
+    e.preventDefault()
+    const username = document.querySelector('#' + style.username).value
+    const password = document.querySelector('#' + style.password).value
+    API.login(username, password).then((result) => {
       CookieScripts.add('token', result.token)
+      if (CookieScripts.value) window.location.href = '/'
     })
-  }, [])
+  }
 
   return (
     <>
@@ -107,7 +111,12 @@ const LandingPage = (props) => {
                 placeholder="Password"
               />
               <label className={style.form__wrapper}>
-                <input type="submit" value="Sign In" id={style.submit} />
+                <input
+                  type="submit"
+                  value="Sign In"
+                  id={style.submit}
+                  onClick={login}
+                />
                 <button type="button" id={style['login__sign_up']}>
                   Sign Up
                 </button>

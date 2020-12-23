@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom'
 import App from '@/components/App'
 import LandingPage from '@/components/LandingPage'
 import Register from '@/components/Register'
+import CookieScripts from '@/scripts/cookie-scripts'
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,11 +18,7 @@ ReactDOM.render(
       <Route
         path="/lp"
         render={() =>
-          /token=(.+);/.test(document.cookie) ? (
-            <Redirect to="/" />
-          ) : (
-            <LandingPage />
-          )
+          CookieScripts.value('token') ? <Redirect to="/" /> : <LandingPage />
         }
       />
       <Route path="/register" component={Register} />
@@ -29,7 +26,7 @@ ReactDOM.render(
         exact
         path="/"
         render={() =>
-          /token=(.+);/.test(document.cookie) ? <App /> : <Redirect to="/lp" />
+          CookieScripts.value('token') ? <App /> : <Redirect to="/lp" />
         }
       />
     </Switch>
