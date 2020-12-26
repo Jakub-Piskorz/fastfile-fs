@@ -9,6 +9,8 @@ import CookieScripts from '../scripts/cookie-scripts'
 const Files = (props) => {
   const [files, setFiles] = useState(false)
   useEffect(() => {
+    console.log('cookies below')
+    console.log(CookieScripts.cookies())
     API.read(CookieScripts.value('token')).then((response) => {
       setFiles(response)
     })

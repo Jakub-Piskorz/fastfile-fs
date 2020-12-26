@@ -2,11 +2,11 @@
 // API.read(), API.upload(), API.login(), API.userInfo()
 
 const API = {
-  read: function (token = ``, slug = ``) {
+  read: async function (token = ``, slug = ``) {
     try {
       return !token
         ? `no token`
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/folders/${slug}`, {
+        : await fetch(`http://fastfile.deltastorm.pl/api/v1/folders/${slug}`, {
             headers: {
               Authorization: token,
             },
