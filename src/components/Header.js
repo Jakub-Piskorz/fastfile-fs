@@ -2,8 +2,17 @@ import toggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo.png'
 import profilePic from '@/images/trump.png'
 import style from '@/style.module.scss'
+import CookieScripts from '../scripts/cookie-scripts'
+import API from '../scripts/API'
 
 const Header = (props) => {
+  const logout = (e) => {
+    API.logout(CookieScripts.value('token')).then((response) => {
+      e.preventDefault()
+      CookieScripts.add('token', '')
+      window.location.href = '/lp'
+    })
+  }
   return (
     <header className={style.header}>
       <div id={style.left}>
@@ -23,7 +32,12 @@ const Header = (props) => {
           <input type="text" placeholder="Search something..." />
         </div>
       </div>
-      <img id={style.right} src={profilePic} />
+      <div id={style.right}>
+        <button id={style.logout} onClick={logout}>
+          Logout
+        </button>
+        <img src={profilePic} />
+      </div>
     </header>
   )
 }

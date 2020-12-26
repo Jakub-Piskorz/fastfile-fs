@@ -11,7 +11,7 @@ const Sidebar = (props) => {
       <ul className={style.menu}>
         <li className={style.red}>
           <img src={folder} />
-          John Smith
+          {props.name}
         </li>
         <li>
           <img src={share} />

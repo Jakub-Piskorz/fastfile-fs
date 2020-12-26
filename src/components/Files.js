@@ -4,12 +4,19 @@ import API from '@/scripts/API.js'
 import File from './File'
 import folderBlack from '../images/folder-black.svg'
 import style from '@/style.module.scss'
+import CookieScripts from '../scripts/cookie-scripts'
 
 const Files = (props) => {
   const [files, setFiles] = useState(false)
   useEffect(() => {
+    API.read(CookieScripts.value('token')).then((response) => {
+      setFiles(response)
+    })
     setInterval(
-      () => API.read(`qbek`).then((response) => setFiles(response)),
+      () =>
+        API.read(CookieScripts.value('token')).then((response) => {
+          setFiles(response)
+        }),
       1000
     )
   }, [])
@@ -37,11 +44,11 @@ const Files = (props) => {
       <div className={style['files-window']} onDrop={upload} onDragOver={stop}>
         <h1>
           <img className={style['folder-black']} src={folderBlack} />
-          John Smith
+          {props.name}
         </h1>
         <div className={style.files}>
-          {files.data
-            ? files.data.map((file, i) => (
+          {files.files
+            ? files.files.map((file, i) => (
                 <File name={file.name.slice(0, 20)} type={file.type} key={i} />
               ))
             : 'Loading...'}

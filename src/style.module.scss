@@ -151,8 +151,22 @@ body {
   }
 
   #right {
+    display: flex;
+    align-items: center;
     height: 100%;
     padding: 12px 0;
+    #logout {
+      margin-right: 20px;
+      padding: 7px 12px;
+      background-color: $red;
+      border: 0;
+      color: white;
+      border-radius: 2px;
+      cursor: pointer;
+      &:hover {
+        background-color: #ff6152;
+      }
+    }
   }
 }
 .fs {
@@ -300,6 +314,7 @@ body {
           text-align: center;
           margin-top: 13px;
           word-wrap: break-word;
+          color: black;
         }
         &:hover {
           background-color: rgba(125, 125, 125, 0.1);

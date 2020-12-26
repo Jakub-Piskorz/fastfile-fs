@@ -4,10 +4,10 @@ const CookieScripts = {
     if (expireDays) {
       const _expires = new Date()
       _expires.setDate(date.getTime() + expireDays * 24 * 60 * 60 * 1000)
-      expires = `expires=${_expires.toUTCString()}`
+      expires = `expires=${_expires.toUTCString()};`
     }
-    name || value
-      ? (document.cookie = `${name}=${value};${expires ? expires + ';' : ''}`)
+    name
+      ? (document.cookie = `${name}=${value};${expires ? expires : ''}`)
       : console.error(`Cookie.add error: no name or value.`)
   },
   value: function (name = '') {
