@@ -10,7 +10,7 @@ const Header = (props) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       e.preventDefault()
       CookieScripts.add('token', '')
-      window.location.href = '/lp'
+      window.location.href = 'http://fastfile.jakubpiskorz.pl/'
     })
   }
   return (

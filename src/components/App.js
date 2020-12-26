@@ -11,7 +11,10 @@ const App = (props) => {
   const [username, setUsername] = useState('Loading')
   useEffect(() => {
     API.userInfo(CookieScripts.value('token'))
-      .catch((response) => (window.location.href = '/lp'))
+      .catch((response) => {
+        CookieScripts.add('token', '')
+        window.location.href = 'http://fastfile.jakubpiskorz.pl/'
+      })
       .then((response) => {
         setUsername(response.data.login)
       })

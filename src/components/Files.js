@@ -17,7 +17,7 @@ const Files = (props) => {
         API.read(CookieScripts.value('token')).then((response) => {
           setFiles(response)
         }),
-      1000
+      20000
     )
   }, [])
 
