@@ -18,7 +18,7 @@ import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 const Register = (props) => {
   return (
     <>
-      <HtmlHead title="FastFile | Login" />
+      <HtmlHead title="FastFile | Sign Up" />
       {/* <!-- ? Header ? --> */}
       <header className={style.header}>
         <img src={fastfileReverse} alt="FastFile" className={style.logo} />
@@ -46,41 +46,37 @@ const Register = (props) => {
       {/* <!-- ? Main ? --> */}
       <main>
         {/* <!-- ? Header ? --> */}
-        <section className={`${style.first} ${style.middle}`}>
+        <section className={`${style.first} ${style.register}`}>
           {/* <!-- ? Login ? --> */}
           <article className={style.login}>
             <h3>Sign up</h3>
-            <form action="#" method="post">
+            <form action="#" method="post" id={style.registerForm}>
               <input
                 type="text"
                 name="register"
-                id={style['register__register']}
+                id={style.username}
                 placeholder="Username"
               />
               <input
                 type="email"
                 name="email"
-                id={style['register__email']}
-                placeholder="Username"
+                id={style.email}
+                placeholder="E-mail"
               />
               <input
                 type="password"
                 name="password"
-                id={style['register__password']}
+                id={style.password}
                 placeholder="Password"
               />
               <input
                 type="password"
                 name="password2"
-                id={style['register__password2']}
+                id={style.password2}
                 placeholder="Confirm password"
               />
               <label className={style['form__wrapper']}>
-                <input
-                  type="submit"
-                  value="Sign Up"
-                  id={style['login__submit']}
-                />
+                <input type="submit" value="Sign Up" id={style.submit} />
                 <button type="button" id={style['login__sign_up']}>
                   Sign Up
                 </button>
@@ -101,7 +97,7 @@ const Register = (props) => {
               </a>
             </div>
           </article>
-          <article className={style.end}>
+          <footer className={style.short}>
             <p>2020 FastFile Inc. All rights reserved.</p>
             <p>
               <a href="#">Privacy Policy</a>
@@ -110,7 +106,7 @@ const Register = (props) => {
               <span> | </span>
               <a href="#">Cookies</a>
             </p>
-          </article>
+          </footer>
         </section>
       </main>
     </>

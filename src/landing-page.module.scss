@@ -1,8 +1,8 @@
 /* --- Settings --- */
-@import "./fonts/exo.scss";
+@import './fonts/exo.scss';
 
 //? fonts
-$evo: "Exo";
+$evo: 'Exo';
 
 //? colors
 $white: #fff;
@@ -99,8 +99,9 @@ main {
     padding: $containter-padding;
     padding-top: 125px;
     text-align: center;
-    &.middle {
+    &.register {
       min-height: 100vh;
+      flex-direction: column;
       p,
       a {
         color: white;
@@ -128,14 +129,13 @@ main {
         font-weight: normal;
         margin-bottom: 20px;
       }
-      #loginForm {
+      #loginForm,
+      #registerForm {
         margin-bottom: 50px;
         #username,
         #password,
-        #register__register,
-        #register__password,
-        #register__password2,
-        #register__email {
+        #password2,
+        #email {
           display: block;
           margin: auto;
           background-color: transparent;
@@ -253,7 +253,6 @@ main {
 footer {
   position: relative;
   padding: $containter-padding;
-
   .logo {
     height: 22px;
     position: absolute;
@@ -346,6 +345,10 @@ footer {
       height: 475px;
       // max-width: 100%;
     }
+  }
+  &.short {
+    padding-top: 60px;
+    line-height: 2rem;
   }
 }
 aside {
