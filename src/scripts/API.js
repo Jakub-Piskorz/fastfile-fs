@@ -19,16 +19,19 @@ const API = {
       console.log(error)
     }
   },
-  upload: function (user = ``, slug = ``, file = null) {
+  upload: function (token = ``, path = ``, file = null) {
     try {
       const formData = new FormData()
-      formData.append('path', `${slug}`)
+      formData.append('path', `${path}`)
       formData.append('upload', file)
-      return !user || !file
+      return !token || !file
         ? `no user/file`
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/files/${user}/${slug}`, {
+        : fetch(`http://fastfile.deltastorm.pl/api/v1/files/${path}`, {
             method: `POST`,
             body: formData,
+            headers: {
+              Authorization: token,
+            },
           }).then((response) =>
             response.ok ? response.json() : console.error(response.json())
           )

@@ -29,7 +29,7 @@ const Files = (props) => {
   const upload = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    API.upload(`qbek`, ``, e.dataTransfer.files[0]).then(
+    API.upload(CookieScripts.value('token'), '', e.dataTransfer.files[0]).then(
       API.read(`qbek`).then((response) =>
         response.ok ? setFiles(response) : console.log(response)
       )
