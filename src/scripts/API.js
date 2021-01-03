@@ -10,13 +10,15 @@ const API = {
             headers: {
               Authorization: token,
             },
-          }).then((response) =>
-            response.ok
-              ? response.json()
-              : `response ain't okay. ${response.json()}`
-          )
+          })
+            .catch((err) => console.error(err))
+            .then((response) => {
+              return response.ok
+                ? response.json()
+                : console.error(`response ain't okay. ${response.json()}`)
+            })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   },
   upload: function (token = ``, path = ``, file = null) {
@@ -32,9 +34,11 @@ const API = {
             headers: {
               Authorization: token,
             },
-          }).then((response) =>
-            response.ok ? response.json() : console.error(response.json())
-          )
+          })
+            .catch((err) => console.error(err))
+            .then((response) =>
+              response.ok ? response.json() : console.error(response.json())
+            )
     } catch (error) {
       console.error(error)
     }
@@ -49,9 +53,11 @@ const API = {
         : fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
             method: `POST`,
             body: formData,
-          }).then((response) =>
-            response.ok ? response.json() : console.log(response.json())
-          )
+          })
+            .catch((err) => console.error(err))
+            .then((response) =>
+              response.ok ? response.json() : console.error(response.json())
+            )
     } catch (error) {
       console.error(error)
     }
@@ -65,9 +71,11 @@ const API = {
             headers: {
               Authorization: token,
             },
-          }).then((response) =>
-            response.ok ? response.json() : console.error(response.json())
-          )
+          })
+            .catch((err) => console.error(err))
+            .then((response) =>
+              response.ok ? response.json() : console.error(response.json())
+            )
     } catch (error) {
       console.error(error)
     }
@@ -81,9 +89,11 @@ const API = {
             headers: {
               Authorization: token,
             },
-          }).then((response) =>
-            response.ok ? response.json() : console.error(response.json())
-          )
+          })
+            .catch((err) => console.error(err))
+            .then((response) =>
+              response.ok ? response.json() : console.error(response.json())
+            )
     } catch (error) {
       console.error(error)
     }

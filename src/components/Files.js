@@ -8,17 +8,16 @@ import CookieScripts from '../scripts/cookie-scripts'
 
 const Files = (props) => {
   const [files, setFiles] = useState(false)
-  useEffect(() => {
+
+  const refresh = () => {
     API.read(CookieScripts.value('token')).then((response) => {
       setFiles(response)
     })
-    setInterval(
-      () =>
-        API.read(CookieScripts.value('token')).then((response) => {
-          setFiles(response)
-        }),
-      20000
-    )
+  }
+
+  useEffect(() => {
+    refresh()
+    setInterval(() => refresh(), 20000)
   }, [])
 
   const stop = (e) => {
@@ -29,11 +28,11 @@ const Files = (props) => {
   const upload = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    API.upload(CookieScripts.value('token'), '', e.dataTransfer.files[0]).then(
-      API.read(`qbek`).then((response) =>
-        response.ok ? setFiles(response) : console.log(response)
-      )
-    )
+    API.upload(
+      CookieScripts.value('token'),
+      '',
+      e.dataTransfer.files[0]
+    ).then(() => refresh())
   }
   return (
     <>

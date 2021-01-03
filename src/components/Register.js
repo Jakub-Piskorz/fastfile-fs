@@ -77,9 +77,6 @@ const Register = (props) => {
               />
               <label className={style['form__wrapper']}>
                 <input type="submit" value="Sign Up" id={style.submit} />
-                <button type="button" id={style['login__sign_up']}>
-                  Sign Up
-                </button>
               </label>
             </form>
 
