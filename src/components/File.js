@@ -39,7 +39,7 @@ const File = ({ name = '', fileFormat = '', link = '' }) => {
       <img src={icon(fileFormat)} />
       <p>{name}</p>
       <div className={style.checkmark}>
-        <span className={style.mark}>✔</span>
+        <span className={style.mark}>&#10004;</span>
       </div>
     </div>
   )
