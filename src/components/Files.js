@@ -28,11 +28,12 @@ const Files = (props) => {
   const upload = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    API.upload(
-      CookieScripts.value('token'),
-      '',
-      e.dataTransfer.files[0]
-    ).then(() => refresh())
+    if (e.dataTransfer.files[0])
+      API.upload(
+        CookieScripts.value('token'),
+        '',
+        e.dataTransfer.files[0]
+      ).then(() => refresh())
   }
   return (
     <>
@@ -48,9 +49,13 @@ const Files = (props) => {
         <div className={style.files}>
           {files.files
             ? files.files.map((file, i) => (
-                <File name={file.name.slice(0, 20)} type={file.type} key={i} />
+                <File
+                  name={file.name.slice(0, 20)}
+                  fileFormat={file.type}
+                  key={i}
+                />
               ))
-            : 'Loading...'}
+            : 'Loading files...'}
         </div>
       </div>
     </>
