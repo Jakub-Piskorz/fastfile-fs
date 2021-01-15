@@ -1,5 +1,5 @@
 import HtmlHead from '@/scripts/HtmlHead'
-import style from '@/landing-page.module.scss'
+import style from './LandingPage.module.scss'
 
 import appStoreBtn from '@/images/icons/app-store-btn.png'
 import facebookIcon from '@/images/icons/facebook-icon.png'

@@ -3,11 +3,14 @@ import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
 import folderBlack from '../images/folder-black.svg'
-import style from '@/style.module.scss'
+import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 
 const Files = (props) => {
   const [files, setFiles] = useState(false)
+  const selectedFiles = () => {
+    document.querySelectorAll(`.${style.file}.${style.selected}`)
+  }
 
   const refresh = () => {
     API.read(CookieScripts.value('token')).then((response) => {
@@ -17,7 +20,7 @@ const Files = (props) => {
 
   useEffect(() => {
     refresh()
-    setInterval(() => refresh(), 20000)
+    setInterval(() => refresh(), 15000)
   }, [])
 
   const stop = (e) => {

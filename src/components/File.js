@@ -2,7 +2,7 @@ import pdfIcon from '../images/pdf.svg'
 import jpgIcon from '../images/jpg.svg'
 import mp3Icon from '../images/mp3.svg'
 import API from '../scripts/API'
-import style from '@/style.module.scss'
+import style from './App.module.scss'
 
 const File = ({ name = '', fileFormat = '', link = '' }) => {
   console.log
@@ -31,7 +31,7 @@ const File = ({ name = '', fileFormat = '', link = '' }) => {
       e.target.classList[0] === style.checkmark ||
       e.target.classList[0] === style.mark
     )
-      e.currentTarget.classList.toggle(style.checked)
+      e.currentTarget.classList.toggle(style.selected)
   }
 
   return (
@@ -39,7 +39,7 @@ const File = ({ name = '', fileFormat = '', link = '' }) => {
       <img src={icon(fileFormat)} />
       <p>{name}</p>
       <div className={style.checkmark}>
-        <span className={style.mark}>&#10004;</span>
+        <span className={style.mark}>✔</span>
       </div>
     </div>
   )

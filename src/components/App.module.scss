@@ -1,4 +1,4 @@
-@import '../src/fonts/exo.scss';
+@import '../fonts/exo.scss';
 
 $red: #f63b28;
 $white: #ededed;
@@ -21,7 +21,6 @@ svg,
 
 body {
   margin: 0;
-  overflow: hidden;
 }
 
 .header {
@@ -173,24 +172,26 @@ body {
   display: grid;
   grid-template-columns: 230px 1fr;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 55px);
   overflow: hidden;
   @media screen and (max-width: $mobile) {
     display: block;
+    height: calc(100vh - 110px);
     position: relative;
-    height: 100vh;
     top: 55px;
   }
   .sidebar {
     display: flex;
+    height: calc(100vh - 55px);
     background-color: #424242;
-    height: 100%;
     width: 230px;
     left: 0;
-    transition: 0.3s ease-in-out;
+
     z-index: 3;
     @media screen and (max-width: $mobile) {
       position: absolute;
+      height: calc(100vh - 110px);
+      transition: 0.3s ease-in-out;
       left: -230px;
       &.show {
         left: 0;
@@ -262,7 +263,6 @@ body {
     position: absolute;
     z-index: 2;
     width: 100%;
-    height: 100vh;
     overflow: hidden;
     pointer-events: none;
     @media screen and (max-width: $mobile) {
@@ -278,12 +278,15 @@ body {
     }
   }
   .files-window {
+    height: calc(100vh - 55px);
     background-color: $white;
-    padding: 45px 70px;
-    height: 100vh;
+    padding: 45px;
     overflow: scroll;
     margin: 1fr;
     color: black;
+    @media screen and (max-width: $mobile) {
+      padding: 45px 30px;
+    }
     h1 {
       .folder-black {
         width: 32px;
@@ -293,18 +296,41 @@ body {
       }
     }
     .files {
-      display: flex;
-      margin-top: 25px;
+      /* On desktop, files are flexboxes with size chosen by user.
+         On mobile, files are grid items with strict number of columns. */
+      display: inline-flex;
       flex-wrap: wrap;
+      margin-top: 25px;
+      @media screen and (max-width: $mobile) {
+        display: inline-grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        grid-gap: 15px;
+        place-items: start stretch;
+      }
+      @media screen and (max-width: 550px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media screen and (max-width: 320px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
       .file {
-        display: flex;
+        display: inline-flex;
         position: relative;
         cursor: pointer;
         z-index: 0;
         flex-direction: column;
         width: 165px;
         height: 180px;
-        padding: 15px 20px;
+        @media screen and (max-width: $mobile) {
+          height: 150px;
+          margin: 0;
+          width: 100%;
+        }
+        @media screen and (max-width: 400px) {
+          height: 120px;
+        }
+        padding: 15px 0;
         margin: 7px;
         border-radius: 8px;
         img {
@@ -316,7 +342,7 @@ body {
           font-weight: 500;
           text-align: center;
           margin-top: 13px;
-          word-wrap: break-word;
+          word-break: break-word;
           color: black;
         }
         .checkmark {
@@ -345,7 +371,7 @@ body {
             display: flex;
           }
         }
-        &.checked {
+        &.selected {
           .checkmark {
             display: flex;
             .mark {

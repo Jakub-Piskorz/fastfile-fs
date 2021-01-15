@@ -1,7 +1,8 @@
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import toggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo.png'
 import profilePic from '@/images/trump.png'
-import style from '@/style.module.scss'
+import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 import API from '../scripts/API'
 
@@ -20,9 +21,9 @@ const Header = (props) => {
           <div className={style.hamburger}></div>
         </div>
 
-        <a href="/">
+        <Link to="/">
           <img src={logo} title="FastFile" alt="FastFile" />
-        </a>
+        </Link>
       </div>
       <div id={style.mid}>
         <div className={style['nav-button']} onClick={toggleNav}>

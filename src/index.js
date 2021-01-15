@@ -3,6 +3,7 @@ import App from '@/components/App'
 import LandingPage from '@/components/LandingPage'
 import Register from '@/components/Register'
 import CookieScripts from '@/scripts/cookie-scripts'
+import Test from '@/components/Test'
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,6 +30,8 @@ ReactDOM.render(
           CookieScripts.value('token') ? <App /> : <Redirect to="/lp" />
         }
       />
+      {/* Remove TEST before publishing!!! */}
+      <Route exact path="test123" component={Test} />
     </Switch>
   </Router>,
   document.getElementById('app')

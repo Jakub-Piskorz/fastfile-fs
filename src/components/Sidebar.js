@@ -3,7 +3,7 @@ import share from '@/images/share.svg'
 import plusCircle from '@/images/plus-circle.svg'
 import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
-import style from '@/style.module.scss'
+import style from './App.module.scss'
 
 const Sidebar = (props) => {
   return (

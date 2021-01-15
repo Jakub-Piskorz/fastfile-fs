@@ -1,5 +1,5 @@
 import HtmlHead from '@/scripts/HtmlHead'
-import style from '@/landing-page.module.scss'
+import style from './LandingPage.module.scss'
 import { useEffect } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
