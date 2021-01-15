@@ -82,10 +82,10 @@ body {
 
 @media (min-width: 1365px) {
   .widthMain {
+    // position: relative;
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #333;
   }
   .widthFull {
     width: 100vw;
@@ -316,7 +316,7 @@ footer {
   }
 
   .footer__follow_us {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     h3 {
       font-size: 24px;
       font-weight: 400;
@@ -500,7 +500,7 @@ aside {
 @media (min-width: 1365px) {
   .header {
     .logo {
-      left: 250px;
+      left: calc((100% - 1200px) / 2);
       top: 50px;
       height: 32px;
     }
@@ -508,7 +508,7 @@ aside {
       position: absolute;
       display: block;
       top: 50px;
-      right: 250px;
+      right: calc((100% - 1200px) / 2);
       ul {
         display: flex;
         li {
@@ -547,14 +547,12 @@ aside {
 
   main {
     .first {
-      padding: 250px 250px 150px 250px;
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: center;
+      padding: 250px 0;
+
       .header__wrapper {
         width: 100%;
         text-align: left;
-        margin-left: 150px;
+        margin-left: 250px;
         .begin {
           padding: 0;
         }
@@ -564,10 +562,16 @@ aside {
           margin-bottom: 0;
         }
       }
+      .flexWrapper {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+      }
     }
     .secure {
-      padding: 250px;
+      padding: 250px 0;
       .secure__wrapper {
+        position: relative;
         width: 500px;
         text-align: left;
         h2 {
@@ -578,14 +582,14 @@ aside {
           margin-bottom: 25px;
         }
         .security_icon {
-          top: 210px;
-          left: 150px;
+          top: -25px;
+          left: -100px;
           position: absolute;
         }
         .secure-icon {
           position: absolute;
-          top: 250px;
-          right: 100px;
+          top: 0px;
+          right: calc(((100% - 1200px) / 2) - 200px);
           width: 400px;
         }
         .secure__text__wrapper {
@@ -604,10 +608,10 @@ aside {
 
     .logo {
       top: 60%;
-      left: 275px;
+      left: calc((100% - 1200px) / 2);
     }
     .footer__wrapper {
-      padding: 0 200px;
+      padding: 0;
       justify-content: center;
       display: flex;
       flex-wrap: wrap;
@@ -642,61 +646,61 @@ aside {
   }
 }
 
-@media (min-width: 1900px) {
-  header {
-    .logo {
-      left: 400px;
-    }
-    nav {
-      top: 50px;
-      right: 400px;
-    }
-  }
+// @media (min-width: 1900px) {
+//   header {
+//     .logo {
+//       left: 400px;
+//     }
+//     nav {
+//       top: 50px;
+//       right: 400px;
+//     }
+//   }
 
-  main {
-    .first {
-      padding: 250px 400px 200px 400px;
-    }
-    .secure {
-      padding: 200px 400px;
-      .secure__wrapper {
-        .security_icon {
-          top: 165px;
-          left: 320px;
-          position: absolute;
-        }
-      }
-    }
-  }
+//   main {
+//     .first {
+//       padding: 250px 400px 200px 400px;
+//     }
+//     .secure {
+//       padding: 200px 400px;
+//       .secure__wrapper {
+//         .security_icon {
+//           top: 165px;
+//           left: 320px;
+//           position: absolute;
+//         }
+//       }
+//     }
+//   }
 
-  footer {
-    padding: 75px 0 40px 0;
+//   footer {
+//     padding: 75px 0 40px 0;
 
-    .logo {
-      top: 60%;
-      left: 425px;
-    }
-    .footer__wrapper {
-      padding: 0 400px;
-      .about_us {
-        width: 40%;
-      }
-      .quick_links {
-        width: 20%;
-      }
-      .footer__follow_us {
-        width: 15%;
-      }
-    }
-    .end {
-      margin-top: 50px;
-      display: flex;
-      flex-direction: row-reverse;
-      height: auto;
-      h2 {
-        margin-top: 0;
-        margin-left: 5px;
-      }
-    }
-  }
-}
+//     .logo {
+//       top: 60%;
+//       left: 425px;
+//     }
+//     .footer__wrapper {
+//       padding: 0 400px;
+//       .about_us {
+//         width: 40%;
+//       }
+//       .quick_links {
+//         width: 20%;
+//       }
+//       .footer__follow_us {
+//         width: 15%;
+//       }
+//     }
+//     .end {
+//       margin-top: 50px;
+//       display: flex;
+//       flex-direction: row-reverse;
+//       height: auto;
+//       h2 {
+//         margin-top: 0;
+//         margin-left: 5px;
+//       }
+//     }
+//   }
+// }
