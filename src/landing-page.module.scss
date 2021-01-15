@@ -1,8 +1,8 @@
 /* --- Settings --- */
-@import "./fonts/exo.scss";
+@import './fonts/exo.scss';
 
 //? fonts
-$evo: "Exo";
+$evo: 'Exo';
 
 //? colors
 $white: #fff;
@@ -80,8 +80,24 @@ body {
   }
 }
 
-.mainConatiner {
-  width: 1240px;
+@media (min-width: 1365px) {
+  .widthMain {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #333;
+  }
+  .widthFull {
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .widthMainLeft {
+    margin-right: calc((100% - 1200px) / 2);
+  }
+  .widthMainRight {
+    margin-left: calc((100% - 1200px) / 2);
+  }
 }
 
 .header {
@@ -504,21 +520,22 @@ aside {
           }
         }
         .button {
+          font-size: 14px;
           margin: 0;
-          padding: 0 25px;
+          padding: 4px 24px;
           text-align: center;
           line-height: 40px;
           background: $dark-button-background;
           transform: translateY(-10px);
-          border-radius: 20px 0 0 20px;
+          border-radius: 25px 0 0 25px;
           a {
             color: $bright-grey;
           }
 
           &:last-child {
             background: $color-button-background;
-            height: 40px;
-            border-radius: 0 20px 20px 0;
+            height: 48px;
+            border-radius: 0 25px 25px 0;
             a {
               color: $white;
             }
