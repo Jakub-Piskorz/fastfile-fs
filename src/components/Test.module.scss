@@ -10,10 +10,11 @@ $white: #ededed;
   background-color: $white;
   color: black;
   font-size: 13px;
+  h1 {
+    font-size: 3rem;
+  }
 }
-h1 {
-  font-size: 3rem;
-}
+
 .contextMenu {
   display: flex;
   position: absolute;
