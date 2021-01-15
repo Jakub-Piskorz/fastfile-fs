@@ -1,0 +1,47 @@
+$white: #ededed;
+
+.main {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: $white;
+  color: black;
+  font-size: 13px;
+}
+h1 {
+  font-size: 3rem;
+}
+.contextMenu {
+  display: flex;
+  position: absolute;
+  top: 50vh;
+  right: 50vw;
+  background: white;
+  box-shadow: #cccccc 1px 2px 5px;
+  border-radius: 3px;
+  width: 170px;
+  z-index: 200;
+  user-select: none;
+  &.hidden {
+    display: none;
+  }
+  ul {
+    width: 100%;
+    li {
+      box-sizing: border-box;
+      marker: none;
+      display: flex;
+      width: 100%;
+      font-weight: 300;
+      color: #555555;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
+  }
+}
