@@ -21,14 +21,14 @@ const API = {
       console.error(error)
     }
   },
-  upload: function (token = ``, path = ``, file = null) {
+  upload: async function (token = ``, path = ``, file = null) {
     try {
       const formData = new FormData()
       formData.append('path', `${path}`)
       formData.append('upload', file)
       return !token || !file
         ? `no user/file`
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/files/${path}`, {
+        : await fetch(`http://fastfile.deltastorm.pl/api/v1/files/${path}`, {
             method: `POST`,
             body: formData,
             headers: {
@@ -43,14 +43,14 @@ const API = {
       console.error(error)
     }
   },
-  login: function (login = ``, password = ``) {
+  login: async function (login = ``, password = ``) {
     try {
       const formData = new FormData()
       formData.append(`login`, login)
       formData.append(`password`, password)
       return !login || !password
         ? `Wrong login or password`
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
+        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
             method: `POST`,
             body: formData,
           })
@@ -62,11 +62,11 @@ const API = {
       console.error(error)
     }
   },
-  logout: function (token = ``) {
+  logout: async function (token = ``) {
     try {
       return !token
         ? 'no token'
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/users/logout`, {
+        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users/logout`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -80,11 +80,11 @@ const API = {
       console.error(error)
     }
   },
-  userInfo: function (token = ``) {
+  userInfo: async function (token = ``) {
     try {
       return !token
         ? 'no token'
-        : fetch(`http://fastfile.deltastorm.pl/api/v1/users`, {
+        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -94,6 +94,23 @@ const API = {
             .then((response) =>
               response.ok ? response.json() : console.error(response.json())
             )
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  download: async function (token = ``, slug = ``) {
+    try {
+      return !token
+        ? 'no token'
+        : await fetch(
+            `http://fastfile.deltastorm.pl/api/v1/files/${slug}/download`,
+            {
+              method: `GET`,
+              headers: {
+                Authorization: token,
+              },
+            }
+          ).catch((err) => console.error(err))
     } catch (error) {
       console.error(error)
     }

@@ -9,6 +9,7 @@ import API from '../scripts/API'
 
 const App = (props) => {
   const [username, setUsername] = useState('Loading')
+  const [menuHook, setMenuHook] = useState(null)
   useEffect(() => {
     API.userInfo(CookieScripts.value('token'))
       .catch((response) => {
@@ -20,13 +21,29 @@ const App = (props) => {
       })
   }, [])
 
+  const changeMenuHook = (value) => {
+    setMenuHook(value)
+  }
+  const hideMenu = () => {
+    setMenuHook(null)
+  }
+
+  const stop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   return (
     <>
       <HtmlHead title="Fastfile | Your files" />
-      <Header />
-      <main className={style.fs}>
+      <Header onMouseUp={hideMenu} onContextMenu={stop} />
+      <main className={style.fs} onMouseUp={hideMenu} onContextMenu={stop}>
         <Sidebar name={username} />
-        <Files name={username} />
+        <Files
+          name={username}
+          changeMenuHook={changeMenuHook}
+          menuHook={menuHook}
+        />
       </main>
     </>
   )

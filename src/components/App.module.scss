@@ -8,7 +8,7 @@ $mobile: 800px;
 
 * {
   box-sizing: border-box;
-  font-family: 'Exo';
+  font-family: 'Exo', Tahoma, Geneva, Verdana, sans-serif;
   letter-spacing: 0.01em;
 }
 
@@ -268,6 +268,7 @@ body {
     @media screen and (max-width: $mobile) {
       background-color: rgba(0, 0, 0, 0.4);
       pointer-events: initial;
+      height: calc(100vh - 110px);
     }
     transition: 0.2s;
 
@@ -376,6 +377,37 @@ body {
             display: flex;
             .mark {
               display: initial;
+            }
+          }
+        }
+      }
+      .contextMenu {
+        display: flex;
+        position: absolute;
+        top: 50vh;
+        right: 50vw;
+        background: #f7f7f7;
+        box-shadow: #cccccc 1px 2px 5px;
+        border-radius: 6px;
+        width: 170px;
+        z-index: 200;
+        user-select: none;
+        &.hidden {
+          display: none;
+        }
+        ul {
+          width: 100%;
+          li {
+            box-sizing: border-box;
+            marker: none;
+            display: flex;
+            width: 100%;
+            font-weight: 400;
+            color: #666;
+            padding: 12px 22px;
+            font-size: 0.9rem;
+            &:hover {
+              background-color: #eaeaea;
             }
           }
         }

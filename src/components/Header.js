@@ -14,8 +14,9 @@ const Header = (props) => {
       window.location.href = 'http://fastfile.jakubpiskorz.pl/'
     })
   }
+
   return (
-    <header className={style.header}>
+    <header className={style.header} onClick={props.onClick}>
       <div id={style.left}>
         <div className={style.hamwrapper}>
           <div className={style.hamburger}></div>
