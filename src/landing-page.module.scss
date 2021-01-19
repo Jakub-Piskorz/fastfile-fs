@@ -176,7 +176,7 @@ main {
           #login__sign_up {
             border: 0;
             background-color: $button-grey;
-            font-size: 20px;
+            font-size: 18px;
             font-family: $font-family;
             color: $white;
             width: 145px;
@@ -214,6 +214,9 @@ main {
     background-color: $white;
     text-align: center;
     padding: $containter-padding;
+    .secure__wrapper {
+      overflow-x: hidden;
+    }
     h2 {
       color: $red;
       font-size: 50px;
@@ -246,9 +249,14 @@ main {
       transform: translate(-50%, 50%);
     }
     .secure-icon {
+      margin: 50px 0;
       display: block;
-      width: 50vw;
-      height: 400px;
+      width: 175vw;
+      height: auto;
+      border-radius: 50%;
+      // transform: translate(-175px, 10px);
+      transform: translate(-30%, 10px);
+      overflow: hidden;
     }
     .secure__text__wrapper {
       padding: $containter-padding;
@@ -291,8 +299,8 @@ footer {
     }
     p {
       font-size: 16px;
-      letter-spacing: 1px;
-      line-height: 18px;
+      // letter-spacing: 1px;
+      line-height: 24px;
     }
   }
   .quick_links {
@@ -431,13 +439,17 @@ aside {
           }
         }
       }
+      .secure-icon {
+        width: 75vw;
+        transform: translate(0, 10px);
+      }
     }
   }
   footer {
     padding: 75px 75px 40px 75px;
 
     .logo {
-      top: 45%;
+      top: 48%;
     }
     .footer__wrapper {
       justify-content: space-between;
@@ -499,22 +511,25 @@ aside {
 
 @media (min-width: 1365px) {
   .header {
+    .widthMain {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      margin-top: -50px;
+      top: 120px;
+    }
     .logo {
-      left: calc((100% - 1200px) / 2);
-      top: 50px;
-      height: 32px;
+      position: static;
     }
     .nav {
-      position: absolute;
+      position: static;
       display: block;
-      top: 50px;
-      right: calc((100% - 1200px) / 2);
       ul {
         display: flex;
         li {
           list-style: none;
-          font-size: 24px;
-          margin-right: 40px;
+          font-size: 18px;
+          margin-right: 45px;
           a {
             color: $white;
           }
@@ -553,6 +568,7 @@ aside {
         width: 100%;
         text-align: left;
         margin-left: 250px;
+        margin-top: 25px;
         .begin {
           padding: 0;
         }
@@ -560,6 +576,9 @@ aside {
       .login {
         .login__another_login__wrapper {
           margin-bottom: 0;
+        }
+        p {
+          font-size: 20px;
         }
       }
       .flexWrapper {
@@ -571,6 +590,7 @@ aside {
     .secure {
       padding: 250px 0;
       .secure__wrapper {
+        overflow: visible;
         position: relative;
         width: 500px;
         text-align: left;
@@ -590,7 +610,11 @@ aside {
           position: absolute;
           top: 0px;
           right: calc(((100% - 1200px) / 2) - 200px);
-          width: 400px;
+          width: 700px;
+          height: auto;
+          overflow: hidden;
+          border-radius: 50% 60% 50% 60%;
+          transform: translate(200px);
         }
         .secure__text__wrapper {
           margin: 0;
@@ -612,7 +636,7 @@ aside {
     }
     .footer__wrapper {
       padding: 0;
-      justify-content: center;
+      justify-content: space-between;
       display: flex;
       flex-wrap: wrap;
       .about_us {
@@ -623,7 +647,7 @@ aside {
         width: 20%;
       }
       .footer__follow_us {
-        width: 20%;
+        width: 12%;
       }
     }
     .end {

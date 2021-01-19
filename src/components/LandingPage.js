@@ -35,6 +35,7 @@ import fastfileReverse2 from '@/images/logo/FastFile-reverse.jpg'
 import fastfileWeb from '@/images/logo/FastFile-web.png'
 import fastfile from '@/images/logo/FastFile.jpg'
 import fastfile2 from '@/images/logo/FastFile.png'
+import securityImage from '@/images/icons/security.jpg'
 
 const LandingPage = (props) => {
   const login = (e) => {
@@ -163,7 +164,7 @@ const LandingPage = (props) => {
                 className={style['security_icon']}
               />
               <img
-                src="#"
+                src={securityImage}
                 alt="secure your device"
                 className={style['secure-icon']}
               />
