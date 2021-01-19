@@ -29,10 +29,10 @@ $footer-background: $button-grey;
 
 //? font size
 $h1-font-size: 36px;
-$h2-font-size: 42px;
-$h3-font-size: 28px;
-$h4-font-size: 24px;
-$p-font-size: 20px;
+$h2-font-size: 46px;
+$h3-font-size: 32px;
+$h4-font-size: 28px;
+$p-font-size: 24px;
 
 //? font faimly
 $font-family: $evo, Arial, Helvetica, sans-serif;
@@ -54,6 +54,8 @@ body {
   background: $background-color;
   color: $font-color;
   max-width: 100vw;
+  overflow: scroll;
+  overflow-x: hidden;
 
   h2 {
     font-size: $h2-font-size;
@@ -78,6 +80,26 @@ body {
   }
 }
 
+@media (min-width: 1365px) {
+  .widthMain {
+    // position: relative;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .widthFull {
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .widthMainLeft {
+    margin-right: calc((100% - 1200px) / 2);
+  }
+  .widthMainRight {
+    margin-left: calc((100% - 1200px) / 2);
+  }
+}
+
 .header {
   position: relative;
   z-index: 2;
@@ -97,13 +119,12 @@ main {
     padding: $containter-padding;
     padding-top: 125px;
     text-align: center;
-    &.register {
+    &.middle {
       min-height: 100vh;
-      flex-direction: column;
       p,
       a {
         color: white;
-        font-size: 16px;
+        font-size: 20px;
       }
     }
     h1 {
@@ -127,13 +148,14 @@ main {
         font-weight: normal;
         margin-bottom: 20px;
       }
-      #loginForm,
-      #registerForm {
+      #loginForm {
         margin-bottom: 50px;
         #username,
         #password,
-        #password2,
-        #email {
+        #register__register,
+        #register__password,
+        #register__password2,
+        #register__email {
           display: block;
           margin: auto;
           background-color: transparent;
@@ -192,6 +214,9 @@ main {
     background-color: $white;
     text-align: center;
     padding: $containter-padding;
+    .secure__wrapper {
+      overflow-x: hidden;
+    }
     h2 {
       color: $red;
       font-size: 50px;
@@ -207,7 +232,7 @@ main {
     }
     h3 {
       color: $button-grey;
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 900;
       font-style: italic;
       text-transform: uppercase;
@@ -224,16 +249,21 @@ main {
       transform: translate(-50%, 50%);
     }
     .secure-icon {
+      margin: 50px 0;
       display: block;
-      width: 50vw;
-      height: 400px;
+      width: 175vw;
+      height: auto;
+      border-radius: 50%;
+      // transform: translate(-175px, 10px);
+      transform: translate(-30%, 10px);
+      overflow: hidden;
     }
     .secure__text__wrapper {
       padding: $containter-padding;
       p {
         color: $black;
         margin-bottom: 25px;
-        font-size: 22px;
+        font-size: 24px;
       }
     }
     .secure__store__wrapper {
@@ -251,30 +281,31 @@ main {
 footer {
   position: relative;
   padding: $containter-padding;
+
   .logo {
     height: 22px;
     position: absolute;
-    top: 29%;
+    top: 33%;
   }
   .about_us {
     padding: 0;
     margin-bottom: 100px;
     margin-top: 30px;
     h3 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 400;
       text-transform: uppercase;
       margin-bottom: 20px;
     }
     p {
-      font-size: 12px;
-      letter-spacing: 1px;
-      line-height: 18px;
+      font-size: 16px;
+      // letter-spacing: 1px;
+      line-height: 24px;
     }
   }
   .quick_links {
     h3 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 400;
       margin-bottom: 20px;
     }
@@ -286,16 +317,16 @@ footer {
       }
       a {
         color: $bright-grey;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 600;
       }
     }
   }
 
   .footer__follow_us {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     h3 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 400;
       text-transform: uppercase;
       margin-bottom: 20px;
@@ -310,7 +341,7 @@ footer {
     flex-direction: column-reverse;
     height: 100px;
     h2 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 300;
       margin-top: 10px;
     }
@@ -343,10 +374,6 @@ footer {
       height: 475px;
       // max-width: 100%;
     }
-  }
-  &.short {
-    padding-top: 60px;
-    line-height: 2rem;
   }
 }
 aside {
@@ -412,13 +439,17 @@ aside {
           }
         }
       }
+      .secure-icon {
+        width: 75vw;
+        transform: translate(0, 10px);
+      }
     }
   }
   footer {
     padding: 75px 75px 40px 75px;
 
     .logo {
-      top: 45%;
+      top: 48%;
     }
     .footer__wrapper {
       justify-content: space-between;
@@ -447,16 +478,17 @@ aside {
     .triangle {
       position: absolute;
       z-index: -1;
-      overflow-x: hidden;
+      overflow: hidden;
       bottom: 0;
       left: 0;
       height: 400px;
       width: 100%;
       .shape_1 {
         position: absolute;
-        left: -1350px;
-        bottom: -50px;
-        height: 380px;
+        left: 0px;
+        bottom: -120px;
+        height: 300px;
+        width: 2000px;
         // max-width: 100%;
       }
       .shape_2 {
@@ -479,42 +511,46 @@ aside {
 
 @media (min-width: 1365px) {
   .header {
+    .widthMain {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      margin-top: -50px;
+      top: 120px;
+    }
     .logo {
-      left: 250px;
-      top: 50px;
-      height: 32px;
+      position: static;
     }
     .nav {
-      position: absolute;
+      position: static;
       display: block;
-      top: 50px;
-      right: 250px;
       ul {
         display: flex;
         li {
           list-style: none;
-          font-size: 20px;
-          margin-right: 40px;
+          font-size: 18px;
+          margin-right: 45px;
           a {
             color: $white;
           }
         }
         .button {
+          font-size: 14px;
           margin: 0;
-          padding: 0 25px;
+          padding: 4px 24px;
           text-align: center;
           line-height: 40px;
           background: $dark-button-background;
           transform: translateY(-10px);
-          border-radius: 20px 0 0 20px;
+          border-radius: 25px 0 0 25px;
           a {
             color: $bright-grey;
           }
 
           &:last-child {
             background: $color-button-background;
-            height: 40px;
-            border-radius: 0 20px 20px 0;
+            height: 48px;
+            border-radius: 0 25px 25px 0;
             a {
               color: $white;
             }
@@ -526,14 +562,13 @@ aside {
 
   main {
     .first {
-      padding: 250px 250px 150px 250px;
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: center;
+      padding: 250px 0;
+
       .header__wrapper {
         width: 100%;
         text-align: left;
-        margin-left: 150px;
+        margin-left: 250px;
+        margin-top: 25px;
         .begin {
           padding: 0;
         }
@@ -542,11 +577,21 @@ aside {
         .login__another_login__wrapper {
           margin-bottom: 0;
         }
+        p {
+          font-size: 20px;
+        }
+      }
+      .flexWrapper {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
       }
     }
     .secure {
-      padding: 250px;
+      padding: 250px 0;
       .secure__wrapper {
+        overflow: visible;
+        position: relative;
         width: 500px;
         text-align: left;
         h2 {
@@ -557,15 +602,19 @@ aside {
           margin-bottom: 25px;
         }
         .security_icon {
-          top: 210px;
-          left: 150px;
+          top: -25px;
+          left: -100px;
           position: absolute;
         }
         .secure-icon {
           position: absolute;
-          top: 250px;
-          right: 100px;
-          width: 400px;
+          top: 0px;
+          right: calc(((100% - 1200px) / 2) - 200px);
+          width: 700px;
+          height: auto;
+          overflow: hidden;
+          border-radius: 50% 60% 50% 60%;
+          transform: translate(200px);
         }
         .secure__text__wrapper {
           margin: 0;
@@ -583,11 +632,11 @@ aside {
 
     .logo {
       top: 60%;
-      left: 275px;
+      left: calc((100% - 1200px) / 2);
     }
     .footer__wrapper {
-      padding: 0 200px;
-      justify-content: center;
+      padding: 0;
+      justify-content: space-between;
       display: flex;
       flex-wrap: wrap;
       .about_us {
@@ -598,7 +647,7 @@ aside {
         width: 20%;
       }
       .footer__follow_us {
-        width: 20%;
+        width: 12%;
       }
     }
     .end {
@@ -609,6 +658,7 @@ aside {
       h2 {
         margin-top: 0;
         margin-left: 5px;
+        font-size: 16px;
       }
     }
   }
@@ -620,61 +670,61 @@ aside {
   }
 }
 
-@media (min-width: 1900px) {
-  header {
-    .logo {
-      left: 400px;
-    }
-    nav {
-      top: 50px;
-      right: 400px;
-    }
-  }
+// @media (min-width: 1900px) {
+//   header {
+//     .logo {
+//       left: 400px;
+//     }
+//     nav {
+//       top: 50px;
+//       right: 400px;
+//     }
+//   }
 
-  main {
-    .first {
-      padding: 250px 400px 200px 400px;
-    }
-    .secure {
-      padding: 200px 400px;
-      .secure__wrapper {
-        .security_icon {
-          top: 165px;
-          left: 320px;
-          position: absolute;
-        }
-      }
-    }
-  }
+//   main {
+//     .first {
+//       padding: 250px 400px 200px 400px;
+//     }
+//     .secure {
+//       padding: 200px 400px;
+//       .secure__wrapper {
+//         .security_icon {
+//           top: 165px;
+//           left: 320px;
+//           position: absolute;
+//         }
+//       }
+//     }
+//   }
 
-  footer {
-    padding: 75px 0 40px 0;
+//   footer {
+//     padding: 75px 0 40px 0;
 
-    .logo {
-      top: 60%;
-      left: 425px;
-    }
-    .footer__wrapper {
-      padding: 0 400px;
-      .about_us {
-        width: 40%;
-      }
-      .quick_links {
-        width: 20%;
-      }
-      .footer__follow_us {
-        width: 15%;
-      }
-    }
-    .end {
-      margin-top: 50px;
-      display: flex;
-      flex-direction: row-reverse;
-      height: auto;
-      h2 {
-        margin-top: 0;
-        margin-left: 5px;
-      }
-    }
-  }
-}
+//     .logo {
+//       top: 60%;
+//       left: 425px;
+//     }
+//     .footer__wrapper {
+//       padding: 0 400px;
+//       .about_us {
+//         width: 40%;
+//       }
+//       .quick_links {
+//         width: 20%;
+//       }
+//       .footer__follow_us {
+//         width: 15%;
+//       }
+//     }
+//     .end {
+//       margin-top: 50px;
+//       display: flex;
+//       flex-direction: row-reverse;
+//       height: auto;
+//       h2 {
+//         margin-top: 0;
+//         margin-left: 5px;
+//       }
+//     }
+//   }
+// }
