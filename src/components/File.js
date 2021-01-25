@@ -54,7 +54,7 @@ const File = ({
 
   return (
     <div className={style.file} onClick={selectFile} onMouseUp={onMouseUp}>
-      <img src={icon(fileFormat)} />
+      <img src={icon(fileFormat)} draggable="false" />
       <p>{name}</p>
       <div className={style.checkmark}>
         <span className={style.mark}>✔</span>

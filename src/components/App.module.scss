@@ -1,9 +1,16 @@
 @import '../fonts/exo.scss';
 
 $red: #f63b28;
-$white: #ededed;
+$light-red: #ff6553;
+$white: white;
+// #ededed;
+// $header: #2d2d2d;
+$header: white;
+$sidebar: white;
+// #424242;
 $dark-gray: #434343;
-$light-gray: #b9b9b9;
+$gray: #b0b0b0;
+$light-gray: #f1f1f1;
 $mobile: 800px;
 
 * {
@@ -21,16 +28,18 @@ svg,
 
 body {
   margin: 0;
+  background-color: white;
 }
 
 .header {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #e7e7e7;
   justify-content: space-between;
   width: 100%;
-  height: 55px;
+  height: 90px;
   padding: 0 22px;
-  background-color: #2d2d2d;
+  background-color: $header;
   #left {
     display: flex;
     flex-direction: row;
@@ -38,34 +47,34 @@ body {
     .hamwrapper {
       display: flex;
       align-items: center;
-      width: 15px;
-      height: 18px;
-      margin-right: 20px;
+      width: 22px;
+      height: 21px;
+      margin-right: 26px;
       .hamburger {
-        width: 15px;
-        height: 2px;
-        border-radius: 1.5px;
-        background-color: white;
+        width: 22px;
+        height: 3px;
+        border-radius: 11px;
+        background-color: black;
         position: relative;
         &:before {
           content: '';
           position: absolute;
-          width: 15px;
-          height: 2px;
-          border-radius: 1.5px;
-          top: -6px;
+          width: 22px;
+          height: 3px;
+          border-radius: 11px;
+          top: -7px;
           left: 0px;
-          background-color: white;
+          background-color: black;
         }
         &:after {
           content: '';
           position: absolute;
-          width: 15px;
-          height: 2px;
-          border-radius: 1.5px;
-          top: 6px;
+          width: 22px;
+          height: 3px;
+          border-radius: 11px;
+          top: 7px;
           left: 0px;
-          background-color: white;
+          background-color: black;
         }
       }
     }
@@ -73,7 +82,7 @@ body {
     a {
       line-height: 0;
       img {
-        height: 17px;
+        height: 26px;
       }
     }
   }
@@ -113,24 +122,25 @@ body {
       display: flex;
       align-items: center;
       top: 0;
-      background-color: #5a5a5a;
-      height: 28px;
+      background-color: $light-gray;
+      height: 45px;
       width: 273px;
-      border-radius: 14px;
+      border-radius: 16px;
       position: relative;
       @media screen and (max-width: $mobile) {
         width: auto;
       }
       input {
         background: none;
+        height: 100%;
         font-weight: 500;
         font-style: italic;
         padding: 7px 15px 7px 37px;
         width: 100%;
-        color: white;
+        color: $dark-gray;
         border: 0;
         &::placeholder {
-          color: #d4d4d4;
+          color: $dark-gray;
         }
       }
       &:before {
@@ -142,6 +152,7 @@ body {
         transform: translateY(-50%);
         left: 15px;
         background-image: url('/src/images/search.svg');
+        filter: invert(0.7);
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -153,14 +164,15 @@ body {
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 12px 0;
+    padding: 12px 15px 12px 0;
     #logout {
       margin-right: 20px;
-      padding: 7px 12px;
+      padding: 14px 22px;
       background-color: $red;
       border: 0;
       color: white;
-      border-radius: 2px;
+      font-size: 0.9rem;
+      border-radius: 12px;
       cursor: pointer;
       &:hover {
         background-color: #ff6152;
@@ -170,9 +182,10 @@ body {
 }
 .fs {
   display: grid;
+  background: white;
   grid-template-columns: 230px 1fr;
   width: 100%;
-  height: calc(100vh - 55px);
+  height: calc(100vh - 90px);
   overflow: hidden;
   @media screen and (max-width: $mobile) {
     display: block;
@@ -182,15 +195,15 @@ body {
   }
   .sidebar {
     display: flex;
-    height: calc(100vh - 55px);
-    background-color: #424242;
+    height: calc(100vh - 90px);
+    background-color: $sidebar;
     width: 230px;
     left: 0;
 
     z-index: 3;
     @media screen and (max-width: $mobile) {
       position: absolute;
-      height: calc(100vh - 110px);
+      height: calc(100vh - 145px);
       transition: 0.3s ease-in-out;
       left: -230px;
       &.show {
@@ -209,14 +222,15 @@ body {
         position: relative;
         box-sizing: border-box;
         height: 43px;
+        border-radius: 0 90px 90px 0;
         align-items: center;
         line-height: 0;
         width: 100%;
         padding: 0 20px 0 54px;
-        margin: 0;
-        color: white;
-        font-size: 16px;
-        font-weight: 200;
+        margin-bottom: 3px;
+        color: black;
+        font-size: 18px;
+        font-weight: 500;
         font-style: normal;
         transition: 0.1s;
         img {
@@ -225,6 +239,7 @@ body {
           height: 20px;
           top: 50%;
           transform: translateY(-50%);
+          filter: invert(1);
           left: 20px;
         }
         .lock:after {
@@ -241,19 +256,24 @@ body {
         }
         &.red {
           background-color: $red;
+          height: 60px;
           margin-bottom: 15px;
+          margin-top: 40px;
+          // box-shadow: 2px 2px 4px $light-gray;
           font-weight: 400;
+          color: white;
           &:hover {
-            background-color: #ff6152;
+            background-color: #ff6456;
           }
           img {
             width: 17px;
             height: 17px;
             left: 22px;
+            filter: none;
           }
         }
         &:hover {
-          background-color: #575757;
+          background-color: $light-gray;
         }
       }
     }
@@ -281,9 +301,10 @@ body {
   .files-window {
     height: calc(100vh - 55px);
     background-color: $white;
-    padding: 45px;
-    overflow: scroll;
-    margin: 1fr;
+    padding: 52px 45px 45px 30px;
+    margin-left: 30px;
+    overflow-y: scroll;
+    overflow-x: hidden;
     color: black;
     @media screen and (max-width: $mobile) {
       padding: 45px 30px;
@@ -316,6 +337,8 @@ body {
         grid-template-columns: repeat(1, 1fr);
       }
       .file {
+        border: 1px solid transparent;
+        box-sizing: border-box;
         display: inline-flex;
         position: relative;
         cursor: pointer;
@@ -336,10 +359,12 @@ body {
         border-radius: 8px;
         img {
           height: 70%;
-          width: auto;
+          margin: 0 15px;
+          user-select: none;
         }
         p {
           font-size: 14px;
+          cursor: initial;
           font-weight: 500;
           text-align: center;
           margin-top: 13px;
@@ -357,7 +382,7 @@ body {
           height: 21px;
           border-radius: 21px;
           background-color: $white;
-          border: 2px solid $light-gray;
+          border: 2px solid $gray;
           right: 8px;
           top: 8px;
           .mark {
@@ -367,7 +392,8 @@ body {
           }
         }
         &:hover {
-          background-color: rgba(125, 125, 125, 0.1);
+          border: 1px solid #e7e7e7;
+          box-shadow: 2px 2px 2px #e2e2e2;
           .checkmark {
             display: flex;
           }
@@ -386,12 +412,14 @@ body {
         position: absolute;
         top: 50vh;
         right: 50vw;
-        background: #f7f7f7;
-        box-shadow: #cccccc 1px 2px 5px;
+        background: white;
+        border: 1px solid #dddddd;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.096);
         border-radius: 6px;
         width: 170px;
         z-index: 200;
         user-select: none;
+        overflow: hidden;
         &.hidden {
           display: none;
         }
@@ -407,7 +435,7 @@ body {
             padding: 12px 22px;
             font-size: 0.9rem;
             &:hover {
-              background-color: #eaeaea;
+              background-color: rgb(251, 251, 251);
             }
           }
         }

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import toggleNav from '@/scripts/toggle-nav.js'
-import logo from '@/images/logo.png'
+import logo from '@/images/logo/FastFile-web.png'
 import profilePic from '@/images/trump.png'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'

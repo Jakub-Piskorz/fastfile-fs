@@ -54,7 +54,6 @@ body {
   background: $background-color;
   color: $font-color;
   max-width: 100vw;
-  overflow: scroll;
   overflow-x: hidden;
 
   h2 {
@@ -669,62 +668,3 @@ aside {
     }
   }
 }
-
-// @media (min-width: 1900px) {
-//   header {
-//     .logo {
-//       left: 400px;
-//     }
-//     nav {
-//       top: 50px;
-//       right: 400px;
-//     }
-//   }
-
-//   main {
-//     .first {
-//       padding: 250px 400px 200px 400px;
-//     }
-//     .secure {
-//       padding: 200px 400px;
-//       .secure__wrapper {
-//         .security_icon {
-//           top: 165px;
-//           left: 320px;
-//           position: absolute;
-//         }
-//       }
-//     }
-//   }
-
-//   footer {
-//     padding: 75px 0 40px 0;
-
-//     .logo {
-//       top: 60%;
-//       left: 425px;
-//     }
-//     .footer__wrapper {
-//       padding: 0 400px;
-//       .about_us {
-//         width: 40%;
-//       }
-//       .quick_links {
-//         width: 20%;
-//       }
-//       .footer__follow_us {
-//         width: 15%;
-//       }
-//     }
-//     .end {
-//       margin-top: 50px;
-//       display: flex;
-//       flex-direction: row-reverse;
-//       height: auto;
-//       h2 {
-//         margin-top: 0;
-//         margin-left: 5px;
-//       }
-//     }
-//   }
-// }
