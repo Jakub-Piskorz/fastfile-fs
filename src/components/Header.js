@@ -30,7 +30,7 @@ const Header = (props) => {
         <div className={style['nav-button']} onClick={toggleNav}>
           <i className={style['nav-icon']}></i>
         </div>
-        <div id={style['text-wrapper']}>
+        <div id={style['searchbar']}>
           <input type="text" placeholder="Search something..." />
         </div>
       </div>

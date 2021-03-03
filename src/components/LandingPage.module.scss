@@ -280,6 +280,8 @@ main {
 footer {
   position: relative;
   padding: $containter-padding;
+  background-color: $grey;
+  z-index: 0;
 
   .logo {
     height: 22px;
