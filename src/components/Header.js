@@ -10,12 +10,11 @@ import { useEffect, useState } from 'react'
 
 const Header = (props) => {
   const html = document.querySelector('html')
-  const [darkMode, setDarkMode] = useState(
-    html.getAttribute('theme') === 'dark' ? true : false
-  )
+  const [darkMode, setDarkMode] = useState(false)
   useEffect(() => {
     document.querySelector(`#${style.switch}`).checked =
       CookieScripts.value('theme') === 'dark' ? false : true
+    setDarkMode(html.getAttribute('theme') === 'dark' ? false : true)
   }, [])
 
   const logout = (e) => {
@@ -26,11 +25,12 @@ const Header = (props) => {
     })
   }
   const changeMode = () => {
-    setDarkMode(!darkMode)
     if (html.getAttribute('theme') === 'light') {
+      setDarkMode(false)
       html.setAttribute('theme', 'dark')
       CookieScripts.add('theme', 'dark')
     } else {
+      setDarkMode(true)
       html.setAttribute('theme', 'light')
       CookieScripts.add('theme', 'light')
     }
