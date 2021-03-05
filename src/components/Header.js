@@ -1,18 +1,39 @@
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import toggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo/FastFile-web.png'
+import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/trump.png'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 import API from '../scripts/API'
+import { useEffect, useState } from 'react'
 
 const Header = (props) => {
+  const html = document.querySelector('html')
+  const [darkMode, setDarkMode] = useState(
+    html.getAttribute('theme') === 'dark' ? true : false
+  )
+  useEffect(() => {
+    document.querySelector(`#${style.switch}`).checked =
+      CookieScripts.value('theme') === 'dark' ? false : true
+  }, [])
+
   const logout = (e) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       e.preventDefault()
       CookieScripts.add('token', '')
       window.location.href = 'http://fastfile.jakubpiskorz.pl/'
     })
+  }
+  const changeMode = () => {
+    setDarkMode(!darkMode)
+    if (html.getAttribute('theme') === 'light') {
+      html.setAttribute('theme', 'dark')
+      CookieScripts.add('theme', 'dark')
+    } else {
+      html.setAttribute('theme', 'light')
+      CookieScripts.add('theme', 'light')
+    }
   }
 
   return (
@@ -23,7 +44,11 @@ const Header = (props) => {
         </div>
 
         <Link to="/">
-          <img src={logo} title="FastFile" alt="FastFile" />
+          <img
+            src={darkMode === true ? logo : logoDark}
+            title="FastFile"
+            alt="FastFile"
+          />
         </Link>
       </div>
       <div id={style.mid}>
@@ -35,6 +60,10 @@ const Header = (props) => {
         </div>
       </div>
       <div id={style.right}>
+        <input type="checkbox" id={style.switch} onClick={changeMode} />
+        <label htmlFor={style.switch} id={style.label}>
+          Toggle
+        </label>
         <button id={style.logout} onClick={logout}>
           Logout
         </button>

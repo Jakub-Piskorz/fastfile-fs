@@ -22,6 +22,7 @@ const CookieScripts = {
   value: function (name = '') {
     try {
       if (!name) return console.error(`No name in properties`)
+      if (!this.cookies().find((pair) => pair.hasOwnProperty(name))) return null
       const value = this.cookies().find((pair) => pair.hasOwnProperty(name))[
         name
       ]

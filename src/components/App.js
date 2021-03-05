@@ -35,7 +35,14 @@ const App = (props) => {
 
   return (
     <>
-      <HtmlHead title="Fastfile | Your files" />
+      <HtmlHead
+        title="Fastfile | Your files"
+        htmlAttrs={{
+          theme: CookieScripts.value('theme')
+            ? CookieScripts.value('theme')
+            : 'light',
+        }}
+      />
       <Header onMouseUp={hideMenu} onContextMenu={stop} />
       <main className={style.fs} onMouseUp={hideMenu} onContextMenu={stop}>
         <Sidebar name={username} />

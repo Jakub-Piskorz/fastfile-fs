@@ -1,8 +1,13 @@
 import { Helmet } from 'react-helmet'
 
-const HtmlHead = ({ title = 'Untitled', scripts = null }) => {
+const HtmlHead = ({
+  title = 'Untitled',
+  scripts = null,
+  htmlAttrs = { theme: 'light' },
+}) => {
   return (
     <Helmet>
+      <html {...htmlAttrs} />
       <title>{title}</title>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
