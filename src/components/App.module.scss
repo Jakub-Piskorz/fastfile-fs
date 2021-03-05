@@ -365,7 +365,7 @@ body {
           }
         }
         &:hover {
-          background-color: $light-gray;
+          background-color: var(--bgSecondary);
         }
       }
     }
