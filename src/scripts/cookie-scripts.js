@@ -12,7 +12,7 @@ const CookieScripts = {
     let expires = ''
     if (expireDays) {
       const _expires = new Date()
-      _expires.setDate(date.getTime() + expireDays * 24 * 60 * 60 * 1000)
+      _expires.setDate(_expires.getTime() + expireDays * 24 * 60 * 60 * 1000)
       expires = `expires=${_expires.toUTCString()};`
     }
     name

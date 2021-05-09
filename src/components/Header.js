@@ -15,7 +15,7 @@ const Header = (props) => {
   useEffect(() => {
     document.querySelector(`#${style.switchBtn}`).checked =
       CookieScripts.value('theme') === 'dark' ? false : true
-    setDarkMode(html.getAttribute('theme') === 'dark' ? false : true)
+    setDarkMode(html.getAttribute('theme') === 'dark' ? true : false)
   }, [])
 
   const logout = (e) => {

@@ -41,7 +41,9 @@ html[theme='dark'] {
   --fileHover: #242424;
   --fileBorder: 1px solid rgba(0, 0, 0, 0);
 }
+#app {
 
+}
 * {
   box-sizing: border-box;
   font-family: 'Exo', Tahoma, Geneva, Verdana, sans-serif;
@@ -551,4 +553,76 @@ body {
 h1 {
   font-size: 26px;
   height: initial;
+}
+
+:global {
+  .cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
+    background-color: var(--bgHeader);
+    border-top: var(--headerBorder);
+  }
+  
+  .cookie-consent-banner__inner {     
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 30px;
+  }
+  
+  .cookie-consent-banner__copy { 
+    margin-bottom: 16px;
+  }
+  
+  .cookie-consent-banner__header {
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 35px;
+  }
+  
+  .cookie-consent-banner__description {
+    font-weight: normal;
+    color: var(--textSecondary);
+    font-size: 16px;
+    line-height: 20px;
+  }
+  
+  .cookie-consent-banner__cta {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 164px;
+    padding: 11px 13px;
+    transition: 0.1s;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: $red;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    margin-right: 16px;
+  }
+  
+  .cookie-consent-banner__cta--secondary { 
+    padding: 9px 13px;
+    border: 2px solid var(--textSecondary);
+    background-color: transparent;
+    color: $red;
+  }
+  
+  .cookie-consent-banner__cta:hover {
+    background-color: $light-red;
+  }
+  
+  .cookie-consent-banner__cta--secondary:hover {
+    background-color: transparent;
+    color: $light-red;
+  }
+
 }

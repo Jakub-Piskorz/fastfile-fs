@@ -3,8 +3,9 @@ import style from './LandingPage.module.scss'
 import { useEffect } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
+import CookieWarning from './CookieWarning'
 
-//A lot of images. Skip to line 36.
+//A lot of images. Skip to line 37.
 import camera from '@/images/graphics/camera.svg'
 import code from '@/images/graphics/code.svg'
 import folder from '@/images/graphics/folder.svg'
@@ -51,7 +52,7 @@ const LandingPage = (props) => {
   return (
     <>
       <HtmlHead title="FastFile | Home" />
-
+      <CookieWarning />
       {/* <!-- ? Header ? --> */}
       <header className={style.header}>
         <div className={style.widthMain}>

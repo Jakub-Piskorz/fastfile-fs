@@ -6,6 +6,7 @@ import style from './App.module.scss'
 import { useEffect, useState } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
+import CookieWarning from './CookieWarning'
 
 const App = (props) => {
   const [username, setUsername] = useState('Loading')
@@ -43,6 +44,7 @@ const App = (props) => {
             : 'light',
         }}
       />
+      <CookieWarning />
       <Header onMouseUp={hideMenu} onContextMenu={stop} />
       <main className={style.fs} onMouseUp={hideMenu} onContextMenu={stop}>
         <Sidebar name={username} />
