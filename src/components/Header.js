@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import toggleNav from '@/scripts/toggle-nav.js'
+import DarkModeSwitch from './DarkModeSwitch'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/trump.png'
@@ -12,7 +13,7 @@ const Header = (props) => {
   const html = document.querySelector('html')
   const [darkMode, setDarkMode] = useState(false)
   useEffect(() => {
-    document.querySelector(`#${style.switch}`).checked =
+    document.querySelector(`#${style.switchBtn}`).checked =
       CookieScripts.value('theme') === 'dark' ? false : true
     setDarkMode(html.getAttribute('theme') === 'dark' ? false : true)
   }, [])
@@ -26,11 +27,11 @@ const Header = (props) => {
   }
   const changeMode = () => {
     if (html.getAttribute('theme') === 'light') {
-      setDarkMode(false)
+      setDarkMode(true)
       html.setAttribute('theme', 'dark')
       CookieScripts.add('theme', 'dark')
     } else {
-      setDarkMode(true)
+      setDarkMode(false)
       html.setAttribute('theme', 'light')
       CookieScripts.add('theme', 'light')
     }
@@ -45,7 +46,7 @@ const Header = (props) => {
 
         <Link to="/">
           <img
-            src={darkMode === true ? logo : logoDark}
+            src={darkMode === true ? logoDark : logo}
             title="FastFile"
             alt="FastFile"
           />
@@ -60,10 +61,7 @@ const Header = (props) => {
         </div>
       </div>
       <div id={style.right}>
-        <input type="checkbox" id={style.switch} onClick={changeMode} />
-        <label htmlFor={style.switch} id={style.label}>
-          Toggle
-        </label>
+        <DarkModeSwitch changeMode={changeMode} />
         <button id={style.logout} onClick={logout}>
           Logout
         </button>
