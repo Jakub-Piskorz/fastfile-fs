@@ -20,7 +20,7 @@ export default () => {
             THIS WEBSITE USES COOKIES
           </div>
           <div className="cookie-consent-banner__description">
-            We use cookies only to save your settings and keep you logged it. We
+            We use cookies only to save your settings and keep you logged in. We
             don't use them to track you nor give them to any third party
             software. Click below if you consent.
           </div>
