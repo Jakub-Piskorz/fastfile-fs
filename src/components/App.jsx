@@ -7,11 +7,15 @@ import { useEffect, useState } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
 import CookieWarning from './CookieWarning'
+import { ContextMenu } from '@/components/ContextMenu'
 
 const App = (props) => {
   const [username, setUsername] = useState('Loading')
   const [menuHook, setMenuHook] = useState(null)
+  const [menuState, setMenuState] = useState('closed')
+  const [darkMode, setDarkMode] = useState(false)
   useEffect(() => {
+    setDarkMode(CookieScripts.value("theme"))
     API.userInfo(CookieScripts.value('token'))
       .catch((response) => {
         CookieScripts.add('token', '')
@@ -25,15 +29,17 @@ const App = (props) => {
   const changeMenuHook = (value) => {
     setMenuHook(value)
   }
-  const hideMenu = () => {
+  const hideMenu = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     setMenuHook(null)
+    setMenuState('closed')
   }
 
   const stop = (e) => {
     e.preventDefault()
     e.stopPropagation()
   }
-
   return (
     <>
       <HtmlHead
@@ -45,13 +51,29 @@ const App = (props) => {
         }}
       />
       <CookieWarning />
-      <Header onMouseUp={hideMenu} onContextMenu={stop} />
-      <main className={style.fs} onMouseUp={hideMenu} onContextMenu={stop}>
+      <Header
+        menuState={menuState}
+        setMenuState={setMenuState}
+        hideMenu={hideMenu}
+        onContextMenu={stop}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
+      <main className={style.fs} onContextMenu={stop} onClick={hideMenu}>
         <Sidebar name={username} />
         <Files
           name={username}
-          changeMenuHook={changeMenuHook}
+          setMenuHook={setMenuHook}
+          menuState={menuState}
+          setMenuState={setMenuState}
           menuHook={menuHook}
+          setMenuHook={setMenuHook}
+        />
+        <ContextMenu
+          menuHook={menuHook}
+          menuState={menuState}
+          setDarkMode={setDarkMode}
+          darkMode={darkMode}
         />
       </main>
     </>

@@ -11,13 +11,6 @@ import { useEffect, useState } from 'react'
 
 const Header = (props) => {
   const html = document.querySelector('html')
-  const [darkMode, setDarkMode] = useState(false)
-  useEffect(() => {
-    document.querySelector(`#${style.switchBtn}`).checked =
-      CookieScripts.value('theme') === 'dark' ? false : true
-    setDarkMode(html.getAttribute('theme') === 'dark' ? true : false)
-  }, [])
-
   const logout = (e) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       e.preventDefault()
@@ -27,18 +20,28 @@ const Header = (props) => {
   }
   const changeMode = () => {
     if (html.getAttribute('theme') === 'light') {
-      setDarkMode(true)
+      props.setDarkMode(true)
       html.setAttribute('theme', 'dark')
       CookieScripts.add('theme', 'dark')
     } else {
-      setDarkMode(false)
+      props.setDarkMode(false)
       html.setAttribute('theme', 'light')
       CookieScripts.add('theme', 'light')
     }
   }
+  const clickHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    props.setMenuState('header')
+    const x = e.nativeEvent.clientX
+    const y = e.nativeEvent.clientY
+    const contextMenu = document.querySelector(`.${style.contextMenu}`)
+    contextMenu.style.top = `${Math.min(y, window.innerHeight - 140)}px`
+    contextMenu.style.left = `${Math.min(x, window.innerWidth - 200)}px`
+  }
 
   return (
-    <header className={style.header} onClick={props.onClick}>
+    <header className={style.header} onClick={props.hideMenu}>
       <div id={style.left}>
         <div className={style.hamwrapper}>
           <div className={style.hamburger}></div>
@@ -46,7 +49,7 @@ const Header = (props) => {
 
         <Link to="/">
           <img
-            src={darkMode === true ? logoDark : logo}
+            src={props.darkMode === true ? logoDark : logo}
             title="FastFile"
             alt="FastFile"
           />
@@ -61,11 +64,11 @@ const Header = (props) => {
         </div>
       </div>
       <div id={style.right}>
-        <DarkModeSwitch changeMode={changeMode} />
+        {/* <DarkModeSwitch changeMode={changeMode} /> */}
         <button id={style.logout} onClick={logout}>
           Logout
         </button>
-        <img src={profilePic} />
+        <img src={profilePic} onClick={clickHandler} />
       </div>
     </header>
   )

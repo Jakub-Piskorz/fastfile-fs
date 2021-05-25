@@ -41,9 +41,6 @@ html[theme='dark'] {
   --fileHover: #242424;
   --fileBorder: 1px solid rgba(0, 0, 0, 0);
 }
-#app {
-
-}
 * {
   box-sizing: border-box;
   font-family: 'Exo', Tahoma, Geneva, Verdana, sans-serif;
@@ -212,56 +209,6 @@ body {
     align-items: center;
     height: 100%;
     padding: 12px 15px 12px 0;
-    .switch {
-      display: flex;
-      align-items: center;
-      margin: 0 15px;
-      #switchBtn {
-        height: 0;
-        width: 0;
-        visibility: hidden;
-      }
-      #sun, #moon {
-        width: 22px;
-        height: 22px;
-        margin: 0 6px;
-        filter: var(--invertLite);
-      }
-      #label {
-        cursor: pointer;
-        text-indent: -9999px;
-        width: 55px;
-        height: 30px;
-        background: grey;
-        display: block;
-        border-radius: 30px;
-        position: relative;
-      }
-      #label:after {
-        content: '';
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        width: 24px;
-        height: 24px;
-        background: #fff;
-        border-radius: 26px;
-        transition: 0.3s;
-      }
-  
-      #switchBtn:checked + label {
-        background: $light-red;
-      }
-  
-      #switchBtn:checked + label:after {
-        left: calc(100% - 5px);
-        transform: translateX(-100%);
-      }
-  
-      #label:active:after {
-        width: 33px;
-      }
-    }
   
     #logout {
       margin-right: 20px;
@@ -513,40 +460,6 @@ body {
           }
         }
       }
-      .contextMenu {
-        display: flex;
-        position: absolute;
-        top: 50vh;
-        right: 50vw;
-        background: var(--bg);
-        border: 1px solid var(--bgSecondary);
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.096);
-        border-radius: 6px;
-        width: 170px;
-        z-index: 200;
-        user-select: none;
-        overflow: hidden;
-        &.hidden {
-          display: none;
-        }
-        ul {
-          width: 100%;
-          li {
-            box-sizing: border-box;
-            marker: none;
-            display: flex;
-            width: 100%;
-            font-weight: 400;
-            color: var(--textSecondary);
-            padding: 12px 22px;
-            font-size: 0.9rem;
-            transition: 0.1s;
-            &:hover {
-              background-color: rgba(133, 133, 133, 0.2);
-            }
-          }
-        }
-      }
     }
   }
 }
@@ -554,7 +467,89 @@ h1 {
   font-size: 26px;
   height: initial;
 }
+.contextMenu {
+  display: flex;
+  position: absolute;
+  top: 50vh;
+  right: 50vw;
+  background: var(--bg);
+  border: 1px solid var(--bgSecondary);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.096);
+  border-radius: 6px;
+  width: 170px;
+  z-index: 200;
+  user-select: none;
+  overflow: hidden;
+  &.hidden {
+    display: none;
+  }
+  ul {
+    width: 100%;
+    li {
+      box-sizing: border-box;
+      marker: none;
+      display: flex;
+      width: 100%;
+      font-weight: 400;
+      color: var(--textSecondary);
+      padding: 12px 22px;
+      font-size: 0.9rem;
+      transition: 0.1s;
+      &:hover {
+        background-color: rgba(133, 133, 133, 0.2);
+      }
+    }
+  }
+}
+.switch {
+  display: flex;
+  align-items: center;
+  #switchBtn {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  #sun, #moon {
+    width: 20px;
+    height: 20px;
+    margin: 0 6px;
+    filter: var(--invertLite);
+  }
+  #label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 45px;
+    height: 25px;
+    background: grey;
+    display: block;
+    border-radius: 30px;
+    position: relative;
+  }
+  #label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 21px;
+    height: 21px;
+    background: #fff;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
 
+  #switchBtn:checked + label {
+    background: $light-red;
+  }
+
+  #switchBtn:checked + label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+  }
+
+  #label:active:after {
+    width: 33px;
+  }
+}
 :global {
   .cookie-consent-banner {
     position: fixed;

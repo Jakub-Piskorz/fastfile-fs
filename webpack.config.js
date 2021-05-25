@@ -1,29 +1,29 @@
-const path = require("path")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const { mainModule } = require("process")
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { mainModule } = require('process')
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    app: "./src/index.js",
+    app: './src/index.jsx',
   },
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.join(__dirname, "./"),
-    publicPath: "/",
+    contentBase: path.join(__dirname, './'),
+    publicPath: '/',
     historyApiFallback: true,
   },
   output: {
-    filename: "js/[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
+    filename: 'js/[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ['*', '.js', '.jsx'],
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   module: {
@@ -32,7 +32,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
         },
       },
       {
@@ -42,17 +42,17 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: true,
               modules: {
-                mode: "local",
-                localIdentName: "[local]--[hash:base64:6]",
+                mode: 'local',
+                localIdentName: '[local]--[hash:base64:6]',
               },
             },
           },
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               sourceMap: true,
             },
@@ -63,9 +63,9 @@ module.exports = {
         test: /\.(jpg|svg|png|jpeg|gif)$/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              outputPath: "images",
+              outputPath: 'images',
             },
           },
         ],
@@ -73,9 +73,9 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            outputPath: "fonts",
+            outputPath: 'fonts',
           },
         },
       },
@@ -83,13 +83,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      filename: "index.html",
-      title: "FastFile",
+      template: './src/index.html',
+      filename: 'index.html',
+      title: 'FastFile',
     }),
     new MiniCssExtractPlugin({
-      filename: "css/[name].css",
-      chunkFilename: "css/[id].css",
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[id].css',
     }),
   ],
 }

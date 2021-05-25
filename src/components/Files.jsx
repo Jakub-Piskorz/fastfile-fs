@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
-import ContextMenu from './ContextMenu'
 import File from './File'
 import folderBlack from '../images/folder-black.svg'
 import style from './App.module.scss'
@@ -43,23 +42,23 @@ const Files = (props) => {
       ).then(() => refresh())
   }
 
-  const menuOnRightClick = (e, slug) => {
+  const clickHandler = (e, slug) => {
     e.preventDefault()
     e.stopPropagation()
     const contextMenu = document.querySelector(`.${style.contextMenu}`)
-    const x = e.nativeEvent.clientX
-    const y = e.nativeEvent.clientY
-    const isHidden =
-      contextMenu.classList.value.search('hidden') === 20 ? true : false
     const isRightClicked = e.nativeEvent.which === 3 ? true : false
     if (isRightClicked) {
-      props.changeMenuHook(slug)
-      contextMenu.style.top = `${Math.min(y, window.innerHeight - 140)}px`
-      contextMenu.style.left = `${Math.min(x, window.innerWidth - 200)}px`
-    } else props.changeMenuHook(null)
+      const posX = e.nativeEvent.clientX
+      const posY = e.nativeEvent.clientY
+      contextMenu.style.top = `${Math.min(posY, window.innerHeight - 140)}px`
+      contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
+      props.setMenuHook(slug)
+      props.setMenuState('file')
+    } else {
+      props.setMenuHook(null)
+      props.setMenuState('closed')
+    }
   }
-
-  const menuActions = (e) => {}
 
   return (
     <>
@@ -73,16 +72,15 @@ const Files = (props) => {
           {props.name}
         </h1>
         <div className={style.files} onContextMenu={stop}>
-          <ContextMenu menuHook={props.menuHook} />
           {files.files
             ? files.files.map((file, i) => (
-                <File
+                <File //needs refactoring
                   name={file.name.slice(0, 20)}
                   fileFormat={file.type}
                   slug={file.slug}
                   key={i}
                   onContextMenu={stop}
-                  onMouseUp={(e) => menuOnRightClick(e, file.slug)}
+                  onMouseUp={(e) => clickHandler(e, file.slug)}
                 />
               ))
             : 'Loading files...'}
