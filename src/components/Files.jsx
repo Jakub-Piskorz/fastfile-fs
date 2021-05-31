@@ -52,6 +52,7 @@ const Files = (props) => {
       const posY = e.nativeEvent.clientY
       contextMenu.style.top = `${Math.min(posY, window.innerHeight - 140)}px`
       contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
+      contextMenu.style.right = ``
       props.setMenuHook(slug)
       props.setMenuState('file')
     } else {

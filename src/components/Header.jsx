@@ -32,12 +32,17 @@ const Header = (props) => {
   const clickHandler = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    props.setMenuState('header')
+    if (props.menuState === 'profile') {
+      props.setMenuState('closed')
+      return
+    }
+    props.setMenuState('profile')
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
     const contextMenu = document.querySelector(`.${style.contextMenu}`)
-    contextMenu.style.top = `${Math.min(y, window.innerHeight - 140)}px`
-    contextMenu.style.left = `${Math.min(x, window.innerWidth - 200)}px`
+    contextMenu.style.top = `75px`
+    contextMenu.style.left = ``
+    contextMenu.style.right = `36px`
   }
 
   return (
@@ -49,7 +54,7 @@ const Header = (props) => {
 
         <Link to="/">
           <img
-            src={props.darkMode === true ? logoDark : logo}
+            src={props.darkMode === "dark" ? logoDark : logo}
             title="FastFile"
             alt="FastFile"
           />
@@ -64,7 +69,6 @@ const Header = (props) => {
         </div>
       </div>
       <div id={style.right}>
-        {/* <DarkModeSwitch changeMode={changeMode} /> */}
         <button id={style.logout} onClick={logout}>
           Logout
         </button>

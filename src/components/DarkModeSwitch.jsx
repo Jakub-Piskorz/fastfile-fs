@@ -6,17 +6,18 @@ import { useState, useEffect } from 'react'
 
 export default ({ changeDarkMode, darkMode }) => {
   useEffect(() => {
-    document.querySelector(`#${style.switchBtn}`).checked = darkMode==="dark" ? false : true
-  }, [])
+    document.querySelector(`#${style.switchBtn}`).checked = darkMode === 'dark' ? false : true
+    console.log(`darkmode: ${darkMode}`)
+  }, [darkMode])
   const html = document.querySelector('html')
   const changeMode = (e) => {
     e.stopPropagation()
     if (html.getAttribute('theme') === 'light') {
-      changeDarkMode(true)
+      changeDarkMode("dark")
       html.setAttribute('theme', 'dark')
       CookieScripts.add('theme', 'dark')
     } else {
-      changeDarkMode(false)
+      changeDarkMode("light")
       html.setAttribute('theme', 'light')
       CookieScripts.add('theme', 'light')
     }

@@ -14,6 +14,8 @@ const menuAction = (action, info = null) => {
   }
 }
 
+const stop = (e) => e.preventDefault()
+
 const ContextMenu = ({ menuHook, menuState, darkMode, setDarkMode }) => {
   const download = (e) => {
     e.preventDefault()
@@ -36,16 +38,16 @@ const ContextMenu = ({ menuHook, menuState, darkMode, setDarkMode }) => {
   const changeDarkMode = (newValue) => setDarkMode(newValue)
 
   return (
-    <div
+    <div onContextMenu={stop}
       className={`${style.contextMenu} ${
-        menuState === 'closed' ? style.hidden : 'dsds'
+        menuState === 'closed' ? style.hidden : ''
       }`}
     >
       <ul>
         {(() => {
           if (menuState === 'file')
             return <li onMouseUp={download}>Download</li>
-          if (menuState === 'header')
+          if (menuState === 'profile')
             return (
               <>
                 <li>

@@ -69,13 +69,13 @@ const App = (props) => {
           menuHook={menuHook}
           setMenuHook={setMenuHook}
         />
-        <ContextMenu
+      </main>
+      <ContextMenu
           menuHook={menuHook}
           menuState={menuState}
           setDarkMode={setDarkMode}
           darkMode={darkMode}
         />
-      </main>
     </>
   )
 }
