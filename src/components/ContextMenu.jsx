@@ -16,10 +16,11 @@ const menuAction = (action, info = null) => {
 
 const stop = (e) => e.preventDefault()
 
-const ContextMenu = ({ menuHook, menuState, darkMode, setDarkMode }) => {
+const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode, setDarkMode }) => {
   const download = (e) => {
     e.preventDefault()
     e.stopPropagation()
+    hideMenu()
     const _temp = menuHook.split('-')
     const fileName = _temp[0]
     const fileType = _temp[_temp.length - 1]
@@ -36,6 +37,16 @@ const ContextMenu = ({ menuHook, menuState, darkMode, setDarkMode }) => {
       })
   }
   const changeDarkMode = (newValue) => setDarkMode(newValue)
+  const hideMenu = () => {
+    setMenuHook(null)
+    setMenuState('closed')
+  }
+  const logout = (e) => {
+    API.logout(CookieScripts.value('token')).then((response) => {
+      CookieScripts.add('token', '')
+      window.location.href = 'http://fastfile.jakubpiskorz.pl/'
+    })
+  }
 
   return (
     <div onContextMenu={stop}
@@ -53,7 +64,8 @@ const ContextMenu = ({ menuHook, menuState, darkMode, setDarkMode }) => {
                 <li>
                   <DarkModeSwitch changeDarkMode={changeDarkMode} darkMode={darkMode} />
                 </li>
-                <li>Profile settings</li>
+                <li onClick={hideMenu}>Profile settings</li>
+                <li onClick={logout}>Log Out</li>
               </>
             )
         })()}

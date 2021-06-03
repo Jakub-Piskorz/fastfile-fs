@@ -3,7 +3,7 @@ import toggleNav from '@/scripts/toggle-nav.js'
 import DarkModeSwitch from './DarkModeSwitch'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
-import profilePic from '@/images/trump.png'
+import profilePic from '@/images/user.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 import API from '../scripts/API'
@@ -11,13 +11,6 @@ import { useEffect, useState } from 'react'
 
 const Header = (props) => {
   const html = document.querySelector('html')
-  const logout = (e) => {
-    API.logout(CookieScripts.value('token')).then((response) => {
-      e.preventDefault()
-      CookieScripts.add('token', '')
-      window.location.href = 'http://fastfile.jakubpiskorz.pl/'
-    })
-  }
   const changeMode = () => {
     if (html.getAttribute('theme') === 'light') {
       props.setDarkMode(true)
@@ -69,9 +62,6 @@ const Header = (props) => {
         </div>
       </div>
       <div id={style.right}>
-        <button id={style.logout} onClick={logout}>
-          Logout
-        </button>
         <img src={profilePic} onClick={clickHandler} />
       </div>
     </header>

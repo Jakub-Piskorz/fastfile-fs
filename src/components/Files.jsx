@@ -9,10 +9,6 @@ import CookieScripts from '../scripts/cookie-scripts'
 const Files = (props) => {
   const [files, setFiles] = useState(false)
 
-  const selectedFiles = () => {
-    document.querySelectorAll(`.${style.file}.${style.selected}`)
-  }
-
   const refresh = () => {
     API.read(CookieScripts.value('token')).then((response) => {
       setFiles(response)
@@ -50,7 +46,7 @@ const Files = (props) => {
     if (isRightClicked) {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
-      contextMenu.style.top = `${Math.min(posY, window.innerHeight - 140)}px`
+      contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
       contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
       contextMenu.style.right = ``
       props.setMenuHook(slug)

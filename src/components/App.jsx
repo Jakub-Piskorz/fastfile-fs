@@ -72,7 +72,9 @@ const App = (props) => {
       </main>
       <ContextMenu
           menuHook={menuHook}
+          setMenuHook={setMenuHook}
           menuState={menuState}
+          setMenuState={setMenuState}
           setDarkMode={setDarkMode}
           darkMode={darkMode}
         />
