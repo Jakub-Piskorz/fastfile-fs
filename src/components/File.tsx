@@ -3,7 +3,7 @@ import jpgIcon from '../images/jpg.svg'
 import mp3Icon from '../images/mp3.svg'
 import API from '../scripts/API'
 import style from './App.module.scss'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 const File = ({
   name = '',
@@ -12,11 +12,9 @@ const File = ({
   selected = false,
   i = '',
   setMenuFile = null,
-  onMouseUp,
-  ref,
-  innerProps,
+  mouseUp,
 }) => {
-  const icon = (fileFormat) => {
+  const icon = (fileFormat: string) => {
     switch (fileFormat) {
       case 'image/jpeg':
         return jpgIcon
@@ -35,7 +33,7 @@ const File = ({
     }
   }
 
-  const selectFile = (e) => {
+  const selectFile = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
     if (
@@ -47,13 +45,13 @@ const File = ({
     }
   }
 
-  const stop = (e) => {
+  const stop = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
   }
 
   return (
-    <div className={style.file} onClick={selectFile} onMouseUp={onMouseUp}>
+    <div className={style.file} onClick={selectFile} onMouseUp={mouseUp}>
       <img src={icon(fileFormat)} draggable="false" />
       <p>{name}</p>
       <div className={style.checkmark}>

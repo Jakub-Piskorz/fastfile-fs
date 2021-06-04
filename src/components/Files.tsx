@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
@@ -22,12 +22,12 @@ const Files = (props) => {
     }, 2000)
   }, [])
 
-  const stop = (e) => {
+  const stop = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
   }
 
-  const upload = (e) => {
+  const upload = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.files[0])
@@ -77,7 +77,7 @@ const Files = (props) => {
                   slug={file.slug}
                   key={i}
                   onContextMenu={stop}
-                  onMouseUp={(e) => clickHandler(e, file.slug)}
+                  mouseUp={(e: any) => clickHandler(e, file.slug)}
                 />
               ))
             : 'Loading files...'}

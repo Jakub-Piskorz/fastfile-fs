@@ -7,11 +7,12 @@ import profilePic from '@/images/user.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 import API from '../scripts/API'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const Header = (props) => {
-  const html = document.querySelector('html')
+const Header = (props: any) => {
+  const html: HTMLElement | null = document.querySelector('html')
   const changeMode = () => {
+    if (!html) return
     if (html.getAttribute('theme') === 'light') {
       props.setDarkMode(true)
       html.setAttribute('theme', 'dark')
@@ -22,7 +23,7 @@ const Header = (props) => {
       CookieScripts.add('theme', 'light')
     }
   }
-  const clickHandler = (e) => {
+  const clickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     if (props.menuState === 'profile') {
@@ -32,7 +33,7 @@ const Header = (props) => {
     props.setMenuState('profile')
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
-    const contextMenu = document.querySelector(`.${style.contextMenu}`)
+    const contextMenu: any = document.querySelector(`.${style.contextMenu}`)
     contextMenu.style.top = `75px`
     contextMenu.style.left = ``
     contextMenu.style.right = `36px`

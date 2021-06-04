@@ -1,16 +1,24 @@
 import style from './App.module.scss'
-import { useEffect } from 'react'
+import { DOMElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 
 export default () => {
   useEffect(() => {
-    document.querySelector('.cookie-consent-banner').style.display =
+      const consentBanner: HTMLElement | null = document.querySelector('.cookie-consent-banner');
+      if (consentBanner !== null) {
+        consentBanner.style.display =
       CookieScripts.value('consent') === 'aye' ||
       CookieScripts.value('consent') === 'nay'
         ? 'none'
         : 'flex'
-  }, [])
-  const hideIt = () => (banner.style.display = 'none')
+      }
+    }, [])
+  const didConsent = (value: boolean) => {
+    const consentBanner: HTMLElement | null = document.querySelector('.cookie-consent-banner');
+    if (!consentBanner) return
+    consentBanner.style.display = 'none'
+    CookieScripts.add('consent', value === true ? 'aye' : 'nay', 100)
+  }
 
   return (
     <div className="cookie-consent-banner">
@@ -30,11 +38,7 @@ export default () => {
           <a
             href="#"
             className="cookie-consent-banner__cta"
-            onClick={() => {
-              document.querySelector('.cookie-consent-banner').style.display =
-                'none'
-              CookieScripts.add('consent', 'aye', 100)
-            }}
+            onClick={() => {didConsent(true)}}
           >
             Accept
           </a>
@@ -42,11 +46,7 @@ export default () => {
           <a
             href="#"
             className="cookie-consent-banner__cta cookie-consent-banner__cta--secondary"
-            onClick={() => {
-              document.querySelector('.cookie-consent-banner').style.display =
-                'none'
-              CookieScripts.add('consent', 'nay', 100)
-            }}
+            onClick={() => {didConsent(false)}}
           >
             Decline
           </a>

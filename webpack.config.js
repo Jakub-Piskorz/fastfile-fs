@@ -21,7 +21,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
@@ -29,7 +29,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(js|jsx|ts|tsx|scss|css)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

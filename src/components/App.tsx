@@ -2,14 +2,14 @@ import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import Files from '@/components/Files'
 import HtmlHead from '../scripts/HtmlHead'
-import style from './App.module.scss'
-import { useEffect, useState } from 'react'
+import style from '@/components/App.module.scss'
+import { FunctionComponent, MouseEventHandler, ReactComponentElement, ReactElement, useEffect, useState } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
 import CookieWarning from './CookieWarning'
 import { ContextMenu } from '@/components/ContextMenu'
 
-const App = (props) => {
+const App = (props: any): ReactElement => {
   const [username, setUsername] = useState('Loading')
   const [menuHook, setMenuHook] = useState(null)
   const [menuState, setMenuState] = useState('closed')
@@ -17,7 +17,7 @@ const App = (props) => {
   useEffect(() => {
     setDarkMode(CookieScripts.value("theme"))
     API.userInfo(CookieScripts.value('token'))
-      .catch((response) => {
+      .catch((response: any) => {
         CookieScripts.add('token', '')
         window.location.href = 'http://fastfile.jakubpiskorz.pl/'
       })
@@ -26,17 +26,16 @@ const App = (props) => {
       })
   }, [])
 
-  const changeMenuHook = (value) => {
-    setMenuHook(value)
-  }
-  const hideMenu = (e) => {
+  const hideMenu = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (e === null) return
     e.preventDefault()
     e.stopPropagation()
     setMenuHook(null)
     setMenuState('closed')
   }
 
-  const stop = (e) => {
+  const stop = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (e === null) return
     e.preventDefault()
     e.stopPropagation()
   }
@@ -67,7 +66,6 @@ const App = (props) => {
           menuState={menuState}
           setMenuState={setMenuState}
           menuHook={menuHook}
-          setMenuHook={setMenuHook}
         />
       </main>
       <ContextMenu

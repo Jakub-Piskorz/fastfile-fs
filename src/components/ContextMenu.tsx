@@ -1,32 +1,23 @@
-import { DOMElement, useEffect } from 'react'
+import { DOMElement, ObjectHTMLAttributes, useEffect } from 'react'
 import API from '@/scripts/API'
 import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from './DarkModeSwitch'
 
-const menuAction = (action, info = null) => {
-  const menu = document.querySelector(`.${style.contextMenu}`)
-  if (menu === null) return
-  if (action === 'close') menu.classList.add(style.hidden)
-  else {
-    menu.classList.remove(style.hidden)
-    menu.style.top = `${Math.min(info.posY, window.innerHeight - 60)}px`
-    menu.style.left = `${Math.min(info.posX, window.innerWidth - 120)}px`
-  }
-}
-
-const stop = (e) => e.preventDefault()
-
-const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode, setDarkMode }) => {
-  const download = (e) => {
+const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode, setDarkMode }: any) => {
+  const stop = (e: React.MouseEvent) => e.preventDefault()
+  const download = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     hideMenu()
-    const _temp = menuHook.split('-')
-    const fileName = _temp[0]
-    const fileType = _temp[_temp.length - 1]
+    const _temp: string = menuHook.split('-')
+    const fileName: string = _temp[0]
+    const fileType: string = _temp[_temp.length - 1]
     API.download(CookieScripts.value('token'), menuHook)
-      .then((response) => response.blob())
+      .then((response: any) => {
+        if (response === null) return
+        return response.blob()
+      })
       .then((blob) => {
         var url = window.URL.createObjectURL(blob)
         var a = document.createElement('a')
@@ -35,14 +26,14 @@ const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode,
         document.body.appendChild(a)
         a.click()
         a.remove()
-      })
+      }).catch(err => {throw new Error(err)})
   }
-  const changeDarkMode = (newValue) => setDarkMode(newValue)
+  const changeDarkMode = (newValue: "string") => setDarkMode(newValue)
   const hideMenu = () => {
     setMenuHook(null)
     setMenuState('closed')
   }
-  const logout = (e) => {
+  const logout = (e: React.MouseEvent) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       CookieScripts.add('token', '')
       window.location.href = 'http://fastfile.jakubpiskorz.pl/'
