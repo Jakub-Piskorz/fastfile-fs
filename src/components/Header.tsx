@@ -61,8 +61,8 @@ const Header = (props) => {
           <input type="text" placeholder="Search something..." />
         </div>
       </div>
-      <div id={style.right}>
-        <img src={profilePic} onClick={clickHandler} />
+      <div id={style.right}> 
+        <img src={profilePic} onClick={clickHandler} />DSD
       </div>
     </header>
   )

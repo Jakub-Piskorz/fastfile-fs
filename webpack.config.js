@@ -7,7 +7,7 @@ const { mainModule } = require('process')
 module.exports = {
   mode: 'development',
   entry: {
-    app: './src/index.jsx',
+    app: './src/index.tsx',
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -21,7 +21,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
@@ -29,7 +29,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

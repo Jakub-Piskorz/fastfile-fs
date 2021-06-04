@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
-import folderBlack from '../images/folder-black.svg'
+import folderBlack from '@/images/folder-black.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 

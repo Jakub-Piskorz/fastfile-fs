@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { DOMElement, useEffect } from 'react'
 import API from '@/scripts/API'
 import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
@@ -6,6 +6,7 @@ import DarkModeSwitch from './DarkModeSwitch'
 
 const menuAction = (action, info = null) => {
   const menu = document.querySelector(`.${style.contextMenu}`)
+  if (menu === null) return
   if (action === 'close') menu.classList.add(style.hidden)
   else {
     menu.classList.remove(style.hidden)
