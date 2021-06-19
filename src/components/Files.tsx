@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { DragEventHandler, MouseEventHandler, useEffect, useState, MouseEvent } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
@@ -6,8 +6,8 @@ import folderBlack from '@/images/folder-black.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 
-const Files = (props) => {
-  const [files, setFiles] = useState(false)
+const Files = (props: any) => {
+  const [files, setFiles]: any = useState(false)
 
   const refresh = () => {
     API.read(CookieScripts.value('token')).then((response) => {
@@ -27,7 +27,7 @@ const Files = (props) => {
     e.preventDefault()
   }
 
-  const upload = (e: React.MouseEvent) => {
+  const upload = (e: React.DragEvent) => {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.files[0])
@@ -38,10 +38,14 @@ const Files = (props) => {
       ).then(() => refresh())
   }
 
-  const clickHandler = (e, slug) => {
+  const clickHandler = (e: React.MouseEvent, slug: string | null) => {
     e.preventDefault()
     e.stopPropagation()
-    const contextMenu = document.querySelector(`.${style.contextMenu}`)
+    const contextMenu: HTMLElement | null = document.querySelector(`.${style.contextMenu}`)
+    if (contextMenu === null) {
+      console.error(`contextMenu HTML Element returns null in Files.tsx`)
+      return
+    }
     const isRightClicked = e.nativeEvent.which === 3 ? true : false
     if (isRightClicked) {
       const posX = e.nativeEvent.clientX
@@ -70,14 +74,14 @@ const Files = (props) => {
         </h1>
         <div className={style.files} onContextMenu={stop}>
           {files.files
-            ? files.files.map((file, i) => (
+            ? files.files.map((file: any, i: number) => (
                 <File //needs refactoring
                   name={file.name.slice(0, 20)}
                   fileFormat={file.type}
                   slug={file.slug}
                   key={i}
                   onContextMenu={stop}
-                  mouseUp={(e: any) => clickHandler(e, file.slug)}
+                  mouseUp={clickHandler}
                 />
               ))
             : 'Loading files...'}

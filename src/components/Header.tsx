@@ -1,13 +1,10 @@
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import toggleNav from '@/scripts/toggle-nav.js'
-import DarkModeSwitch from './DarkModeSwitch'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
-import API from '../scripts/API'
-import React, { useEffect, useState } from 'react'
 
 const Header = (props: any) => {
   const html: HTMLElement | null = document.querySelector('html')
@@ -33,7 +30,11 @@ const Header = (props: any) => {
     props.setMenuState('profile')
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
-    const contextMenu: any = document.querySelector(`.${style.contextMenu}`)
+    const contextMenu: HTMLElement | null = document.querySelector(`.${style.contextMenu}`)
+    if (contextMenu === null) {
+      console.error(`DOM call for context menu returned null.`)
+      return
+    }
     contextMenu.style.top = `75px`
     contextMenu.style.left = ``
     contextMenu.style.right = `36px`
@@ -63,7 +64,7 @@ const Header = (props: any) => {
         </div>
       </div>
       <div id={style.right}> 
-        <img src={profilePic} onClick={clickHandler} />DSD
+        <img src={profilePic} onClick={clickHandler} />
       </div>
     </header>
   )

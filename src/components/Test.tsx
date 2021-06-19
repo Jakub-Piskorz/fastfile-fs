@@ -1,8 +1,13 @@
 import style from './Test.module.scss'
+import {MouseEvent} from 'react'
 
 const Test = () => {
-  const menuOnRightClick = (e) => {
-    const contextMenu = document.querySelector(`.${style.contextMenu}`)
+  const menuOnRightClick = (e: MouseEvent) => {
+    const contextMenu: HTMLElement | null = document.querySelector(`.${style.contextMenu}`)
+    if (!contextMenu) {
+      console.error("There's no contextMenu")
+      return
+    }
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
     const isHidden =
@@ -19,7 +24,8 @@ const Test = () => {
       contextMenu.style.left = `${Math.min(x, window.innerWidth - 180)}px`
     } else contextMenu.classList.add(style.hidden)
   }
-  const stop = (e) => {
+  const stop = (e: MouseEvent | null) => {
+    if (!e) return
     e.preventDefault()
     e.stopPropagation()
   }

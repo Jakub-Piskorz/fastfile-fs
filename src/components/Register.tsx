@@ -15,7 +15,7 @@ import twitterIcon from '@/images/icons/twitter-icon.png'
 import ytIcon from '@/images/icons/yt-icon.png'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 
-const Register = (props) => {
+const Register = (props: any) => {
   return (
     <>
       <HtmlHead title="FastFile | Sign Up" />
