@@ -1,4 +1,4 @@
-import React, { DragEventHandler, MouseEventHandler, useEffect, useState, MouseEvent } from 'react'
+import React, { DragEvent, useEffect, useState, MouseEvent } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
@@ -14,6 +14,34 @@ const Files = (props: any) => {
       setFiles(response)
     })
   }
+  const setFileSize = async (
+    inputSize: 1 | 2 | 3 | 4 | 5 | 6 | null = null
+  ) => {
+    const filesElement: HTMLElement | null = document.querySelector(
+      `.${style.files}`
+    )
+    if (filesElement === null) return
+    if (inputSize) {
+      filesElement.setAttribute('file-size', inputSize.toString())
+      return
+    }
+    const SizeFromCookie: string | null = await API.read(
+      CookieScripts.value('file-size')
+    )
+    if (SizeFromCookie === null) {
+      filesElement.setAttribute('file-size', '3')
+      return
+    }
+    if (/[1-6]/.test(SizeFromCookie)) {
+      filesElement.setAttribute('file-size', SizeFromCookie)
+      return
+    }
+    console.error(
+      `Something went wrong.\n
+      filesElement: ${filesElement}, SizeFromCookie: ${SizeFromCookie}, inputSize: ${inputSize}`
+    )
+    return
+  }
 
   useEffect(() => {
     refresh()
@@ -22,12 +50,12 @@ const Files = (props: any) => {
     }, 2000)
   }, [])
 
-  const stop = (e: React.MouseEvent) => {
+  const stop = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
   }
 
-  const upload = (e: React.DragEvent) => {
+  const upload = (e: DragEvent) => {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.files[0])
@@ -38,10 +66,12 @@ const Files = (props: any) => {
       ).then(() => refresh())
   }
 
-  const clickHandler = (e: React.MouseEvent, slug: string | null) => {
+  const clickHandler = (e: MouseEvent, slug: string | null) => {
     e.preventDefault()
     e.stopPropagation()
-    const contextMenu: HTMLElement | null = document.querySelector(`.${style.contextMenu}`)
+    const contextMenu: HTMLElement | null = document.querySelector(
+      `.${style.contextMenu}`
+    )
     if (contextMenu === null) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
       return
@@ -53,10 +83,8 @@ const Files = (props: any) => {
       contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
       contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
       contextMenu.style.right = ``
-      props.setMenuHook(slug)
       props.setMenuState('file')
     } else {
-      props.setMenuHook(null)
       props.setMenuState('closed')
     }
   }
@@ -79,6 +107,8 @@ const Files = (props: any) => {
                   name={file.name.slice(0, 20)}
                   fileFormat={file.type}
                   slug={file.slug}
+                  menuHook={props.menuHook}
+                  setMenuHook={props.setMenuHook}
                   key={i}
                   onContextMenu={stop}
                   mouseUp={clickHandler}

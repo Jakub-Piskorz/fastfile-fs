@@ -397,6 +397,25 @@ body {
       @media screen and (max-width: 320px) {
         grid-template-columns: repeat(1, 1fr);
       }
+      // default file size: 3
+      --fileHeight: 165px;
+      --fileWidth: 180px;
+      &[size='5'] {
+        --fileHeight: 205px;
+        --fileWidth: 220px;
+      }
+      &[size='4'] {
+        --fileHeight: 185px;
+        --fileWidth: 200px;
+      }
+      &[size='2'] {
+        --fileHeight: 145px;
+        --fileWidth: 160px;
+      }
+      &[size='1'] {
+        --fileHeight: 125px;
+        --fileWidth: 140px;
+      }
       .file {
         border: 1px solid transparent;
         box-sizing: border-box;
@@ -519,7 +538,8 @@ h1 {
     width: 0;
     visibility: hidden;
   }
-  #sun, #moon {
+  #sun,
+  #moon {
     width: 20px;
     height: 20px;
     margin: 0 6px;
@@ -570,17 +590,17 @@ h1 {
     background-color: var(--bgHeader);
     border-top: var(--headerBorder);
   }
-  
-  .cookie-consent-banner__inner {     
+
+  .cookie-consent-banner__inner {
     max-width: 960px;
     margin: 0 auto;
     padding: 32px 30px;
   }
-  
-  .cookie-consent-banner__copy { 
+
+  .cookie-consent-banner__copy {
     margin-bottom: 16px;
   }
-  
+
   .cookie-consent-banner__header {
     margin-bottom: 8px;
     color: var(--text);
@@ -588,14 +608,14 @@ h1 {
     font-size: 18px;
     line-height: 35px;
   }
-  
+
   .cookie-consent-banner__description {
     font-weight: normal;
     color: var(--textSecondary);
     font-size: 16px;
     line-height: 20px;
   }
-  
+
   .cookie-consent-banner__cta {
     box-sizing: border-box;
     display: inline-block;
@@ -605,7 +625,7 @@ h1 {
     border-radius: 8px;
     margin-bottom: 20px;
     background-color: $red;
-    color: #FFF;
+    color: #fff;
     text-decoration: none;
     text-align: center;
     font-weight: normal;
@@ -613,21 +633,20 @@ h1 {
     line-height: 20px;
     margin-right: 16px;
   }
-  
-  .cookie-consent-banner__cta--secondary { 
+
+  .cookie-consent-banner__cta--secondary {
     padding: 9px 13px;
     border: 2px solid var(--textSecondary);
     background-color: transparent;
     color: $red;
   }
-  
+
   .cookie-consent-banner__cta:hover {
     background-color: $light-red;
   }
-  
+
   .cookie-consent-banner__cta--secondary:hover {
     background-color: transparent;
     color: $light-red;
   }
-
 }

@@ -4,16 +4,23 @@ import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from './DarkModeSwitch'
 
-const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode, setDarkMode }: any) => {
+const ContextMenu = ({
+  menuHook,
+  setMenuHook,
+  menuState,
+  setMenuState,
+  darkMode,
+  setDarkMode,
+}: any) => {
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     hideMenu()
-    const _temp: string = menuHook.split('-')
+    const _temp: string = menuHook[0].split('-')
     const fileName: string = _temp[0]
     const fileType: string = _temp[_temp.length - 1]
-    API.download(CookieScripts.value('token'), menuHook)
+    API.download(CookieScripts.value('token'), menuHook[0])
       .then((response: any) => {
         if (response === null) return
         return response.blob()
@@ -22,15 +29,17 @@ const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode,
         var url = window.URL.createObjectURL(blob)
         var a = document.createElement('a')
         a.href = url
-        a.download = menuHook
+        a.download = menuHook[0]
         document.body.appendChild(a)
         a.click()
         a.remove()
-      }).catch(err => {throw new Error(err)})
+      })
+      .catch((err) => {
+        throw new Error(err)
+      })
   }
-  const changeDarkMode = (newValue: "string") => setDarkMode(newValue)
+  const changeDarkMode = (newValue: 'string') => setDarkMode(newValue)
   const hideMenu = () => {
-    setMenuHook(null)
     setMenuState('closed')
   }
   const logout = (e: React.MouseEvent) => {
@@ -41,7 +50,8 @@ const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode,
   }
 
   return (
-    <div onContextMenu={stop}
+    <div
+      onContextMenu={stop}
       className={`${style.contextMenu} ${
         menuState === 'closed' ? style.hidden : ''
       }`}
@@ -54,7 +64,10 @@ const ContextMenu = ({ menuHook, setMenuHook, menuState, setMenuState, darkMode,
             return (
               <>
                 <li>
-                  <DarkModeSwitch changeDarkMode={changeDarkMode} darkMode={darkMode} />
+                  <DarkModeSwitch
+                    changeDarkMode={changeDarkMode}
+                    darkMode={darkMode}
+                  />
                 </li>
                 <li onClick={hideMenu}>Profile settings</li>
                 <li onClick={logout}>Log Out</li>
