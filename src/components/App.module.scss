@@ -397,25 +397,9 @@ body {
       @media screen and (max-width: 320px) {
         grid-template-columns: repeat(1, 1fr);
       }
-      // default file size: 3
+      // default size: 3
       --fileHeight: 165px;
       --fileWidth: 180px;
-      &[size='5'] {
-        --fileHeight: 205px;
-        --fileWidth: 220px;
-      }
-      &[size='4'] {
-        --fileHeight: 185px;
-        --fileWidth: 200px;
-      }
-      &[size='2'] {
-        --fileHeight: 145px;
-        --fileWidth: 160px;
-      }
-      &[size='1'] {
-        --fileHeight: 125px;
-        --fileWidth: 140px;
-      }
       .file {
         border: 1px solid transparent;
         box-sizing: border-box;
@@ -424,8 +408,8 @@ body {
         cursor: pointer;
         z-index: 0;
         flex-direction: column;
-        width: 165px;
-        height: 180px;
+        width: var(--fileWidth);
+        height: var(--fileHeight);
         @media screen and (max-width: $mobile) {
           height: 150px;
           margin: 0;
@@ -488,6 +472,26 @@ body {
           }
         }
       }
+    }
+    .files[size='5'] {
+      --fileHeight: 205px;
+      --fileWidth: 220px;
+    }
+    .files[size='4'] {
+      --fileHeight: 185px;
+      --fileWidth: 200px;
+    }
+    .files[size='3'] {
+      --fileHeight: 165px;
+      --fileWidth: 180px;
+    }
+    .files[size='2'] {
+      --fileHeight: 145px;
+      --fileWidth: 160px;
+    }
+    .files[size='1'] {
+      --fileHeight: 125px;
+      --fileWidth: 140px;
     }
   }
 }

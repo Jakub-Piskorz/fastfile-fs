@@ -23,6 +23,7 @@ const Files = (props: any) => {
     if (filesElement === null) return
     if (inputSize) {
       filesElement.setAttribute('file-size', inputSize.toString())
+      CookieScripts.add('file-size', inputSize.toString())
       return
     }
     const SizeFromCookie: string | null = await API.read(
@@ -31,16 +32,16 @@ const Files = (props: any) => {
     if (SizeFromCookie === null) {
       filesElement.setAttribute('file-size', '3')
       return
-    }
-    if (/[1-6]/.test(SizeFromCookie)) {
+    } else if (/[1-6]/.test(SizeFromCookie)) {
       filesElement.setAttribute('file-size', SizeFromCookie)
       return
+    } else {
+      console.error(
+        `Something went wrong.\n
+        filesElement: ${filesElement}, SizeFromCookie: ${SizeFromCookie}, inputSize: ${inputSize}`
+      )
+      return
     }
-    console.error(
-      `Something went wrong.\n
-      filesElement: ${filesElement}, SizeFromCookie: ${SizeFromCookie}, inputSize: ${inputSize}`
-    )
-    return
   }
 
   useEffect(() => {
@@ -99,6 +100,8 @@ const Files = (props: any) => {
         <h1>
           <img className={style['folder-black']} src={folderBlack} />
           {props.name}
+          {/* <button onClick={() => setFileSize(1)}>bigger</button>
+          <button onClick={() => setFileSize(4)}>smaller</button> */}
         </h1>
         <div className={style.files} onContextMenu={stop}>
           {files.files
