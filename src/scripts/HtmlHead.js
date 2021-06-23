@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet'
+import favicon from '@/images/favicon.ico'
 
 const HtmlHead = ({
   title = 'Untitled',
@@ -12,7 +13,7 @@ const HtmlHead = ({
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
-      <link rel="icon" type="img/png" href="favicon.ico" size="32x32" />
+      <link rel="icon" type="img/png" href={favicon} size="32x32" />
       <script
         src="https://kit.fontawesome.com/0233149bfc.js"
         crossorigin="anonymous"
