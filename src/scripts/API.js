@@ -6,7 +6,7 @@ const API = {
     try {
       return !token
         ? `no token`
-        : await fetch(`http://fastfile.deltastorm.pl/api/v1/folders/${slug}`, {
+        : await fetch(`https://fastfile.deltastorm.pl/api/v1/folders/${slug}`, {
             headers: {
               Authorization: token,
             },
@@ -28,7 +28,7 @@ const API = {
       formData.append('upload', file)
       return !token || !file
         ? `no user/file`
-        : await fetch(`http://fastfile.deltastorm.pl/api/v1/files/${path}`, {
+        : await fetch(`https://fastfile.deltastorm.pl/api/v1/files/${path}`, {
             method: `POST`,
             body: formData,
             headers: {
@@ -50,7 +50,7 @@ const API = {
       formData.append(`password`, password)
       return !login || !password
         ? `Wrong login or password`
-        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users/login`, {
+        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users/login`, {
             method: `POST`,
             body: formData,
           })
@@ -66,7 +66,7 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users/logout`, {
+        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users/logout`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -84,7 +84,7 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`http://fastfile.deltastorm.pl/api/v1/users`, {
+        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -103,7 +103,7 @@ const API = {
       return !token
         ? 'no token'
         : await fetch(
-            `http://fastfile.deltastorm.pl/api/v1/files/${slug}/download`,
+            `https://fastfile.deltastorm.pl/api/v1/files/${slug}/download`,
             {
               method: `GET`,
               headers: {
