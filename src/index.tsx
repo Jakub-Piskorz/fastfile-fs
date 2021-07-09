@@ -30,8 +30,6 @@ ReactDOM.render(
           CookieScripts.value('token') ? <App /> : <Redirect to="/lp" />
         }
       />
-      {/* Remove TEST before publishing!!! */}
-      <Route exact path="/test123" component={Test} />
     </Switch>
   </Router>,
   document.getElementById('app')

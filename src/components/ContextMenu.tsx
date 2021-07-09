@@ -45,7 +45,7 @@ const ContextMenu = ({
   const logout = (e: React.MouseEvent) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       CookieScripts.add('token', '')
-      window.location.href = 'http://fastfile.jakubpiskorz.pl/'
+      window.location.href = 'https://fastfile.netlify.app'
     })
   }
 
