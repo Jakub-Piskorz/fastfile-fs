@@ -20,6 +20,7 @@ const File = ({
     console.error('error: mouseUp function not found')
   },
 }) => {
+  useEffect(() => {}, [])
   const icon = (fileFormat: string) => {
     switch (fileFormat) {
       case 'image/jpeg':
@@ -40,10 +41,11 @@ const File = ({
   }
   const [selected, setSelected]: any = useState(false)
 
-  const selectFile = (event: MouseEvent) => {
+  const selectFile = (event: React.MouseEvent) => {
     if (!event) return
     event.stopPropagation()
     event.preventDefault()
+    console.log(menuHook)
     const target = event.target as HTMLElement
     const currentTarget = event.currentTarget as HTMLElement
     // Did user click the select button?

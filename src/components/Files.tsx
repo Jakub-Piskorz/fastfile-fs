@@ -2,6 +2,7 @@ import React, { DragEvent, useEffect, useState, MouseEvent } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
+import FilesUI from './FilesUI'
 import folderBlack from '@/images/folder-black.svg'
 import download from '@/images/download.svg'
 import style from './App.module.scss'
@@ -105,9 +106,7 @@ const Files = (props: any) => {
             {/* <button onClick={() => setFileSize(1)}>bigger</button>
           <button onClick={() => setFileSize(4)}>smaller</button> */}
           </h1>
-          <div className={style['ui']}>
-            <img src={download} />
-          </div>
+          <FilesUI menuHook={props.menuHook} />
         </div>
         <div className={style.files} onContextMenu={stop}>
           {files.files

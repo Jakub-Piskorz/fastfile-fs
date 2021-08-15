@@ -12,10 +12,14 @@ const ContextMenu = ({
   darkMode,
   setDarkMode,
 }: any) => {
+  useEffect(() => {
+    setInterval(() => console.log(menuHook), 500)
+  }, [])
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    console.log(menuHook)
     hideMenu()
     const _temp: string = menuHook[0].split('-')
     const fileName: string = _temp[0]

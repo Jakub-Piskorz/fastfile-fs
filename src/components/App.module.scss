@@ -372,7 +372,6 @@ body {
       align-items: center;
       justify-content: space-between;
       height: 50px;
-      margin-right: 80px;
       h1 {
         color: var(--text);
         display: inline-block;
@@ -382,6 +381,11 @@ body {
           transform: translateY(10%);
           margin-right: 28px;
           margin-left: 30px;
+          @media screen and (max-width: $mobile) {
+            margin-left: 0;
+            margin-right: 20px;
+            width: 26px;
+          }
           filter: var(--invertOnDark);
         }
       }
@@ -389,11 +393,39 @@ body {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        min-width: 20%;
         height: 100%;
-        img {
-          height: 25px;
-          filter: var(--invertOnDark);
+        button {
+          display: flex;
+          align-items: center;
+          color: var(--text);
+          background-color: var(--bg);
+          border-radius: 0.6em;
+          border: solid 1px var(--bgSecondary);
+          padding: 0.4em;
+          height: 100%;
+          margin: 0 15px;
+          padding: 0 23px;
+          transition: 0.2s;
+          font-size: 1em;
+          @media screen and (max-width: $mobile) {
+            font-size: 0.8em;
+            margin: 0 7px;
+            img {
+              height: 20px;
+              margin: 0 0 0 8px;
+            }
+          }
+          &.hidden {
+            display: none;
+          }
+          &:hover {
+            background-color: var(--bgSecondary);
+          }
+          img {
+            height: 25px;
+            margin: 0 0 0 12px;
+            filter: var(--invertOnDark);
+          }
         }
       }
     }
