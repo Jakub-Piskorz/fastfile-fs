@@ -3,6 +3,7 @@ import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
 import folderBlack from '@/images/folder-black.svg'
+import download from '@/images/download.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 
@@ -97,12 +98,17 @@ const Files = (props: any) => {
         onClick={toggleNav}
       ></span>
       <div className={style['files-window']} onDrop={upload} onDragOver={stop}>
-        <h1>
-          <img className={style['folder-black']} src={folderBlack} />
-          {props.name}
-          {/* <button onClick={() => setFileSize(1)}>bigger</button>
+        <div className={style['ui-container']}>
+          <h1>
+            <img className={style['folder-black']} src={folderBlack} />
+            {props.name}
+            {/* <button onClick={() => setFileSize(1)}>bigger</button>
           <button onClick={() => setFileSize(4)}>smaller</button> */}
-        </h1>
+          </h1>
+          <div className={style['ui']}>
+            <img src={download} />
+          </div>
+        </div>
         <div className={style.files} onContextMenu={stop}>
           {files.files
             ? files.files.map((file: any, i: number) => (

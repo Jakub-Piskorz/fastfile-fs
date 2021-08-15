@@ -367,17 +367,37 @@ body {
     @media screen and (max-width: $mobile) {
       padding: 45px 30px;
     }
-    h1 {
-      color: var(--text);
-      .folder-black {
-        width: 32px;
-        height: 25px;
-        transform: translateY(10%);
-        margin-right: 28px;
-        margin-left: 30px;
-        filter: var(--invertOnDark);
+    .ui-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 50px;
+      margin-right: 80px;
+      h1 {
+        color: var(--text);
+        display: inline-block;
+        .folder-black {
+          width: 32px;
+          height: 25px;
+          transform: translateY(10%);
+          margin-right: 28px;
+          margin-left: 30px;
+          filter: var(--invertOnDark);
+        }
+      }
+      .ui {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        min-width: 20%;
+        height: 100%;
+        img {
+          height: 25px;
+          filter: var(--invertOnDark);
+        }
       }
     }
+
     .files {
       /* On desktop, files are flexboxes with size chosen by user.
          On mobile, files are grid items with strict number of columns. */
