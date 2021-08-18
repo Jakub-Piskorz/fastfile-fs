@@ -146,13 +146,14 @@ body {
           display: flex;
           width: 24px;
           height: 24px;
-          background-image: url('/src/images/folder-open-light.svg');
+          background-image: url('/src/images/dots.svg');
           background-size: cover;
+          filter: var(--invertOnDark);
         }
         &.open {
           background-color: $light-gray;
           .nav-icon {
-            background-image: url('/src/images/folder-open-dark.svg');
+            filter: invert(0);
           }
         }
       }
@@ -391,28 +392,34 @@ body {
       }
       .ui {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         height: 100%;
         button {
           display: flex;
+          cursor: pointer;
+          justify-content: center;
           align-items: center;
           color: var(--text);
           background-color: var(--bg);
-          border-radius: 0.6em;
-          border: solid 1px var(--bgSecondary);
+          border-radius: 999em;
+          border: 0px;
           padding: 0.4em;
           height: 100%;
-          margin: 0 15px;
-          padding: 0 23px;
+          margin: 0.3em;
+          height: 3em;
+          width: 3em;
           transition: 0.2s;
           font-size: 1em;
+          img {
+            height: 25px;
+            filter: var(--invertOnDark);
+          }
           @media screen and (max-width: $mobile) {
             font-size: 0.8em;
             margin: 0 7px;
             img {
-              height: 20px;
-              margin: 0 0 0 8px;
+              // height: 20px;
             }
           }
           &.hidden {
@@ -420,11 +427,6 @@ body {
           }
           &:hover {
             background-color: var(--bgSecondary);
-          }
-          img {
-            height: 25px;
-            margin: 0 0 0 12px;
-            filter: var(--invertOnDark);
           }
         }
       }
@@ -570,6 +572,10 @@ h1 {
   }
   ul {
     width: 100%;
+    input[type='file'] {
+      height: 250px;
+      width: 350px;
+    }
     li {
       box-sizing: border-box;
       marker: none;

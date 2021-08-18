@@ -12,9 +12,6 @@ const ContextMenu = ({
   darkMode,
   setDarkMode,
 }: any) => {
-  useEffect(() => {
-    setInterval(() => console.log(menuHook), 500)
-  }, [])
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -76,6 +73,12 @@ const ContextMenu = ({
                 <li onClick={hideMenu}>Profile settings</li>
                 <li onClick={logout}>Log Out</li>
               </>
+            )
+          if (menuState === 'upload')
+            return (
+              <form>
+                <input type="file" />
+              </form>
             )
         })()}
       </ul>

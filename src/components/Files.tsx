@@ -106,7 +106,11 @@ const Files = (props: any) => {
             {/* <button onClick={() => setFileSize(1)}>bigger</button>
           <button onClick={() => setFileSize(4)}>smaller</button> */}
           </h1>
-          <FilesUI menuHook={props.menuHook} />
+          <FilesUI
+            menuHook={props.menuHook}
+            menuState={props.menuState}
+            setMenuState={props.setMenuState}
+          />
         </div>
         <div className={style.files} onContextMenu={stop}>
           {files.files

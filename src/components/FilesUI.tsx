@@ -1,10 +1,38 @@
 import style from './App.module.scss'
 import downloadIcon from '@/images/download.svg'
-import { useEffect } from 'react'
+import uploadIcon from '@/images/upload.svg'
+import React, { useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '@/scripts/API'
+import { ContextMenu } from './ContextMenu'
 
-const FilesUI = ({ menuHook }: any) => {
+const FilesUI = ({ menuHook, menuState, setMenuState }: any) => {
+  const uploadClickHandler = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log(menuState)
+    const contextMenu: HTMLElement | null = document.querySelector(
+      `.${style.contextMenu}`
+    )
+    if (menuState === 'upload') {
+      setMenuState('closed')
+      contextMenu?.classList.add(style.hidden)
+      return
+    }
+    const x = e.nativeEvent.clientX
+    const y = e.nativeEvent.clientY
+    if (contextMenu === null) {
+      console.error(`DOM call for context menu returned null.`)
+      return
+    }
+    if (menuState === 'closed') {
+      contextMenu?.classList.remove(style.hidden)
+      contextMenu.style.top = `75px`
+      contextMenu.style.left = ``
+      contextMenu.style.right = `36px`
+      setMenuState('upload')
+    }
+  }
   const download = (e: React.MouseEvent) => {
     console.log(menuHook)
     const _temp: string = menuHook[0].split('-')
@@ -34,8 +62,10 @@ const FilesUI = ({ menuHook }: any) => {
         className={`${menuHook.length === 0 ? style.hidden : ''}`}
         onClick={download}
       >
-        DOWNLOAD
         <img src={downloadIcon} />
+      </button>
+      <button onClick={uploadClickHandler}>
+        <img src={uploadIcon} />
       </button>
     </div>
   )
