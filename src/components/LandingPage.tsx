@@ -1,6 +1,6 @@
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './LandingPage.module.scss'
-import { useEffect } from 'react'
+import { MouseEventHandler } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from './CookieWarning'
@@ -38,14 +38,18 @@ import fastfile from '@/images/logo/FastFile.jpg'
 import fastfile2 from '@/images/logo/FastFile.png'
 import securityImage from '@/images/icons/security.jpg'
 
-const LandingPage = (props) => {
-  const login = (e) => {
+const LandingPage = () => {
+  const login: MouseEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault()
-    const username = document.querySelector('#' + style.username).value
-    const password = document.querySelector('#' + style.password).value
-    API.login(username, password).then((result) => {
-      CookieScripts.add('token', result.token)
-      if (CookieScripts.value) window.location.href = '/'
+    const username: HTMLInputElement | null = document.querySelector(
+      '#' + style.username
+    )
+    const password: HTMLInputElement | null = document.querySelector(
+      '#' + style.password
+    )
+    API.login(username?.value, password?.value).then((result: string) => {
+      CookieScripts.add('token', result)
+      if (CookieScripts.value('token')) window.location.href = '/'
     })
   }
 

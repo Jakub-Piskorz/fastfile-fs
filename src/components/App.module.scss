@@ -1,4 +1,5 @@
-@import '../fonts/exo.scss';
+@use '../fonts/exo.scss';
+
 $red: #f63b28;
 $light-red: #ff6553;
 $white: white;
@@ -229,10 +230,10 @@ body {
       color: white;
       font-size: 0.9rem;
       border-radius: 12px;
+      cursor: pointer;
       @media screen and (max-width: $mobile) {
         padding: 10px 16px;
       }
-      cursor: pointer;
       &:hover {
         background-color: #ff6152;
       }
@@ -347,11 +348,11 @@ body {
     width: 100%;
     overflow: hidden;
     pointer-events: none;
+    transition: 0.2s;
     @media screen and (max-width: $mobile) {
       pointer-events: initial;
       height: calc(100vh - 110px);
     }
-    transition: 0.2s;
     &.hidden {
       background-color: rgba(0, 0, 0, 0);
       pointer-events: none;
@@ -382,12 +383,12 @@ body {
           transform: translateY(10%);
           margin-right: 28px;
           margin-left: 30px;
+          filter: var(--invertOnDark);
           @media screen and (max-width: $mobile) {
             margin-left: 0;
             margin-right: 20px;
             width: 26px;
           }
-          filter: var(--invertOnDark);
         }
       }
       .ui {
@@ -438,6 +439,10 @@ body {
       display: inline-flex;
       flex-wrap: wrap;
       margin-top: 25px;
+
+      // default size: 3
+      --fileHeight: 165px;
+      --fileWidth: 180px;
       @media screen and (max-width: $mobile) {
         display: inline-grid;
         grid-template-columns: repeat(3, 1fr);
@@ -451,9 +456,6 @@ body {
       @media screen and (max-width: 320px) {
         grid-template-columns: repeat(1, 1fr);
       }
-      // default size: 3
-      --fileHeight: 165px;
-      --fileWidth: 180px;
       .file {
         border: 1px solid transparent;
         box-sizing: border-box;
@@ -464,6 +466,9 @@ body {
         flex-direction: column;
         width: var(--fileWidth);
         height: var(--fileHeight);
+        padding: 15px 0;
+        margin: 7px;
+        border-radius: 8px;
         @media screen and (max-width: $mobile) {
           height: 150px;
           margin: 0;
@@ -472,9 +477,6 @@ body {
         @media screen and (max-width: 400px) {
           height: 120px;
         }
-        padding: 15px 0;
-        margin: 7px;
-        border-radius: 8px;
         img {
           height: 70%;
           margin: 0 15px;

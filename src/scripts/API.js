@@ -28,7 +28,7 @@ const API = {
       formData.append('upload', file)
       return !token || !file
         ? `no user/file`
-        : await fetch(`https://fastfile.deltastorm.pl/api/v1/files/${path}`, {
+        : await fetch(`http://jakubpiskorz.dev:8080/api/v1/files/${path}`, {
             method: `POST`,
             body: formData,
             headers: {
@@ -45,18 +45,18 @@ const API = {
   },
   login: async function (login = ``, password = ``) {
     try {
-      const formData = new FormData()
-      formData.append(`login`, login)
-      formData.append(`password`, password)
       return !login || !password
         ? `Wrong login or password`
-        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users/login`, {
+        : await fetch(`http://jakubpiskorz.dev:8080/auth/login`, {
             method: `POST`,
-            body: formData,
+            body: JSON.stringify({ login, password }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
           })
             .catch((err) => console.error(err))
             .then((response) =>
-              response.ok ? response.json() : console.error(response.json())
+              response.ok ? response.text() : console.error(response.json())
             )
     } catch (error) {
       console.error(error)
@@ -66,7 +66,7 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users/logout`, {
+        : await fetch(`http://jakubpiskorz.dev:8080/logout`, {
             method: `GET`,
             headers: {
               Authorization: token,

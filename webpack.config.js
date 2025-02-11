@@ -11,6 +11,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
+    port: 8081,
     contentBase: path.join(__dirname, './'),
     publicPath: '/',
     historyApiFallback: true,

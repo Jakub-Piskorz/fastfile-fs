@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import App from '@/components/App'
 import LandingPage from '@/components/LandingPage'
 import Register from '@/components/Register'
@@ -13,7 +13,9 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('app')!)
+
+root.render(
   <Router>
     <Switch>
       <Route
@@ -31,11 +33,5 @@ ReactDOM.render(
         }
       />
     </Switch>
-  </Router>,
-  document.getElementById('app')
+  </Router>
 )
-
-if (module.hot) {
-  // enables hot module replacement if plugin is installed
-  module.hot.accept()
-}
