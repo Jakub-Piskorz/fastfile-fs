@@ -6,7 +6,7 @@ const API = {
     try {
       return !token
         ? `no token`
-        : await fetch(`https://fastfile.deltastorm.pl/api/v1/folders/${slug}`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/folders/${slug}`, {
             headers: {
               Authorization: token,
             },
@@ -28,7 +28,7 @@ const API = {
       formData.append('upload', file)
       return !token || !file
         ? `no user/file`
-        : await fetch(`http://jakubpiskorz.dev:8080/api/v1/files/${path}`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/files/${path}`, {
             method: `POST`,
             body: formData,
             headers: {
@@ -47,7 +47,7 @@ const API = {
     try {
       return !login || !password
         ? `Wrong login or password`
-        : await fetch(`http://jakubpiskorz.dev:8080/auth/login`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
             method: `POST`,
             body: JSON.stringify({ login, password }),
             headers: {
@@ -66,7 +66,7 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`http://jakubpiskorz.dev:8080/logout`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/logout`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -84,7 +84,7 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`https://fastfile.deltastorm.pl/api/v1/users`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/users`, {
             method: `GET`,
             headers: {
               Authorization: token,
@@ -103,7 +103,7 @@ const API = {
       return !token
         ? 'no token'
         : await fetch(
-            `https://fastfile.deltastorm.pl/api/v1/files/${slug}/download`,
+            `https://jakubpiskorz.dev:8080/api/v1/files/${slug}/download`,
             {
               method: `GET`,
               headers: {
