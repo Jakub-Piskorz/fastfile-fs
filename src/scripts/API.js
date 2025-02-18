@@ -54,10 +54,10 @@ const API = {
               'Content-Type': 'application/json',
             },
           })
+            .then((response) => {
+              return response.ok ? response.text() : new Error(response.text)
+            })
             .catch((err) => console.error(err))
-            .then((response) =>
-              response.ok ? response.text() : console.error(response.json())
-            )
     } catch (error) {
       console.error(error)
     }
