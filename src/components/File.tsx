@@ -1,14 +1,23 @@
 import pdfIcon from '../images/pdf.svg'
 import jpgIcon from '../images/jpg.svg'
 import mp3Icon from '../images/mp3.svg'
+import folderIcon from '../images/folder-black.svg'
 import API from '../scripts/API'
 import style from './App.module.scss'
-import React, { MouseEvent, useEffect, useState } from 'react'
+import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
+
+interface fileProps {
+  name: string
+  type: 'file' | 'directory'
+  menuHook: any[]
+  setMenuHook: (...args: any) => any
+  onContextMenu: (...args: any) => any
+  mouseUp: (...args: any) => any
+}
 
 const File = ({
-  slug = '',
   name = '',
-  fileFormat = '',
+  type,
   menuHook = [],
   setMenuHook = (...args: any) => {
     console.error('error: setMenuHook not found')
@@ -19,33 +28,35 @@ const File = ({
   mouseUp = (...args: any) => {
     console.error('error: mouseUp function not found')
   },
-}) => {
-  useEffect(() => {}, [])
-  const icon = (fileFormat: string) => {
-    switch (fileFormat) {
-      case 'image/jpeg':
-        return jpgIcon
-      case 'image/png':
-        return jpgIcon
-      case 'application/pdf':
-        return pdfIcon
-      case 'audio/mp3':
-        return mp3Icon
-      case 'audio/mp4':
-        return mp3Icon
-      case 'audio/mpeg':
-        return mp3Icon
-      default:
-        return
+}: fileProps) => {
+  const icon = useMemo(() => {
+    if (type === 'directory') {
+      return folderIcon
     }
-  }
-  const [selected, setSelected]: any = useState(false)
+    const splitName = name.split('.')
+    if (splitName.length < 2) return
+    const fileFormat = splitName[splitName.length - 1]
+
+    switch (true) {
+      case ['jpg', 'jpeg', 'png'].includes(fileFormat):
+        return jpgIcon
+        break
+      case ['pdf'].includes(fileFormat):
+        return pdfIcon
+        break
+      case ['mp3', 'mp4', 'mpeg4'].includes(fileFormat):
+        return mp3Icon
+    }
+  }, [name])
+
+  useEffect(() => console.log(type), [type])
+
+  const [selected, setSelected] = useState<boolean>(false)
 
   const selectFile = (event: React.MouseEvent) => {
     if (!event) return
     event.stopPropagation()
     event.preventDefault()
-    console.log(menuHook)
     const target = event.target as HTMLElement
     const currentTarget = event.currentTarget as HTMLElement
     // Did user click the select button?
@@ -58,18 +69,18 @@ const File = ({
         // Unselect file.
         setSelected(false)
         currentTarget.classList.remove(style.selected)
-        // menuHook.filter(item => item !== slug) intended
+        // menuHook.filter(item => item !== name) intended
         let [..._newHook] = [...menuHook] as Array<string>
         if (_newHook.length > 0)
-          _newHook = _newHook.filter((file) => file !== slug)
+          _newHook = _newHook.filter((file) => file !== name)
         setMenuHook(_newHook)
       } else {
         // Select file.
         setSelected(true)
         currentTarget.classList.add(style.selected)
-        // menuHook.add(slug) intended
+        // menuHook.add(name) intended
         let [..._newHook] = [...menuHook] as Array<string>
-        _newHook.push(slug)
+        _newHook.push(name)
         setMenuHook(_newHook)
       }
     }
@@ -86,10 +97,10 @@ const File = ({
       onContextMenu={onContextMenu}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {
-        mouseUp(e, slug)
+        mouseUp(e, name)
       }}
     >
-      <img src={icon(fileFormat)} draggable="false" />
+      <img src={icon} draggable="false" />
       <p>{name}</p>
       <div className={style.checkmark}>
         <span className={style.mark}>✔</span>

@@ -9,12 +9,13 @@ import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 
 const Files = (props: any) => {
-  const [files, setFiles]: any = useState(false)
+  const [files, setFiles]: any = useState(null)
 
-  const refresh = () => {
-    API.read(CookieScripts.value('token')).then((response) => {
+  const refresh = async () => {
+    await API.read(CookieScripts.value('token')).then((response) => {
       setFiles(response)
     })
+    return
   }
   const setFileSize = async (
     inputSize: 1 | 2 | 3 | 4 | 5 | 6 | null = null
@@ -48,9 +49,6 @@ const Files = (props: any) => {
 
   useEffect(() => {
     refresh()
-    setInterval(() => {
-      refresh()
-    }, 2000)
   }, [])
 
   const stop = (e: MouseEvent) => {
@@ -65,7 +63,7 @@ const Files = (props: any) => {
       API.upload(
         CookieScripts.value('token'),
         '',
-        e.dataTransfer.files[0]
+        e.dataTransfer?.files[0] as FileList[0]
       ).then(() => refresh())
   }
 
@@ -113,19 +111,20 @@ const Files = (props: any) => {
           />
         </div>
         <div className={style.files} onContextMenu={stop}>
-          {files.files
-            ? files.files.map((file: any, i: number) => (
-                <File //needs refactoring
-                  name={file.name.slice(0, 20)}
-                  fileFormat={file.type}
-                  slug={file.slug}
-                  menuHook={props.menuHook}
-                  setMenuHook={props.setMenuHook}
-                  key={i}
-                  onContextMenu={stop}
-                  mouseUp={clickHandler}
-                />
-              ))
+          {files
+            ? files.map((file: any, i: number) => {
+                return (
+                  <File //needs refactoring
+                    name={file.name}
+                    type={file.type}
+                    menuHook={props.menuHook}
+                    setMenuHook={props.setMenuHook}
+                    key={i}
+                    onContextMenu={stop}
+                    mouseUp={clickHandler}
+                  />
+                )
+              })
             : 'Loading files...'}
         </div>
       </div>

@@ -29,7 +29,7 @@ const App = (props: any): ReactElement => {
         window.location.href = 'http://fastfile.jakubpiskorz.pl/'
       })
       .then((response) => {
-        setUsername(response.data.login)
+        setUsername(response.username)
       })
   }, [])
 

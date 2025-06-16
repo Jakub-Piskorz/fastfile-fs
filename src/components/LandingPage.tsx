@@ -47,10 +47,14 @@ const LandingPage = () => {
     const password: HTMLInputElement | null = document.querySelector(
       '#' + style.password
     )
-    API.login(username?.value, password?.value).then((result: string) => {
-      CookieScripts.add('token', result)
-      if (CookieScripts.value('token')) window.location.href = '/'
-    })
+    try {
+      API.login(username?.value, password?.value).then((result: string) => {
+        CookieScripts.add('token', result)
+        if (CookieScripts.value('token')) window.location.href = '/'
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

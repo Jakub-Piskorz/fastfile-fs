@@ -6,11 +6,14 @@ const API = {
     try {
       return !token
         ? `no token`
-        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/folders/${slug}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
+        : await fetch(
+            `https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
             .catch((err) => console.error(err))
             .then((response) => {
               return response.ok
@@ -21,18 +24,18 @@ const API = {
       console.error(error)
     }
   },
-  upload: async function (token = ``, path = ``, file = null) {
+  upload: async function (token = ``, path = ``, file) {
     try {
       const formData = new FormData()
-      formData.append('path', `${path}`)
-      formData.append('upload', file)
+      formData.append('filePath', `${path}`)
+      formData.append('file', file)
       return !token || !file
         ? `no user/file`
-        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/files/${path}`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/files/upload`, {
             method: `POST`,
             body: formData,
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           })
             .catch((err) => console.error(err))
@@ -44,32 +47,27 @@ const API = {
     }
   },
   login: async function (login = ``, password = ``) {
-    try {
-      return !login || !password
-        ? `Wrong login or password`
-        : await fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
-            method: `POST`,
-            body: JSON.stringify({ login, password }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((response) => {
-              return response.ok ? response.text() : new Error(response.text)
-            })
-            .catch((err) => console.error(err))
-    } catch (error) {
-      console.error(error)
-    }
+    return !login || !password
+      ? `Wrong login or password`
+      : await fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
+          method: `POST`,
+          body: JSON.stringify({ login, password }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then((response) => {
+          if (!response.ok) throw new Error(response.text())
+          return response.text()
+        })
   },
   logout: async function (token = ``) {
     try {
       return !token
         ? 'no token'
-        : await fetch(`https://jakubpiskorz.dev:8080/logout`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/auth/logout`, {
             method: `GET`,
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           })
             .catch((err) => console.error(err))
@@ -84,10 +82,10 @@ const API = {
     try {
       return !token
         ? 'no token'
-        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/users`, {
+        : await fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
             method: `GET`,
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           })
             .catch((err) => console.error(err))
@@ -98,12 +96,12 @@ const API = {
       console.error(error)
     }
   },
-  download: async function (token = ``, slug = ``) {
+  download: async function (token = ``, filePath = ``) {
     try {
       return !token
         ? 'no token'
         : await fetch(
-            `https://jakubpiskorz.dev:8080/api/v1/files/${slug}/download`,
+            `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePath}`,
             {
               method: `GET`,
               headers: {
