@@ -17,10 +17,13 @@ import CookieWarning from './CookieWarning'
 import { ContextMenu } from '@/components/ContextMenu'
 
 const App = (props: any): ReactElement => {
-  const [username, setUsername] = useState('Loading')
-  const [menuHook, setMenuHook] = useState([])
-  const [menuState, setMenuState] = useState('closed')
-  const [darkMode, setDarkMode] = useState(false)
+  const [username, setUsername] = useState<string>('Loading')
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
+  const [clickedItem, setClickedItem] = useState<string>()
+  const [menuState, setMenuState] = useState<'closed' | 'file' | 'directory'>(
+    'closed'
+  )
+  const [darkMode, setDarkMode] = useState<boolean>(false)
   useEffect(() => {
     setDarkMode(CookieScripts.value('theme'))
     API.userInfo(CookieScripts.value('token'))
@@ -68,15 +71,15 @@ const App = (props: any): ReactElement => {
         <Sidebar name={username} />
         <Files
           name={username}
-          setMenuHook={setMenuHook}
-          menuHook={menuHook}
+          setSelectedItems={setSelectedItems}
+          selectedItems={selectedItems}
+          setClickedItem={setClickedItem}
           menuState={menuState}
           setMenuState={setMenuState}
         />
       </main>
       <ContextMenu
-        menuHook={menuHook}
-        setMenuHook={setMenuHook}
+        clickedItem={clickedItem}
         menuState={menuState}
         setMenuState={setMenuState}
         setDarkMode={setDarkMode}

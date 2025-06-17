@@ -5,8 +5,7 @@ import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from './DarkModeSwitch'
 
 const ContextMenu = ({
-  menuHook,
-  setMenuHook,
+  clickedItem,
   menuState,
   setMenuState,
   darkMode,
@@ -14,14 +13,8 @@ const ContextMenu = ({
 }: any) => {
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    console.log(menuHook)
     hideMenu()
-    const _temp: string = menuHook[0].split('-')
-    const fileName: string = _temp[0]
-    const fileType: string = _temp[_temp.length - 1]
-    API.download(CookieScripts.value('token'), menuHook[0])
+    API.download(CookieScripts.value('token'), clickedItem)
       .then((response: any) => {
         if (response === null) return
         return response.blob()
@@ -30,7 +23,7 @@ const ContextMenu = ({
         var url = window.URL.createObjectURL(blob)
         var a = document.createElement('a')
         a.href = url
-        a.download = menuHook[0]
+        a.download = clickedItem
         document.body.appendChild(a)
         a.click()
         a.remove()

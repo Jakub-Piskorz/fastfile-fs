@@ -6,11 +6,13 @@ import API from '../scripts/API'
 import style from './App.module.scss'
 import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
 
-interface fileProps {
+interface FileProps {
   name: string
   type: 'file' | 'directory'
-  menuHook: any[]
-  setMenuHook: (...args: any) => any
+  selectedItems: string[]
+  setSelectedItems?: React.Dispatch<
+    React.SetStateAction<FileProps['selectedItems']>
+  >
   onContextMenu: (...args: any) => any
   mouseUp: (...args: any) => any
 }
@@ -18,17 +20,15 @@ interface fileProps {
 const File = ({
   name = '',
   type,
-  menuHook = [],
-  setMenuHook = (...args: any) => {
-    console.error('error: setMenuHook not found')
-  },
+  selectedItems = [],
+  setSelectedItems,
   onContextMenu = (...args: any) => {
     console.error('error: onContextMenu function not found')
   },
   mouseUp = (...args: any) => {
     console.error('error: mouseUp function not found')
   },
-}: fileProps) => {
+}: FileProps) => {
   const icon = useMemo(() => {
     if (type === 'directory') {
       return folderIcon
@@ -49,12 +49,10 @@ const File = ({
     }
   }, [name])
 
-  useEffect(() => console.log(type), [type])
-
-  const [selected, setSelected] = useState<boolean>(false)
+  const [isSelected, setIsSelected] = useState<boolean>(false)
 
   const selectFile = (event: React.MouseEvent) => {
-    if (!event) return
+    if (!event || setSelectedItems === undefined) return
     event.stopPropagation()
     event.preventDefault()
     const target = event.target as HTMLElement
@@ -67,21 +65,14 @@ const File = ({
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        setSelected(false)
+        setIsSelected(false)
         currentTarget.classList.remove(style.selected)
-        // menuHook.filter(item => item !== name) intended
-        let [..._newHook] = [...menuHook] as Array<string>
-        if (_newHook.length > 0)
-          _newHook = _newHook.filter((file) => file !== name)
-        setMenuHook(_newHook)
+        setSelectedItems((hook) => hook.filter((file) => file !== name))
       } else {
         // Select file.
-        setSelected(true)
+        setIsSelected(true)
         currentTarget.classList.add(style.selected)
-        // menuHook.add(name) intended
-        let [..._newHook] = [...menuHook] as Array<string>
-        _newHook.push(name)
-        setMenuHook(_newHook)
+        setSelectedItems((hook) => [...hook, name])
       }
     }
   }

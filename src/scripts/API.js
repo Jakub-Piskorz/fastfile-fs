@@ -105,7 +105,7 @@ const API = {
             {
               method: `GET`,
               headers: {
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
               },
             }
           ).catch((err) => console.error(err))

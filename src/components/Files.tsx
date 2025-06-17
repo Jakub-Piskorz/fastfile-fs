@@ -2,13 +2,31 @@ import React, { DragEvent, useEffect, useState, MouseEvent } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
-import FilesUI from './FilesUI'
+import FilesButtonsUI from './FilesButtonsUI'
 import folderBlack from '@/images/folder-black.svg'
 import download from '@/images/download.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
 
-const Files = (props: any) => {
+interface FilesProps {
+  menuState: 'closed' | 'file' | 'directory'
+  setMenuState: React.Dispatch<React.SetStateAction<FilesProps['menuState']>>
+  name: string
+  selectedItems: string[]
+  setSelectedItems: React.Dispatch<
+    React.SetStateAction<FilesProps['selectedItems']>
+  >
+  setClickedItem: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+const Files = ({
+  menuState,
+  setMenuState,
+  name,
+  selectedItems,
+  setSelectedItems,
+  setClickedItem,
+}: FilesProps) => {
   const [files, setFiles]: any = useState(null)
 
   const refresh = async () => {
@@ -77,16 +95,17 @@ const Files = (props: any) => {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
       return
     }
-    const isRightClicked = e.nativeEvent.which === 3 ? true : false
-    if (isRightClicked) {
+    // Is right click?
+    if (e.nativeEvent.button === 2) {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
       contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
       contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
       contextMenu.style.right = ``
-      props.setMenuState('file')
+      setClickedItem(e.currentTarget.children[1].innerHTML)
+      setMenuState('file')
     } else {
-      props.setMenuState('closed')
+      setMenuState('closed')
     }
   }
 
@@ -100,14 +119,14 @@ const Files = (props: any) => {
         <div className={style['ui-container']}>
           <h1>
             <img className={style['folder-black']} src={folderBlack} />
-            {props.name}
+            {name}
             {/* <button onClick={() => setFileSize(1)}>bigger</button>
           <button onClick={() => setFileSize(4)}>smaller</button> */}
           </h1>
-          <FilesUI
-            menuHook={props.menuHook}
-            menuState={props.menuState}
-            setMenuState={props.setMenuState}
+          <FilesButtonsUI
+            selectedItems={selectedItems}
+            menuState={menuState}
+            setMenuState={setMenuState}
           />
         </div>
         <div className={style.files} onContextMenu={stop}>
@@ -117,8 +136,8 @@ const Files = (props: any) => {
                   <File //needs refactoring
                     name={file.name}
                     type={file.type}
-                    menuHook={props.menuHook}
-                    setMenuHook={props.setMenuHook}
+                    selectedItems={selectedItems}
+                    setSelectedItems={setSelectedItems}
                     key={i}
                     onContextMenu={stop}
                     mouseUp={clickHandler}

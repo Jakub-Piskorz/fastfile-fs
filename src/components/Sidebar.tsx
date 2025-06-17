@@ -5,13 +5,13 @@ import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
 import style from './App.module.scss'
 
-const Sidebar = (props) => {
+const Sidebar = ({ name }: { name: string }) => {
   return (
     <main className={style.sidebar}>
       <ul className={style.menu}>
         <li className={style.red}>
           <img src={folder} />
-          {props.name}
+          {name}
         </li>
         <li>
           <img src={share} />
