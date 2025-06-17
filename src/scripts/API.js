@@ -27,7 +27,7 @@ const API = {
   upload: async function (token = ``, path = ``, file) {
     try {
       const formData = new FormData()
-      formData.append('filePath', `${path}`)
+      formData.append('filePath', `/${path}`)
       formData.append('file', file)
       return !token || !file
         ? `no user/file`
@@ -40,7 +40,9 @@ const API = {
           })
             .catch((err) => console.error(err))
             .then((response) =>
-              response.ok ? response.json() : console.error(response.json())
+              response.ok
+                ? response.json()
+                : console.error('Upload failed. Code: ' + response.status)
             )
     } catch (error) {
       console.error(error)
