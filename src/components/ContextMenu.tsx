@@ -14,23 +14,7 @@ const ContextMenu = ({
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     hideMenu()
-    API.download(CookieScripts.value('token'), clickedItem)
-      .then((response: any) => {
-        if (response === null) return
-        return response.blob()
-      })
-      .then((blob) => {
-        var url = window.URL.createObjectURL(blob)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = clickedItem
-        document.body.appendChild(a)
-        a.click()
-        a.remove()
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
+    API.download(clickedItem)
   }
   const changeDarkMode = (newValue: 'string') => setDarkMode(newValue)
   const hideMenu = () => {

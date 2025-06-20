@@ -32,33 +32,12 @@ const FilesButtonsUI = ({ selectedItems, menuState, setMenuState }: any) => {
       setMenuState('upload')
     }
   }
-  const download = (e: React.MouseEvent) => {
-    const _temp: string = selectedItems[0].split('-')
-    const fileName: string = _temp[0]
-    const fileType: string = _temp[_temp.length - 1]
-    API.download(CookieScripts.value('token'), selectedItems[0])
-      .then((response: any) => {
-        if (response === null) return
-        return response.blob()
-      })
-      .then((blob) => {
-        var url = window.URL.createObjectURL(blob)
-        var a = document.createElement('a')
-        a.href = url
-        a.download = selectedItems[0]
-        document.body.appendChild(a)
-        a.click()
-        a.remove()
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
-  }
+
   return (
     <div className={style['ui']}>
       <button
         className={`${selectedItems.length === 0 ? style.hidden : ''}`}
-        onClick={download}
+        onClick={() => API.download(selectedItems[0])}
       >
         <img src={downloadIcon} />
       </button>

@@ -1,6 +1,8 @@
 // Functions for communication with FileSystem backend
 // API.read(), API.upload(), API.login(), API.userInfo()
 
+import CookieScripts from './cookie-scripts'
+
 const API = {
   read: async function (token = ``, slug = ``) {
     try {
@@ -98,11 +100,13 @@ const API = {
       console.error(error)
     }
   },
-  download: async function (token = ``, filePath = ``) {
+  download: async function (filePath = ``) {
     try {
+      console.log(filePath)
+      const token = CookieScripts.value('token')
       return !token
         ? 'no token'
-        : await fetch(
+        : fetch(
             `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePath}`,
             {
               method: `GET`,
@@ -110,7 +114,24 @@ const API = {
                 Authorization: `Bearer ${token}`,
               },
             }
-          ).catch((err) => console.error(err))
+          )
+            .then((response) => {
+              console.log(response)
+              if (response === null || !response.ok)
+                throw new Error(
+                  `Error code: ${response.status}. File cannot be downloaded.`
+                )
+              return response.blob()
+            })
+            .then((blob) => {
+              const url = window.URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = filePath
+              document.body.appendChild(a)
+              a.click()
+              a.remove()
+            })
     } catch (error) {
       console.error(error)
     }
