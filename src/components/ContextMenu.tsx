@@ -3,20 +3,15 @@ import API from '@/scripts/API'
 import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from './DarkModeSwitch'
+import { useStore } from '@/hooks/store'
 
-const ContextMenu = ({
-  clickedItem,
-  menuState,
-  setMenuState,
-  darkMode,
-  setDarkMode,
-}: any) => {
+const ContextMenu = () => {
+  const { clickedItem, menuState, setMenuState } = useStore()
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     hideMenu()
     API.download(clickedItem)
   }
-  const changeDarkMode = (newValue: 'string') => setDarkMode(newValue)
   const hideMenu = () => {
     setMenuState('closed')
   }
@@ -42,10 +37,7 @@ const ContextMenu = ({
             return (
               <>
                 <li>
-                  <DarkModeSwitch
-                    changeDarkMode={changeDarkMode}
-                    darkMode={darkMode}
-                  />
+                  <DarkModeSwitch />
                 </li>
                 <li onClick={hideMenu}>Profile settings</li>
                 <li onClick={logout}>Log Out</li>

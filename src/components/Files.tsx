@@ -7,26 +7,10 @@ import folderBlack from '@/images/folder-black.svg'
 import download from '@/images/download.svg'
 import style from './App.module.scss'
 import CookieScripts from '../scripts/cookie-scripts'
+import { useStore } from '@/hooks/store'
 
-interface FilesProps {
-  menuState: 'closed' | 'file' | 'directory'
-  setMenuState: React.Dispatch<React.SetStateAction<FilesProps['menuState']>>
-  name: string
-  selectedItems: string[]
-  setSelectedItems: React.Dispatch<
-    React.SetStateAction<FilesProps['selectedItems']>
-  >
-  setClickedItem: React.Dispatch<React.SetStateAction<string | undefined>>
-}
-
-const Files = ({
-  menuState,
-  setMenuState,
-  name,
-  selectedItems,
-  setSelectedItems,
-  setClickedItem,
-}: FilesProps) => {
+const Files = () => {
+  const { setMenuState, username, setClickedItem } = useStore()
   const [files, setFiles]: any = useState(null)
 
   const refresh = async () => {
@@ -119,25 +103,19 @@ const Files = ({
         <div className={style['ui-container']}>
           <h1>
             <img className={style['folder-black']} src={folderBlack} />
-            {name}
+            {username}
             {/* <button onClick={() => setFileSize(1)}>bigger</button>
           <button onClick={() => setFileSize(4)}>smaller</button> */}
           </h1>
-          <FilesButtonsUI
-            selectedItems={selectedItems}
-            menuState={menuState}
-            setMenuState={setMenuState}
-          />
+          <FilesButtonsUI />
         </div>
         <div className={style.files} onContextMenu={stop}>
           {files
             ? files.map((file: any, i: number) => {
                 return (
-                  <File //needs refactoring
+                  <File
                     name={file.name}
                     type={file.type}
-                    selectedItems={selectedItems}
-                    setSelectedItems={setSelectedItems}
                     key={i}
                     onContextMenu={stop}
                     mouseUp={clickHandler}

@@ -5,14 +5,11 @@ import folderIcon from '../images/folder-black.svg'
 import API from '../scripts/API'
 import style from './App.module.scss'
 import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
+import { useStore } from '@/hooks/store'
 
 interface FileProps {
   name: string
   type: 'file' | 'directory'
-  selectedItems: string[]
-  setSelectedItems?: React.Dispatch<
-    React.SetStateAction<FileProps['selectedItems']>
-  >
   onContextMenu: (...args: any) => any
   mouseUp: (...args: any) => any
 }
@@ -20,8 +17,6 @@ interface FileProps {
 const File = ({
   name = '',
   type,
-  selectedItems = [],
-  setSelectedItems,
   onContextMenu = (...args: any) => {
     console.error('error: onContextMenu function not found')
   },
@@ -29,6 +24,7 @@ const File = ({
     console.error('error: mouseUp function not found')
   },
 }: FileProps) => {
+  const { selectedItems, setSelectedItems } = useStore()
   const icon = useMemo(() => {
     if (type === 'directory') {
       return folderIcon
@@ -40,16 +36,12 @@ const File = ({
     switch (true) {
       case ['jpg', 'jpeg', 'png'].includes(fileFormat):
         return jpgIcon
-        break
       case ['pdf'].includes(fileFormat):
         return pdfIcon
-        break
       case ['mp3', 'mp4', 'mpeg4'].includes(fileFormat):
         return mp3Icon
     }
   }, [name])
-
-  const [isSelected, setIsSelected] = useState<boolean>(false)
 
   const selectFile = (event: React.MouseEvent) => {
     if (!event || setSelectedItems === undefined) return
@@ -65,14 +57,12 @@ const File = ({
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        setIsSelected(false)
         currentTarget.classList.remove(style.selected)
-        setSelectedItems((hook) => hook.filter((file) => file !== name))
+        setSelectedItems(selectedItems.filter((item) => item !== name))
       } else {
         // Select file.
-        setIsSelected(true)
         currentTarget.classList.add(style.selected)
-        setSelectedItems((hook) => [...hook, name])
+        setSelectedItems([...selectedItems, name])
       }
     }
   }

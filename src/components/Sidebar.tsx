@@ -4,14 +4,16 @@ import plusCircle from '@/images/plus-circle.svg'
 import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
 import style from './App.module.scss'
+import { useStore } from '@/hooks/store'
 
-const Sidebar = ({ name }: { name: string }) => {
+const Sidebar = () => {
+  const { username } = useStore()
   return (
     <main className={style.sidebar}>
       <ul className={style.menu}>
         <li className={style.red}>
           <img src={folder} />
-          {name}
+          {username}
         </li>
         <li>
           <img src={share} />

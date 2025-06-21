@@ -102,7 +102,6 @@ const API = {
   },
   download: async function (filePath = ``) {
     try {
-      console.log(filePath)
       const token = CookieScripts.value('token')
       return !token
         ? 'no token'

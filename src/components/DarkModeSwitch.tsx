@@ -2,15 +2,16 @@ import style from '@/components/App.module.scss'
 import sun from '@/images/sun.svg'
 import moon from '@/images/moon.svg'
 import CookieScripts from '@/scripts/cookie-scripts'
-import React, { useState, useEffect, MouseEventHandler } from 'react'
+import React, { useEffect } from 'react'
+import { useStore } from '@/hooks/store'
 
-export default ({ changeDarkMode, darkMode }: any) => {
+export default () => {
+  const { darkMode, setDarkMode } = useStore()
   useEffect(() => {
     const darkModeButton: HTMLInputElement | null = document.querySelector(
       `#${style.switchBtn}`
     )
-    if (darkModeButton)
-      darkModeButton.checked = darkMode === 'dark' ? false : true
+    if (darkModeButton) darkModeButton.checked = !darkMode
   }, [darkMode])
   const html = document.querySelector('html')
   const changeMode = (e: React.MouseEvent) => {
@@ -18,11 +19,11 @@ export default ({ changeDarkMode, darkMode }: any) => {
     e.stopPropagation()
 
     if (html.getAttribute('theme') === 'light') {
-      changeDarkMode('dark')
+      setDarkMode(true)
       html.setAttribute('theme', 'dark')
       CookieScripts.add('theme', 'dark')
     } else {
-      changeDarkMode('light')
+      setDarkMode(false)
       html.setAttribute('theme', 'light')
       CookieScripts.add('theme', 'light')
     }

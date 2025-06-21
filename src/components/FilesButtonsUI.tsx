@@ -2,14 +2,15 @@ import style from './App.module.scss'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
 import React from 'react'
-import CookieScripts from '@/scripts/cookie-scripts'
 import API from '@/scripts/API'
+import { useStore } from '@/hooks/store'
 
-const FilesButtonsUI = ({ selectedItems, menuState, setMenuState }: any) => {
+const FilesButtonsUI = () => {
+  const { selectedItems, menuState, setMenuState } = useStore()
+
   const uploadClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log(menuState)
     const contextMenu: HTMLElement | null = document.querySelector(
       `.${style.contextMenu}`
     )

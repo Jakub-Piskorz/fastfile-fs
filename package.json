@@ -23,7 +23,8 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "sass": "^1.32.12",
-    "sass-loader": "^10.0.4"
+    "sass-loader": "^10.0.4",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.13.0",
