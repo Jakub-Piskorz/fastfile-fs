@@ -5,7 +5,7 @@ import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from './CookieWarning'
 
-//A lot of images. Skip to line 37.
+//A lot of images. Skip to line 41.
 import camera from '@/images/graphics/camera.svg'
 import code from '@/images/graphics/code.svg'
 import folder from '@/images/graphics/folder.svg'

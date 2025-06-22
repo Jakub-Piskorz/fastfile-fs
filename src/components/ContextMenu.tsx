@@ -1,4 +1,3 @@
-import { DOMElement, ObjectHTMLAttributes, useEffect } from 'react'
 import API from '@/scripts/API'
 import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
@@ -18,7 +17,7 @@ const ContextMenu = () => {
   const logout = (e: React.MouseEvent) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       CookieScripts.add('token', '')
-      window.location.href = 'https://fastfile.netlify.app'
+      window.location.href = '/'
     })
   }
 

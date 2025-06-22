@@ -17,14 +17,14 @@ const App = (): ReactElement => {
     setDarkMode(CookieScripts.value('theme') === 'dark')
 
     const fetchUserInfo = async () => {
-      const response: any = await API.userInfo(CookieScripts.value('token'))
+      const response = await API.userInfo(CookieScripts.value('token'))
       if (!response.ok) {
         CookieScripts.add('token', '')
         window.location.href = '/'
         return
       }
       const resJson = await response.json()
-      setUsername(response.username)
+      setUsername(resJson.username)
     }
 
     fetchUserInfo()

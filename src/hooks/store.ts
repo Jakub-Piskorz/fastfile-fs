@@ -15,23 +15,13 @@ interface StoreI {
 
 export const useStore = create<StoreI>()((set) => ({
   username: 'Loading',
-  setUsername: (newUsername: StoreI['username']) =>
-    set(() => ({ username: newUsername })),
+  setUsername: (username) => set(() => ({ username })),
   selectedItems: [],
-  setSelectedItems: (newSelectedItems) =>
-    set(() => ({
-      selectedItems: newSelectedItems,
-    })),
+  setSelectedItems: (selectedItems) => set(() => ({ selectedItems })),
   clickedItem: undefined,
-  setClickedItem: (newClickedItem) =>
-    set(() => ({
-      clickedItem: newClickedItem,
-    })),
+  setClickedItem: (clickedItem) => set(() => ({ clickedItem })),
   menuState: 'closed',
-  setMenuState: (newMenuState) =>
-    set(() => ({
-      menuState: newMenuState,
-    })),
+  setMenuState: (menuState) => set(() => ({ menuState })),
   darkMode: false,
-  setDarkMode: (newDarkMode) => set(() => ({ darkMode: newDarkMode })),
+  setDarkMode: (darkMode) => set(() => ({ darkMode })),
 }))
