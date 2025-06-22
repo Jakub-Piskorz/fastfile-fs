@@ -15,14 +15,19 @@ const App = (): ReactElement => {
 
   useEffect(() => {
     setDarkMode(CookieScripts.value('theme') === 'dark')
-    API.userInfo(CookieScripts.value('token'))
-      .catch(() => {
+
+    const fetchUserInfo = async () => {
+      const response: any = await API.userInfo(CookieScripts.value('token'))
+      if (!response.ok) {
         CookieScripts.add('token', '')
-        window.location.href = 'http://fastfile.netlify.app/' //TODO Update urls to be dynamic
-      })
-      .then((response) => {
-        setUsername(response.username)
-      })
+        window.location.href = '/'
+        return
+      }
+      const resJson = await response.json()
+      setUsername(response.username)
+    }
+
+    fetchUserInfo()
   }, [])
 
   const stop = (e: React.MouseEvent<HTMLInputElement>) => {

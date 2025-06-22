@@ -20,7 +20,9 @@ const API = {
             .then((response) => {
               return response.ok
                 ? response.json()
-                : console.error(`response ain't okay. ${response.json()}`)
+                : console.error(
+                    'listing files failed. Code: ' + response.status
+                  )
             })
     } catch (error) {
       console.error(error)
@@ -76,29 +78,21 @@ const API = {
           })
             .catch((err) => console.error(err))
             .then((response) =>
-              response.ok ? response.json() : console.error(response.json())
+              response.ok
+                ? response.json()
+                : console.error('Logout failed. Code: ' + response.status)
             )
     } catch (error) {
       console.error(error)
     }
   },
   userInfo: async function (token = ``) {
-    try {
-      return !token
-        ? 'no token'
-        : await fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
-            method: `GET`,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-            .catch((err) => console.error(err))
-            .then((response) =>
-              response.ok ? response.json() : console.error(response.json())
-            )
-    } catch (error) {
-      console.error(error)
-    }
+    return fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
+      method: `GET`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   },
   download: async function (filePath = ``) {
     try {
@@ -115,7 +109,6 @@ const API = {
             }
           )
             .then((response) => {
-              console.log(response)
               if (response === null || !response.ok)
                 throw new Error(
                   `Error code: ${response.status}. File cannot be downloaded.`
