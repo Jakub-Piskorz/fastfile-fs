@@ -3,6 +3,7 @@ import style from './App.module.scss'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from './DarkModeSwitch'
 import { useStore } from '@/hooks/store'
+import { basename } from '..'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState } = useStore()
@@ -17,7 +18,7 @@ const ContextMenu = () => {
   const logout = (e: React.MouseEvent) => {
     API.logout(CookieScripts.value('token')).then((response) => {
       CookieScripts.add('token', '')
-      window.location.href = '/'
+      window.location.href = basename
     })
   }
 

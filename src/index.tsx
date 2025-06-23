@@ -3,20 +3,21 @@ import App from '@/components/App'
 import LandingPage from '@/components/LandingPage'
 import Register from '@/components/Register'
 import CookieScripts from '@/scripts/cookie-scripts'
-import Test from '@/components/Test'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useLocation,
   Redirect,
 } from 'react-router-dom'
 
 const root = createRoot(document.getElementById('app')!)
+export const basename = '/fastfile'
+
+if (!window.location.pathname.startsWith(basename))
+  window.location.replace(basename)
 
 root.render(
-  <Router>
+  <Router basename={basename}>
     <Switch>
       <Route
         path="/lp"

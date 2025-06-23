@@ -9,6 +9,7 @@ import API from '../scripts/API'
 import CookieWarning from './CookieWarning'
 import { ContextMenu } from '@/components/ContextMenu'
 import { useStore } from '@/hooks/store'
+import { basename } from '..'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()
@@ -20,7 +21,7 @@ const App = (): ReactElement => {
       const response = await API.userInfo(CookieScripts.value('token'))
       if (!response.ok) {
         CookieScripts.add('token', '')
-        window.location.href = '/'
+        window.location.href = basename
         return
       }
       const resJson = await response.json()

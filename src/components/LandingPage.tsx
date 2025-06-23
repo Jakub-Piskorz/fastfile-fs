@@ -37,6 +37,7 @@ import fastfileWeb from '@/images/logo/FastFile-web.png'
 import fastfile from '@/images/logo/FastFile.jpg'
 import fastfile2 from '@/images/logo/FastFile.png'
 import securityImage from '@/images/icons/security.jpg'
+import { basename } from '..'
 
 const LandingPage = () => {
   const login: MouseEventHandler<HTMLInputElement> = (e) => {
@@ -50,7 +51,7 @@ const LandingPage = () => {
     try {
       API.login(username?.value, password?.value).then((result: string) => {
         CookieScripts.add('token', result)
-        if (CookieScripts.value('token')) window.location.href = '/'
+        if (CookieScripts.value('token')) window.location.href = basename
       })
     } catch (error) {
       console.error(error)
