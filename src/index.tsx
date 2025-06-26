@@ -25,7 +25,7 @@ root.render(
           CookieScripts.value('token') ? <Redirect to="/" /> : <LandingPage />
         }
       />
-      <Route path="/register" render={() => <Register />} />
+      <Route path="register" render={() => <Register />} />
       <Route
         exact
         path="/"
