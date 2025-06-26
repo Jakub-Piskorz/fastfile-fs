@@ -1,5 +1,5 @@
 /* --- Settings --- */
-@use '../fonts/exo.scss';
+@use '../../fonts/exo.scss';
 
 //? fonts
 $evo: 'Exo';
@@ -81,7 +81,7 @@ body {
 
 @media (min-width: 1365px) {
   .widthMain {
-    // position: relative;
+    position: relative;
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -100,13 +100,17 @@ body {
 }
 
 .header {
-  position: relative;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   z-index: 2;
+  top: 25px;
   .logo {
-    position: absolute;
     left: $containter-padding;
     top: $containter-padding;
     height: 28px;
+    padding-left: 20px;
   }
   .nav {
     display: none;
@@ -401,12 +405,6 @@ aside {
 }
 
 @media (min-width: 760px) {
-  header {
-    .logo {
-      left: 40px;
-      top: 40px;
-    }
-  }
   main {
     .first {
       .begin {
@@ -502,25 +500,13 @@ aside {
       }
     }
   }
-  aside {
-    #menu {
-      top: 40px + 11px;
-      right: 40px;
-    }
-  }
 }
 
 @media (min-width: 1365px) {
   .header {
-    .widthMain {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      margin-top: -50px;
-      top: 120px;
-    }
+    top: 50px;
     .logo {
-      position: static;
+      padding-left: 0;
     }
     .nav {
       position: static;

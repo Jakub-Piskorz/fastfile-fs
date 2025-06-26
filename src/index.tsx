@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from '@/components/App'
-import LandingPage from '@/components/LandingPage'
-import Register from '@/components/Register'
+import LandingPage from '@/components/LandingPage/LandingPage'
+import Register from '@/components/LandingPage/Register'
 import CookieScripts from '@/scripts/cookie-scripts'
 import {
   BrowserRouter as Router,
@@ -25,7 +25,7 @@ root.render(
           CookieScripts.value('token') ? <Redirect to="/" /> : <LandingPage />
         }
       />
-      <Route path="/register" component={Register} />
+      <Route path="/register" render={() => <Register />} />
       <Route
         exact
         path="/"

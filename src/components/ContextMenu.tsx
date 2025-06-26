@@ -16,10 +16,8 @@ const ContextMenu = () => {
     setMenuState('closed')
   }
   const logout = (e: React.MouseEvent) => {
-    API.logout(CookieScripts.value('token')).then((response) => {
-      CookieScripts.add('token', '')
-      window.location.href = basename
-    })
+    CookieScripts.add('token', '')
+    window.location.href = basename
   }
 
   return (

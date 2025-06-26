@@ -1,47 +1,16 @@
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './LandingPage.module.scss'
 
-import appStoreBtn from '@/images/icons/app-store-btn.png'
-import facebookIcon from '@/images/icons/facebook-icon.png'
 import facebookRoundIcon from '@/images/icons/facebook-round-icon.png'
 import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
 import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
-import linkedInIcon from '@/images/icons/linkedin-icon.png'
-import playStoreBtn from '@/images/icons/play-store-btn.png'
-import securityIcon from '@/images/icons/security-icon.png'
-import shape1 from '@/images/icons/shape1.svg'
-import shape2 from '@/images/icons/shape2.svg'
-import twitterIcon from '@/images/icons/twitter-icon.png'
-import ytIcon from '@/images/icons/yt-icon.png'
-import fastfileReverse from '@/images/logo/FastFile-reverse.png'
+import LpHeader from './LpHeader'
 
 const Register = (props: any) => {
   return (
     <>
       <HtmlHead title="FastFile | Sign Up" />
-      {/* <!-- ? Header ? --> */}
-      <header className={style.header}>
-        <img src={fastfileReverse} alt="FastFile" className={style.logo} />
-        <nav className={style.nav}>
-          <ul>
-            <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">Docs</a>
-            </li>
-            <li>
-              <a href="#">API</a>
-            </li>
-            <li className={style.button}>
-              <a href="#">Sign In</a>
-            </li>
-            <li className={style.button}>
-              <a href="#">Sign Up</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <LpHeader />
 
       {/* <!-- ? Main ? --> */}
       <main>

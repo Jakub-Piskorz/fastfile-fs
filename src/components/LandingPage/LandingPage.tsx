@@ -3,20 +3,9 @@ import style from './LandingPage.module.scss'
 import { MouseEventHandler } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
-import CookieWarning from './CookieWarning'
+import CookieWarning from '../CookieWarning'
+import LpHeader from './LpHeader'
 
-//A lot of images. Skip to line 41.
-import camera from '@/images/graphics/camera.svg'
-import code from '@/images/graphics/code.svg'
-import folder from '@/images/graphics/folder.svg'
-import jpg from '@/images/graphics/jpg.svg'
-import key from '@/images/graphics/key.svg'
-import mp3 from '@/images/graphics/mp3.svg'
-import pdf from '@/images/graphics/pdf.svg'
-import plusCircle from '@/images/graphics/plus-circle.svg'
-import search from '@/images/graphics/search.svg'
-import share from '@/images/graphics/share.svg'
-import userGroup from '@/images/graphics/user-group.svg'
 import appStoreBtn from '@/images/icons/app-store-btn.png'
 import facebookIcon from '@/images/icons/facebook-icon.png'
 import facebookRoundIcon from '@/images/icons/facebook-round-icon.png'
@@ -29,15 +18,9 @@ import shape1 from '@/images/icons/shape1.svg'
 import shape2 from '@/images/icons/shape2.svg'
 import twitterIcon from '@/images/icons/twitter-icon.png'
 import ytIcon from '@/images/icons/yt-icon.png'
-import fastfileBlack from '@/images/logo/FastFile-black.jpg'
-import fastfileMockup from '@/images/logo/FastFile-mockup.jpg'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
-import fastfileReverse2 from '@/images/logo/FastFile-reverse.jpg'
-import fastfileWeb from '@/images/logo/FastFile-web.png'
-import fastfile from '@/images/logo/FastFile.jpg'
-import fastfile2 from '@/images/logo/FastFile.png'
 import securityImage from '@/images/icons/security.jpg'
-import { basename } from '..'
+import { basename } from '../..'
 
 const LandingPage = () => {
   const login: MouseEventHandler<HTMLInputElement> = (e) => {
@@ -62,31 +45,7 @@ const LandingPage = () => {
     <>
       <HtmlHead title="FastFile | Home" />
       <CookieWarning />
-      {/* <!-- ? Header ? --> */}
-      <header className={style.header}>
-        <div className={style.widthMain}>
-          <img src={fastfileReverse} alt="FastFile" className={style.logo} />
-          <nav className={style.nav}>
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Docs</a>
-              </li>
-              <li>
-                <a href="#">API</a>
-              </li>
-              <li className={style.button}>
-                <a href="#">Sign In</a>
-              </li>
-              <li className={style.button}>
-                <a href="#">Sign Up</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <LpHeader />
 
       {/* <!-- ? Main ? --> */}
       <main>
@@ -134,9 +93,13 @@ const LandingPage = () => {
                       id={style.submit}
                       onClick={login}
                     />
-                    <button type="button" id={style['login__sign_up']}>
+                    <a
+                      type="button"
+                      href="register"
+                      id={style['login__sign_up']}
+                    >
                       Sign Up
-                    </button>
+                    </a>
                   </label>
                 </form>
 
