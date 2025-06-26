@@ -95,7 +95,7 @@ const LandingPage = () => {
                     />
                     <a
                       type="button"
-                      href="/register"
+                      href="register"
                       id={style['login__sign_up']}
                     >
                       Sign Up
