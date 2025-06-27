@@ -5,22 +5,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { mainModule } = require('process')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const publicPath = '/fastfile/'
-
 module.exports = {
   entry: {
     app: './src/index.tsx',
   },
   devtool: 'inline-source-map',
-  devServer: {
-    port: 8081,
-    historyApiFallback: true,
-  },
   output: {
     filename: 'js/[name].bundle.js',
     chunkFilename: 'js/[name].chunk.js',
     path: path.resolve('dist'),
-    publicPath: publicPath,
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],

@@ -13,24 +13,21 @@ import {
 const root = createRoot(document.getElementById('app')!)
 export const basename = '/fastfile'
 
-if (!window.location.pathname.startsWith(basename))
-  window.location.replace(basename)
-
 root.render(
   <Router basename={basename}>
     <Switch>
       <Route
-        path="/lp"
+        path={`/lp`}
         render={() =>
-          CookieScripts.value('token') ? <Redirect to="/" /> : <LandingPage />
+          CookieScripts.value('token') ? <Redirect to={`/`} /> : <LandingPage />
         }
       />
-      <Route path="/register" render={() => <Register />} />
+      <Route path={`/register`} render={() => <Register />} />
       <Route
         exact
-        path="/"
+        path={`/`}
         render={() =>
-          CookieScripts.value('token') ? <App /> : <Redirect to="/lp" />
+          CookieScripts.value('token') ? <App /> : <Redirect to={`/lp`} />
         }
       />
     </Switch>

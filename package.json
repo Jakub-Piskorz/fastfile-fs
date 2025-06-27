@@ -1,5 +1,6 @@
 {
   "name": "fastfile-frontend",
+  "homepage": "https://jakubpiskorz.dev/fastfile",
   "version": "0.2.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +9,6 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.12.0",
     "@types/react-router-dom": "^5.1.7",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.13.0",
+    "@types/node": "^24.0.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@types/webpack-env": "^1.16.0",
@@ -42,8 +43,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "dev": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "Jakub Piskorz, Mateusz Szczykutowicz",
   "license": "ISC"
