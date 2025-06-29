@@ -86,6 +86,19 @@ const API = {
       console.error(error)
     }
   },
+  register: async function (body) {
+    await fetch(`https://jakubpiskorz.dev:8080/auth/register`, {
+      method: `POST`,
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      if (response.ok) {
+        return response.json()
+      } else throw new Error('Register failed. Code: ' + response.status)
+    })
+  },
   userInfo: async function (token = ``) {
     return fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
       method: `GET`,
