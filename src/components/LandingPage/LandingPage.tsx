@@ -243,10 +243,10 @@ const LandingPage = () => {
               <a href="#">Cookies</a>
             </div>
           </article>
-          <div className={style.triangle}>
-            <img src={shape1} alt="shape 1" className={style.shape_1} />
-            <img src={shape2} alt="shape 2" className={style.shape_2} />
-          </div>
+        </div>
+        <div className={style.triangle}>
+          <img src={shape1} alt="shape 1" className={style.shape_1} />
+          <img src={shape2} alt="shape 2" className={style.shape_2} />
         </div>
       </footer>
     </>
