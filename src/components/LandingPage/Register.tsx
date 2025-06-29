@@ -7,7 +7,7 @@ import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
 import LpHeader from './LpHeader'
 import { useEffect, useRef } from 'react'
 import API from '@/scripts/API'
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const Register = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -30,7 +30,6 @@ const Register = () => {
         lastName: formData.get('lastName'),
         password: formData.get('password'),
       }
-      console.log(data)
       API.register(data).then(() => history.push('/'))
     }
 
