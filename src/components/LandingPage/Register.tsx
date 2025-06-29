@@ -58,37 +58,37 @@ const Register = () => {
               <input
                 type="text"
                 name="username"
-                id={style.username}
+                className={style.textInput}
                 placeholder="Username"
               />
               <input
                 type="text"
                 name="firstName"
-                id={style.username}
+                className={style.textInput}
                 placeholder="First name"
               />
               <input
                 type="text"
                 name="lastName"
-                id={style.username}
+                className={style.textInput}
                 placeholder="Last name"
               />
               <input
                 type="email"
                 name="email"
-                id={style.email}
+                className={style.textInput}
                 placeholder="E-mail"
               />
               <input
                 type="password"
                 name="password"
-                id={style.password}
+                className={style.textInput}
                 placeholder="Password"
               />
               <input
                 type="password"
                 name="password2"
-                id={style.password2}
+                className={style.textInput}
                 placeholder="Confirm password"
               />
               <label className={style['form__wrapper']}>
@@ -110,18 +110,18 @@ const Register = () => {
               </a>
             </div>
           </article>
-          <footer className={style.short}>
-            <p>2020 FastFile Inc. All rights reserved.</p>
-            <p>
-              <a href="#">Privacy Policy</a>
-              <span> | </span>
-              <a href="#">Terms & Conditions</a>
-              <span> | </span>
-              <a href="#">Cookies</a>
-            </p>
-          </footer>
         </section>
       </main>
+      <footer className={style.short}>
+        <p>2020 FastFile Inc. All rights reserved.</p>
+        <p>
+          <a href="#">Privacy Policy</a>
+          <span> | </span>
+          <a href="#">Terms & Conditions</a>
+          <span> | </span>
+          <a href="#">Cookies</a>
+        </p>
+      </footer>
     </>
   )
 }

@@ -151,13 +151,15 @@ main {
         font-weight: normal;
         margin-bottom: 20px;
       }
-      #loginForm {
+      #loginForm,
+      #registerForm {
         margin-bottom: 50px;
         #username,
         #password,
         #register__register,
         #register__password,
         #register__password2,
+        .textInput,
         #register__email {
           display: block;
           margin: auto;
@@ -286,6 +288,9 @@ footer {
   padding: $containter-padding;
   background-color: $grey;
   z-index: 0;
+  &.short {
+    text-align: center;
+  }
 
   .logo {
     height: 22px;
