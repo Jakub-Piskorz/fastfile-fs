@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom'
 
 const root = createRoot(document.getElementById('app')!)
-export const basename = '/fastfile'
+export const basename = '/fastfile/'
 
 root.render(
   <Router basename={basename}>
