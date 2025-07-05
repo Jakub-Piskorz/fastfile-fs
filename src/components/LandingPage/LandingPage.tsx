@@ -1,6 +1,6 @@
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './LandingPage.module.scss'
-import { MouseEventHandler } from 'react'
+import { MouseEventHandler, useState } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from '../CookieWarning'
@@ -23,6 +23,8 @@ import securityImage from '@/images/icons/security.jpg'
 import { basename } from '../..'
 
 const LandingPage = () => {
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
   const login: MouseEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault()
     const username: HTMLInputElement | null = document.querySelector(
@@ -32,11 +34,19 @@ const LandingPage = () => {
       '#' + style.password
     )
     try {
-      API.login(username?.value, password?.value).then((result: string) => {
-        CookieScripts.add('token', result)
-        if (CookieScripts.value('token')) window.location.href = basename
-      })
+      API.login(username?.value, password?.value)
+        .then((result) => {
+          if (result.ok) {
+            return result.text()
+          } else setErrorMsg('Wrong login or password.')
+          return
+        })
+        .then((token) => {
+          CookieScripts.add('token', token)
+          if (CookieScripts.value('token')) window.location.href = basename
+        })
     } catch (error) {
+      console.log('kurwa')
       console.error(error)
     }
   }
@@ -86,6 +96,7 @@ const LandingPage = () => {
                     id={style.password}
                     placeholder="Password"
                   />
+                  {errorMsg && <div>{errorMsg}</div>}
                   <label className={style.form__wrapper}>
                     <input
                       type="submit"

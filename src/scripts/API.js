@@ -52,19 +52,14 @@ const API = {
       console.error(error)
     }
   },
-  login: async function (login = ``, password = ``) {
-    return !login || !password
-      ? `Wrong login or password`
-      : await fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
-          method: `POST`,
-          body: JSON.stringify({ login, password }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then((response) => {
-          if (!response.ok) throw new Error(response.text())
-          return response.text()
-        })
+  login: function (login = ``, password = ``) {
+    return fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
+      method: `POST`,
+      body: JSON.stringify({ login, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   },
   logout: async function (token = ``) {
     try {
