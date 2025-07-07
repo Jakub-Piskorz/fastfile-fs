@@ -5,12 +5,13 @@ import facebookRoundIcon from '@/images/icons/facebook-round-icon.png'
 import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
 import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
 import LpHeader from './LpHeader'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import API from '@/scripts/API'
 import { useHistory } from 'react-router-dom'
 
 const Register = () => {
   const formRef = useRef<HTMLFormElement>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   let history = useHistory()
 
   useEffect(() => {
@@ -21,8 +22,10 @@ const Register = () => {
       e.preventDefault()
       if (e.target == null) throw new Error("Form element doesn't exist.")
       const formData = new FormData(e.target as HTMLFormElement)
-      if (formData.get('password') !== formData.get('password2'))
-        throw new Error('Passwords are not identical')
+      if (formData.get('password') !== formData.get('password2')) {
+        setErrorMsg('Passwords are not identical')
+        return
+      }
       const data = {
         username: formData.get('username'),
         email: formData.get('email'),
@@ -30,7 +33,18 @@ const Register = () => {
         lastName: formData.get('lastName'),
         password: formData.get('password'),
       }
-      API.register(data).then(() => history.push('/'))
+      API.register(data)
+        .then((res) => {
+          if (res.ok) {
+            history.push('/')
+          } else {
+            setErrorMsg('Inputs not correct.')
+          }
+        })
+        .catch((e) => {
+          console.error(e)
+          setErrorMsg('Something went wrong.')
+        })
     }
 
     form.addEventListener('submit', onSubmit)
@@ -55,41 +69,48 @@ const Register = () => {
               id={style.registerForm}
             >
               <input
+                required
                 type="text"
                 name="username"
                 className={style.textInput}
                 placeholder="Username"
               />
               <input
+                required
                 type="text"
                 name="firstName"
                 className={style.textInput}
                 placeholder="First name"
               />
               <input
+                required
                 type="text"
                 name="lastName"
                 className={style.textInput}
                 placeholder="Last name"
               />
               <input
+                required
                 type="email"
                 name="email"
                 className={style.textInput}
                 placeholder="E-mail"
               />
               <input
+                required
                 type="password"
                 name="password"
                 className={style.textInput}
                 placeholder="Password"
               />
               <input
+                required
                 type="password"
                 name="password2"
                 className={style.textInput}
                 placeholder="Confirm password"
               />
+              {errorMsg && <div>{errorMsg}</div>}
               <label className={style['form__wrapper']}>
                 <input type="submit" value="Sign Up" id={style.submit} />
               </label>

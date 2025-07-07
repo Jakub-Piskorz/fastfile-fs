@@ -46,7 +46,6 @@ const LandingPage = () => {
           if (CookieScripts.value('token')) window.location.href = basename
         })
     } catch (error) {
-      console.log('kurwa')
       console.error(error)
     }
   }
