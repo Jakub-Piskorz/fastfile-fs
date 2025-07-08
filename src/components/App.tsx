@@ -7,7 +7,7 @@ import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
 import CookieWarning from './CookieWarning'
-import { ContextMenu } from '@/components/ContextMenu'
+import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { useStore } from '@/hooks/store'
 import { basename } from '..'
 

@@ -1,4 +1,5 @@
 import style from './App.module.scss'
+import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
 import React from 'react'
@@ -12,7 +13,7 @@ const FilesButtonsUI = () => {
     e.preventDefault()
     e.stopPropagation()
     const contextMenu: HTMLElement | null = document.querySelector(
-      `.${style.contextMenu}`
+      `.${contextMenuStyle.contextMenu}`
     )
     if (menuState === 'upload') {
       setMenuState('closed')

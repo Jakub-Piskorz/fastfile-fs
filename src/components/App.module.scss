@@ -555,45 +555,6 @@ h1 {
   font-size: 26px;
   height: initial;
 }
-.contextMenu {
-  display: flex;
-  position: absolute;
-  top: 50vh;
-  right: 50vw;
-  background: var(--bg);
-  border: 1px solid var(--bgSecondary);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.096);
-  border-radius: 6px;
-  width: 170px;
-  z-index: 200;
-  user-select: none;
-  overflow: hidden;
-  cursor: pointer;
-  &.hidden {
-    display: none;
-  }
-  ul {
-    width: 100%;
-    input[type='file'] {
-      height: 250px;
-      width: 350px;
-    }
-    li {
-      box-sizing: border-box;
-      marker: none;
-      display: flex;
-      width: 100%;
-      font-weight: 400;
-      color: var(--textSecondary);
-      padding: 12px 22px;
-      font-size: 0.9rem;
-      transition: 0.1s;
-      &:hover {
-        background-color: rgba(133, 133, 133, 0.2);
-      }
-    }
-  }
-}
 .switch {
   display: flex;
   align-items: center;
