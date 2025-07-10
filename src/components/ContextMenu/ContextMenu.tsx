@@ -4,12 +4,16 @@ import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch'
 import { StoreI, useStore } from '@/hooks/store'
 import { basename } from '../..'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles } = useStore()
   const [uploadName, setUploadName] = useState('Upload file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    setUploadName('Upload file')
+  }, [menuState])
+
   const stop = (e: React.MouseEvent) => e.preventDefault()
   const download = (e: React.MouseEvent) => {
     setMenuState('closed')
