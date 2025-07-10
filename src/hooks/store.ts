@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface StoreI {
+export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
   selectedItems: string[]
@@ -11,6 +11,14 @@ interface StoreI {
   setMenuState: (newMenuState: this['menuState']) => void
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void
+  files: {
+    lastModified: number
+    name: string
+    path: string
+    size: number
+    type: string
+  }[]
+  setFiles: (files: this['files']) => void
 }
 
 export const useStore = create<StoreI>()((set) => ({
@@ -24,4 +32,6 @@ export const useStore = create<StoreI>()((set) => ({
   setMenuState: (menuState) => set(() => ({ menuState })),
   darkMode: false,
   setDarkMode: (darkMode) => set(() => ({ darkMode })),
+  files: [],
+  setFiles: (files) => set(() => ({ files })),
 }))

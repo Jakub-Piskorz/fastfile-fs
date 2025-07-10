@@ -10,14 +10,18 @@ import CookieScripts from '../scripts/cookie-scripts'
 import { useStore } from '@/hooks/store'
 
 const Files = () => {
-  const { setMenuState, username, setClickedItem } = useStore()
-  const [files, setFiles]: any = useState(null)
+  const { setMenuState, username, setClickedItem, files, setFiles } = useStore()
 
   const refresh = async () => {
-    await API.read(CookieScripts.value('token')).then((response) => {
-      setFiles(response)
-    })
-    return
+    try {
+      const files = await API.listFiles().then((response) => {
+        if (response.ok) return response.json()
+      })
+      setFiles(files)
+      return
+    } catch (e) {
+      console.error(e)
+    }
   }
   const setFileSize = async (
     inputSize: 1 | 2 | 3 | 4 | 5 | 6 | null = null
@@ -31,9 +35,7 @@ const Files = () => {
       CookieScripts.add('file-size', inputSize.toString())
       return
     }
-    const SizeFromCookie: string | null = await API.read(
-      CookieScripts.value('file-size')
-    )
+    const SizeFromCookie: string | null = CookieScripts.value('file-size')
     if (SizeFromCookie === null) {
       filesElement.setAttribute('file-size', '3')
       return
@@ -62,11 +64,9 @@ const Files = () => {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.files[0])
-      API.upload(
-        CookieScripts.value('token'),
-        '',
-        e.dataTransfer?.files[0] as FileList[0]
-      ).then(() => refresh())
+      API.upload('', e.dataTransfer?.files[0] as FileList[0]).then(() =>
+        refresh()
+      )
   }
 
   const clickHandler = (e: MouseEvent, slug: string | null) => {

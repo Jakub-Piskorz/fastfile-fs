@@ -4,6 +4,7 @@ import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
 import style from './App.module.scss'
+import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
 
 const Header = () => {
@@ -20,7 +21,7 @@ const Header = () => {
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
     const contextMenu: HTMLElement | null = document.querySelector(
-      `.${style.contextMenu}`
+      `.${contextMenuStyle.contextMenu}`
     )
     if (contextMenu === null) {
       console.error(`DOM call for context menu returned null.`)

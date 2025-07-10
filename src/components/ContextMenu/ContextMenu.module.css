@@ -7,25 +7,53 @@
   border: 1px solid var(--bgSecondary);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.096);
   border-radius: 6px;
-  width: 170px;
+  min-width: 170px;
   z-index: 200;
   user-select: none;
   overflow: hidden;
   cursor: pointer;
+
   &.hidden {
     display: none;
   }
+
   ul {
     width: 100%;
-    .label {
+
+    form {
       width: 100%;
-      color: black;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      label {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        cursor: pointer;
+        word-break: break-word;
+      }
+
+      #uploadInput {
+        display: none;
+      }
+
+      button {
+        display: flex;
+        border-radius: 15px;
+        background: #f7f7f7;
+        border: 1px solid #eeeeee;
+        padding: 12px 21px;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
     }
-    #uploadInput {
-      display: none;
-      width: 100%;
-      color: black;
-    }
+
     li {
       box-sizing: border-box;
       marker: none;
@@ -36,6 +64,7 @@
       padding: 12px 22px;
       font-size: 0.9rem;
       transition: 0.1s;
+
       &:hover {
         background-color: rgba(133, 133, 133, 0.2);
       }

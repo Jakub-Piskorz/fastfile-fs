@@ -4,53 +4,26 @@
 import CookieScripts from './cookie-scripts'
 
 const API = {
-  read: async function (token = ``, slug = ``) {
-    try {
-      return !token
-        ? `no token`
-        : await fetch(
-            `https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-            .catch((err) => console.error(err))
-            .then((response) => {
-              return response.ok
-                ? response.json()
-                : console.error(
-                    'listing files failed. Code: ' + response.status
-                  )
-            })
-    } catch (error) {
-      console.error(error)
-    }
+  listFiles: async function (slug = ``) {
+    const token = CookieScripts.value('token')
+    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   },
-  upload: async function (token = ``, path = ``, file) {
-    try {
-      const formData = new FormData()
-      formData.append('filePath', `/${path}`)
-      formData.append('file', file)
-      return !token || !file
-        ? `no user/file`
-        : await fetch(`https://jakubpiskorz.dev:8080/api/v1/files/upload`, {
-            method: `POST`,
-            body: formData,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-            .catch((err) => console.error(err))
-            .then((response) =>
-              response.ok
-                ? response.json()
-                : console.error('Upload failed. Code: ' + response.status)
-            )
-    } catch (error) {
-      console.error(error)
-    }
+  upload: async function (path = ``, file) {
+    const token = CookieScripts.value('token')
+    const formData = new FormData()
+    formData.append('filePath', `/${path}`)
+    formData.append('file', file)
+    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/upload`, {
+      method: `POST`,
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   },
   login: function (login = ``, password = ``) {
     return fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
