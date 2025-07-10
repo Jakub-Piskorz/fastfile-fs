@@ -28,9 +28,9 @@ const FilesButtonsUI = () => {
     }
     if (menuState === 'closed') {
       contextMenu?.classList.remove(style.hidden)
-      contextMenu.style.top = `75px`
+      contextMenu.style.top = `115px`
       contextMenu.style.left = ``
-      contextMenu.style.right = `36px`
+      contextMenu.style.right = `42px`
       setMenuState('upload')
     }
   }

@@ -6,6 +6,7 @@ import FilesButtonsUI from './FilesButtonsUI'
 import folderBlack from '@/images/folder-black.svg'
 import download from '@/images/download.svg'
 import style from './App.module.scss'
+import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import CookieScripts from '../scripts/cookie-scripts'
 import { useStore } from '@/hooks/store'
 
@@ -71,9 +72,8 @@ const Files = () => {
 
   const clickHandler = (e: MouseEvent, slug: string | null) => {
     e.preventDefault()
-    e.stopPropagation()
     const contextMenu: HTMLElement | null = document.querySelector(
-      `.${style.contextMenu}`
+      `.${contextMenuStyle.contextMenu}`
     )
     if (contextMenu === null) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)

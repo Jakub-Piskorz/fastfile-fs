@@ -8,17 +8,28 @@ import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles } = useStore()
-  const [uploadName, setUploadName] = useState('Upload file')
+  const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
-    setUploadName('Upload file')
+    setUploadName('Select file')
   }, [menuState])
 
   const stop = (e: React.MouseEvent) => e.preventDefault()
-  const download = (e: React.MouseEvent) => {
+
+  const onDownload = (e: React.MouseEvent) => {
     setMenuState('closed')
     API.download(clickedItem)
   }
+
+  const onDelete = async (e: React.MouseEvent) => {
+    setMenuState('closed')
+    await API.delete(clickedItem)
+    const files = await API.listFiles().then((res) =>
+      res.ok ? res.json() : console.error('something went wrong')
+    )
+    setFiles(files)
+  }
+
   const logout = (e: React.MouseEvent) => {
     CookieScripts.add('token', '')
     window.location.href = basename
@@ -57,7 +68,12 @@ const ContextMenu = () => {
       <ul>
         {(() => {
           if (menuState === 'file')
-            return <li onMouseUp={download}>Download</li>
+            return (
+              <>
+                <li onMouseUp={onDownload}>Download</li>
+                <li onMouseUp={onDelete}>Delete</li>
+              </>
+            )
           if (menuState === 'profile')
             return (
               <>

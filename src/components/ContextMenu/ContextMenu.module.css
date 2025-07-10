@@ -34,7 +34,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: black;
+        color: var(--text);
         cursor: pointer;
         word-break: break-word;
       }
@@ -46,8 +46,9 @@
       button {
         display: flex;
         border-radius: 15px;
-        background: #f7f7f7;
-        border: 1px solid #eeeeee;
+        background: var(--bgSecondary);
+        border: 1px var(--headerBorder);
+        color: var(--text);
         padding: 12px 21px;
         margin-bottom: 15px;
         cursor: pointer;

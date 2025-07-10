@@ -3,17 +3,19 @@
 
 import CookieScripts from './cookie-scripts'
 
+const authHeader = () => ({
+  Authorization: `Bearer ${CookieScripts.value('token')}`,
+})
+
 const API = {
-  listFiles: async function (slug = ``) {
-    const token = CookieScripts.value('token')
+  listFiles: function (slug = ``) {
     return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        ...authHeader(),
       },
     })
   },
-  upload: async function (path = ``, file) {
-    const token = CookieScripts.value('token')
+  upload: function (path = ``, file) {
     const formData = new FormData()
     formData.append('filePath', `/${path}`)
     formData.append('file', file)
@@ -21,7 +23,7 @@ const API = {
       method: `POST`,
       body: formData,
       headers: {
-        Authorization: `Bearer ${token}`,
+        ...authHeader(),
       },
     })
   },
@@ -34,25 +36,11 @@ const API = {
       },
     })
   },
-  logout: async function (token = ``) {
-    try {
-      return !token
-        ? 'no token'
-        : await fetch(`https://jakubpiskorz.dev:8080/auth/logout`, {
-            method: `GET`,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-            .catch((err) => console.error(err))
-            .then((response) =>
-              response.ok
-                ? response.json()
-                : console.error('Logout failed. Code: ' + response.status)
-            )
-    } catch (error) {
-      console.error(error)
-    }
+  logout: async function () {
+    return fetch(`https://jakubpiskorz.dev:8080/auth/logout`, {
+      method: `GET`,
+      headers: authHeader(),
+    })
   },
   register: function (body) {
     return fetch(`https://jakubpiskorz.dev:8080/auth/register`, {
@@ -63,47 +51,47 @@ const API = {
       },
     })
   },
-  userInfo: function (token = ``) {
+  userInfo: function () {
     return fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
       method: `GET`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     })
   },
-  download: async function (filePath = ``) {
-    try {
-      const token = CookieScripts.value('token')
-      return !token
-        ? 'no token'
-        : fetch(
-            `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePath}`,
-            {
-              method: `GET`,
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+  download: (filePath = '') => {
+    return fetch(
+      `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePath}`,
+      {
+        method: `GET`,
+        headers: {
+          ...authHeader(),
+        },
+      }
+    )
+      .then((response) => {
+        if (response === null || !response.ok)
+          throw new Error(
+            `Error code: ${response.status}. File cannot be downloaded.`
           )
-            .then((response) => {
-              if (response === null || !response.ok)
-                throw new Error(
-                  `Error code: ${response.status}. File cannot be downloaded.`
-                )
-              return response.blob()
-            })
-            .then((blob) => {
-              const url = window.URL.createObjectURL(blob)
-              const a = document.createElement('a')
-              a.href = url
-              a.download = filePath
-              document.body.appendChild(a)
-              a.click()
-              a.remove()
-            })
-    } catch (error) {
-      console.error(error)
-    }
+        return response.blob()
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filePath
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+      })
+  },
+  delete: function (filePath = '') {
+    return fetch(
+      `https://jakubpiskorz.dev:8080/api/v1/files/delete/${filePath}`,
+      {
+        method: 'DELETE',
+        headers: authHeader(),
+      }
+    )
   },
 }
 

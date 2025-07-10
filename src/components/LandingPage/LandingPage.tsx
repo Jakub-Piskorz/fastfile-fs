@@ -3,7 +3,7 @@ import style from './LandingPage.module.scss'
 import { MouseEventHandler, useState } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
-import CookieWarning from '../CookieWarning'
+import CookieWarning from '../cookie-popup/CookiePopup'
 import LpHeader from './LpHeader'
 
 import appStoreBtn from '@/images/icons/app-store-btn.png'

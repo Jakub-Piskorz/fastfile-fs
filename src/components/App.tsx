@@ -6,7 +6,7 @@ import style from '@/components/App.module.scss'
 import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
-import CookieWarning from './CookieWarning'
+import CookieWarning from './cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { useStore } from '@/hooks/store'
 import { basename } from '..'
@@ -18,7 +18,7 @@ const App = (): ReactElement => {
     setDarkMode(CookieScripts.value('theme') === 'dark')
 
     const fetchUserInfo = async () => {
-      const response = await API.userInfo(CookieScripts.value('token'))
+      const response = await API.userInfo()
       if (!response.ok) {
         CookieScripts.add('token', '')
         window.location.href = basename
