@@ -40,7 +40,7 @@ const Header = () => {
                 .then((res) => res.json())
                 .then((files) => setFiles(files))
             }
-          }, 700)
+          }, 300)
         }
       })(),
     []
