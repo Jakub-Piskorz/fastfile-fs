@@ -24,7 +24,6 @@ export default function CookiePopup() {
     CookieScripts.add('consent', value === true ? 'aye' : 'nay', 100)
   }
 
-  console.log(style)
   return (
     <div className={style.cookieConsentBanner}>
       <div className={style.cookieConsentBannerInner}>

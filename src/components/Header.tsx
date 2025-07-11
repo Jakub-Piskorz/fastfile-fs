@@ -6,9 +6,24 @@ import profilePic from '@/images/user.svg'
 import style from './App.module.scss'
 import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
+import { debounce } from '@/scripts/utils'
+import { useEffect, useMemo } from 'react'
 
 const Header = () => {
   const { darkMode, menuState, setMenuState } = useStore()
+
+  // const onSearch = (e: Html)
+
+  const debouncedSearch = useMemo(
+    () => debounce(() => console.log('lol'), 500),
+    []
+  )
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel?.() // if you add cancel method from previous example
+    }
+  }, [debouncedSearch])
 
   const clickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -52,7 +67,11 @@ const Header = () => {
           <i className={style['nav-icon']}></i>
         </div>
         <div id={style['searchbar']}>
-          <input type="text" placeholder="Search something..." />
+          <input
+            type="text"
+            placeholder="Search something..."
+            onKeyUp={debouncedSearch}
+          />
         </div>
       </div>
       <div id={style.right}>

@@ -1,0 +1,13 @@
+<svg width="800px" height="800px" viewBox="170.6666717529297 64 682.6666259765625 896"
+  xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="rounded-corners">
+      <rect x="170.6666717529297" y="64" width="682.6666259765625" height="896" rx="70" ry="70" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#rounded-corners)">
+    <path d="M853.333333 960H170.666667V64h469.333333l213.333333 213.333333z" fill="#90CAF9" />
+    <path d="M821.333333 298.666667H618.666667V96z" fill="#E1F5FE" />
+  </g>
+</svg>

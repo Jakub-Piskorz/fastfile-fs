@@ -1,10 +1,11 @@
 import pdfIcon from '../images/pdf.svg'
 import jpgIcon from '../images/jpg.svg'
 import mp3Icon from '../images/mp3.svg'
+import fileIcon from '../images/file.svg'
+import psdIcon from '../images/psd.svg'
 import folderIcon from '../images/folder-black.svg'
-import API from '../scripts/API'
 import style from './App.module.scss'
-import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
+import React, { MouseEvent, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
 
 interface FileProps {
@@ -40,6 +41,10 @@ const File = ({
         return pdfIcon
       case ['mp3', 'mp4', 'mpeg4'].includes(fileFormat):
         return mp3Icon
+      case ['psd'].includes(fileFormat):
+        return psdIcon
+      default:
+        return fileIcon
     }
   }, [name])
 
