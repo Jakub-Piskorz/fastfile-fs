@@ -8,11 +8,12 @@ const authHeader = () => ({
 })
 
 const API = {
-  listFiles: function (slug = ``) {
+  listFiles: function (slug = ``, controller) {
     return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`, {
       headers: {
         ...authHeader(),
       },
+      signal: controller?.signal,
     })
   },
   upload: function (path = ``, file) {
@@ -92,6 +93,17 @@ const API = {
         headers: authHeader(),
       }
     )
+  },
+  search: function (fileName = '', directory = '', controller) {
+    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/search`, {
+      method: 'POST',
+      headers: { ...authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fileName,
+        directory,
+      }),
+      signal: controller?.signal,
+    })
   },
 }
 

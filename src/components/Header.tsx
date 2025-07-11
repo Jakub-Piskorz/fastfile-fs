@@ -7,23 +7,44 @@ import style from './App.module.scss'
 import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
 import { debounce } from '@/scripts/utils'
-import { useEffect, useMemo } from 'react'
+import { EventHandler, KeyboardEventHandler, useEffect, useMemo } from 'react'
+import API from '@/scripts/API'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState } = useStore()
+  const { darkMode, menuState, setMenuState, setFiles, files } = useStore()
 
-  // const onSearch = (e: Html)
+  const filesCache = useMemo(() => {
+    console.log(files)
+    return files
+  }, [])
 
-  const debouncedSearch = useMemo(
-    () => debounce(() => console.log('lol'), 500),
+  const onDebouncedSearch = useMemo(
+    () =>
+      (() => {
+        let timeout: number
+        let controller: AbortController
+        return (e: React.KeyboardEvent<HTMLInputElement>) => {
+          const input = e.target as HTMLInputElement
+          if (timeout) {
+            clearTimeout(timeout)
+            controller.abort()
+          }
+          controller = new AbortController()
+          timeout = setTimeout(() => {
+            if (input.value === '') {
+              API.listFiles('', controller)
+                .then((res) => res.json())
+                .then((files) => setFiles(files))
+            } else {
+              API.search(input.value, '', controller)
+                .then((res) => res.json())
+                .then((files) => setFiles(files))
+            }
+          }, 700)
+        }
+      })(),
     []
   )
-
-  useEffect(() => {
-    return () => {
-      debouncedSearch.cancel?.() // if you add cancel method from previous example
-    }
-  }, [debouncedSearch])
 
   const clickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -70,7 +91,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search something..."
-            onKeyUp={debouncedSearch}
+            onKeyUp={onDebouncedSearch}
           />
         </div>
       </div>
