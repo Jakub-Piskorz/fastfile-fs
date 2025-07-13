@@ -376,12 +376,15 @@ body {
       height: 50px;
       h1 {
         color: var(--text);
-        display: inline-block;
+        display: flex;
+        line-height: 1;
+        flex-direction: row;
+        gap: 15px;
         .folder-black {
           width: 32px;
           height: 25px;
           transform: translateY(10%);
-          margin-right: 28px;
+          margin-right: 13px;
           margin-left: 30px;
           filter: var(--invertOnDark);
           @media screen and (max-width: $mobile) {

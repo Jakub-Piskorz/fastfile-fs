@@ -19,6 +19,8 @@ export interface StoreI {
     type: string
   }[]
   setFiles: (files: this['files']) => void
+  searchedFiles: this['files'] | null
+  setSearchedFiles: (searchedFiles: this['files'] | null) => void
 }
 
 export const useStore = create<StoreI>()((set) => ({
@@ -34,4 +36,6 @@ export const useStore = create<StoreI>()((set) => ({
   setDarkMode: (darkMode) => set(() => ({ darkMode })),
   files: [],
   setFiles: (files) => set(() => ({ files })),
+  searchedFiles: null,
+  setSearchedFiles: (searchedFiles) => set(() => ({ searchedFiles })),
 }))

@@ -1,4 +1,10 @@
-import React, { DragEvent, useEffect, useState, MouseEvent } from 'react'
+import React, {
+  DragEvent,
+  useEffect,
+  useState,
+  MouseEvent,
+  useMemo,
+} from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
@@ -11,7 +17,14 @@ import CookieScripts from '../scripts/cookie-scripts'
 import { useStore } from '@/hooks/store'
 
 const Files = () => {
-  const { setMenuState, username, setClickedItem, files, setFiles } = useStore()
+  const {
+    setMenuState,
+    username,
+    setClickedItem,
+    files,
+    setFiles,
+    searchedFiles,
+  } = useStore()
 
   const refresh = async () => {
     try {
@@ -24,6 +37,7 @@ const Files = () => {
       console.error(e)
     }
   }
+  // TODO: Move somewhere else and implement
   const setFileSize = async (
     inputSize: 1 | 2 | 3 | 4 | 5 | 6 | null = null
   ) => {
@@ -51,6 +65,11 @@ const Files = () => {
       return
     }
   }
+
+  const currentFiles = useMemo(
+    () => searchedFiles || files,
+    [files, searchedFiles]
+  )
 
   useEffect(() => {
     refresh()
@@ -103,15 +122,14 @@ const Files = () => {
         <div className={style['ui-container']}>
           <h1>
             <img className={style['folder-black']} src={folderBlack} />
-            {username}
-            {/* <button onClick={() => setFileSize(1)}>bigger</button>
-          <button onClick={() => setFileSize(4)}>smaller</button> */}
+            <div>{username}</div>
+            {searchedFiles && <div>search:</div>}
           </h1>
           <FilesButtonsUI />
         </div>
         <div className={style.files} onContextMenu={stop}>
-          {files
-            ? files.map((file: any, i: number) => {
+          {currentFiles
+            ? currentFiles.map((file: any, i: number) => {
                 return (
                   <File
                     name={file.name}

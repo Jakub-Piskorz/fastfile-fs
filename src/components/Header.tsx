@@ -11,7 +11,8 @@ import { EventHandler, KeyboardEventHandler, useEffect, useMemo } from 'react'
 import API from '@/scripts/API'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setFiles, files } = useStore()
+  const { darkMode, menuState, setMenuState, setSearchedFiles, files } =
+    useStore()
 
   const filesCache = useMemo(() => {
     console.log(files)
@@ -31,10 +32,13 @@ const Header = () => {
           }
           controller = new AbortController()
           timeout = setTimeout(() => {
-            const apiCall = input.value
-              ? API.search(input.value, '', controller)
-              : API.listFiles('', controller)
-            apiCall.then((res) => res.json()).then((files) => setFiles(files))
+            if (input.value) {
+              API.search(input.value, '', controller)
+                .then((res) => res.json())
+                .then((searchedFiles) => setSearchedFiles(searchedFiles))
+            } else {
+              setSearchedFiles(null)
+            }
           }, 300)
         }
       })(),
