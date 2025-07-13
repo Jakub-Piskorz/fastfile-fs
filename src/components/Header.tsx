@@ -31,15 +31,10 @@ const Header = () => {
           }
           controller = new AbortController()
           timeout = setTimeout(() => {
-            if (input.value === '') {
-              API.listFiles('', controller)
-                .then((res) => res.json())
-                .then((files) => setFiles(files))
-            } else {
-              API.search(input.value, '', controller)
-                .then((res) => res.json())
-                .then((files) => setFiles(files))
-            }
+            const apiCall = input.value
+              ? API.search(input.value, '', controller)
+              : API.listFiles('', controller)
+            apiCall.then((res) => res.json()).then((files) => setFiles(files))
           }, 300)
         }
       })(),
