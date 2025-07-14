@@ -7,7 +7,13 @@ export interface StoreI {
   setSelectedItems: (newSelectedItems: string[]) => void
   clickedItem?: string
   setClickedItem: (newClickedItem: string) => void
-  menuState: 'closed' | 'file' | 'directory' | 'profile' | 'upload'
+  menuState:
+    | 'closed'
+    | 'file'
+    | 'directory'
+    | 'profile'
+    | 'upload'
+    | 'background'
   setMenuState: (newMenuState: this['menuState']) => void
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void

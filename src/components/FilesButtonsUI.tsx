@@ -67,6 +67,12 @@ const FilesButtonsUI = () => {
       <button onClick={uploadClickHandler}>
         <img src={uploadIcon} />
       </button>
+      <button onClick={uploadClickHandler}>
+        <img src={uploadIcon} />
+      </button>
+      <button onClick={uploadClickHandler}>
+        <img src={uploadIcon} />
+      </button>
     </div>
   )
 }

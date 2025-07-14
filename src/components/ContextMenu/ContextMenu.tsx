@@ -84,6 +84,14 @@ const ContextMenu = () => {
                 <li onClick={logout}>Log Out</li>
               </>
             )
+          if (menuState === 'background')
+            return (
+              <>
+                <li onClick={() => setMenuState('closed')}>
+                  Create new folder
+                </li>
+              </>
+            )
           if (menuState === 'upload')
             return (
               <form>

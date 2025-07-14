@@ -442,6 +442,9 @@ body {
       display: inline-flex;
       flex-wrap: wrap;
       margin-top: 25px;
+      width: 100%;
+      // TODO: zrobić porządnego grida
+      min-height: 80%;
 
       // default size: 3
       --fileHeight: 165px;

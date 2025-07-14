@@ -82,8 +82,9 @@ const Files = () => {
       )
   }
 
-  const clickHandler = (e: MouseEvent, slug: string | null) => {
+  const clickHandler = (e: MouseEvent, type: 'file' | 'background') => {
     e.preventDefault()
+    e.stopPropagation()
     const contextMenu: HTMLElement | null = document.querySelector(
       `.${contextMenuStyle.contextMenu}`
     )
@@ -98,8 +99,12 @@ const Files = () => {
       contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
       contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
       contextMenu.style.right = ``
-      setClickedItem(e.currentTarget.children[1].innerHTML)
-      setMenuState('file')
+      if (type === 'file') {
+        setClickedItem(e.currentTarget.children[1].innerHTML)
+        setMenuState('file')
+      } else if (type === 'background') {
+        setMenuState('background')
+      }
     } else {
       setMenuState('closed')
     }
@@ -111,7 +116,12 @@ const Files = () => {
         className={`${style['sidebar-mask']} ${style.hidden}`}
         onClick={toggleNav}
       ></span>
-      <div className={style['files-window']} onDrop={upload} onDragOver={stop}>
+      <div
+        className={style['files-window']}
+        onDrop={upload}
+        onDragOver={stop}
+        onMouseUp={() => setMenuState('closed')}
+      >
         <div className={style['ui-container']}>
           <h1>
             <img className={style['folder-black']} src={folderBlack} />
@@ -120,7 +130,11 @@ const Files = () => {
           </h1>
           <FilesButtonsUI />
         </div>
-        <div className={style.files} onContextMenu={stop}>
+        <div
+          className={style.files}
+          onContextMenu={stop}
+          onMouseUp={(e) => clickHandler(e, 'background')}
+        >
           {currentFiles
             ? currentFiles.map((file: any, i: number) => {
                 return (
@@ -129,7 +143,7 @@ const Files = () => {
                     type={file.type}
                     key={i}
                     onContextMenu={stop}
-                    mouseUp={clickHandler}
+                    mouseUp={(e) => clickHandler(e, 'file')}
                   />
                 )
               })
