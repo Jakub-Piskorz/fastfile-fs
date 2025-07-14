@@ -2,12 +2,14 @@ import style from './App.module.scss'
 import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
+import deleteIcon from '@/images/trash.svg'
 import { MouseEvent } from 'react'
 import API from '@/scripts/API'
 import { useStore } from '@/hooks/store'
 
 const FilesButtonsUI = () => {
-  const { selectedItems, menuState, setMenuState } = useStore()
+  const { selectedItems, setSelectedItems, menuState, setMenuState, setFiles } =
+    useStore()
 
   const uploadClickHandler = (e: MouseEvent) => {
     e.preventDefault()
@@ -35,11 +37,30 @@ const FilesButtonsUI = () => {
     }
   }
 
+  const onDelete = async () => {
+    await API.delete(selectedItems[0])
+    const files = await API.listFiles().then((res) =>
+      res.ok ? res.json() : console.error('something went wrong')
+    )
+    setFiles(files)
+    setSelectedItems([])
+  }
+  const onDownload = async () => {
+    await API.download(selectedItems[0])
+    setSelectedItems([])
+  }
+
   return (
     <div className={style['ui']}>
       <button
         className={`${selectedItems.length === 0 ? style.hidden : ''}`}
-        onClick={() => API.download(selectedItems[0])}
+        onClick={onDelete}
+      >
+        <img src={deleteIcon} />
+      </button>
+      <button
+        className={`${selectedItems.length === 0 ? style.hidden : ''}`}
+        onClick={onDownload}
       >
         <img src={downloadIcon} />
       </button>

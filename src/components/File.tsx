@@ -5,7 +5,7 @@ import fileIcon from '../images/file.svg'
 import psdIcon from '../images/psd.svg'
 import folderIcon from '../images/folder-black.svg'
 import style from './App.module.scss'
-import React, { MouseEvent, useMemo } from 'react'
+import React, { MouseEvent, useEffect, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
 
 interface FileProps {
@@ -26,6 +26,7 @@ const File = ({
   },
 }: FileProps) => {
   const { selectedItems, setSelectedItems } = useStore()
+
   const icon = useMemo(() => {
     if (type === 'directory') {
       return folderIcon
@@ -62,11 +63,9 @@ const File = ({
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        currentTarget.classList.remove(style.selected)
         setSelectedItems(selectedItems.filter((item) => item !== name))
       } else {
         // Select file.
-        currentTarget.classList.add(style.selected)
         setSelectedItems([...selectedItems, name])
       }
     }
@@ -79,7 +78,9 @@ const File = ({
 
   return (
     <div
-      className={style.file}
+      className={
+        style.file + (selectedItems.includes(name) ? ` ${style.selected}` : '')
+      }
       onContextMenu={onContextMenu}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {

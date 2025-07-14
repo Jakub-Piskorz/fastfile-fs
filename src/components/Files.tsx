@@ -1,16 +1,9 @@
-import React, {
-  DragEvent,
-  useEffect,
-  useState,
-  MouseEvent,
-  useMemo,
-} from 'react'
+import React, { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
 import FilesButtonsUI from './FilesButtonsUI'
 import folderBlack from '@/images/folder-black.svg'
-import download from '@/images/download.svg'
 import style from './App.module.scss'
 import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import CookieScripts from '../scripts/cookie-scripts'
