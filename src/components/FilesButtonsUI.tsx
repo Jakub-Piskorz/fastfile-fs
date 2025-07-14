@@ -3,6 +3,8 @@ import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
 import deleteIcon from '@/images/trash.svg'
+import plusIcon from '@/images/plus.svg'
+import minusIcon from '@/images/minus.svg'
 import { MouseEvent } from 'react'
 import API from '@/scripts/API'
 import { useStore } from '@/hooks/store'
@@ -64,14 +66,14 @@ const FilesButtonsUI = () => {
       >
         <img src={downloadIcon} />
       </button>
-      <button onClick={uploadClickHandler}>
+      <button>
         <img src={uploadIcon} />
       </button>
-      <button onClick={uploadClickHandler}>
-        <img src={uploadIcon} />
+      <button>
+        <img src={plusIcon} />
       </button>
-      <button onClick={uploadClickHandler}>
-        <img src={uploadIcon} />
+      <button>
+        <img src={minusIcon} />
       </button>
     </div>
   )
