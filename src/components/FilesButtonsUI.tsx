@@ -13,7 +13,7 @@ const FilesButtonsUI = () => {
   const { selectedItems, setSelectedItems, menuState, setMenuState, setFiles } =
     useStore()
 
-  const uploadClickHandler = (e: MouseEvent) => {
+  const onUpload = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     const contextMenu: HTMLElement | null = document.querySelector(
@@ -67,7 +67,7 @@ const FilesButtonsUI = () => {
         <img src={downloadIcon} />
       </button>
       <button>
-        <img src={uploadIcon} />
+        <img src={uploadIcon} onClick={onUpload} />
       </button>
       <button>
         <img src={plusIcon} />
