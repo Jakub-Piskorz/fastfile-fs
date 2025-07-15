@@ -10,6 +10,7 @@ const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles } = useStore()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
+  const createDirInputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     setUploadName('Select file')
   }, [menuState])
@@ -55,6 +56,29 @@ const ContextMenu = () => {
     setMenuState('closed')
   }
 
+  const onNewDirBtn = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setMenuState('newDir')
+  }
+
+  const onCreateNewFolder = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const dirName = createDirInputRef.current?.value
+    if (!dirName) {
+      setMenuState('closed')
+      return
+    }
+    const success = await API.createDir(dirName).then((res) => res.ok && true)
+    if (success) {
+      API.listFiles()
+        .then((res) => res.ok && res.json())
+        .then((files) => {
+          setFiles(files)
+          setMenuState('closed')
+        })
+    }
+  }
+
   return (
     <div
       onContextMenu={stop}
@@ -87,10 +111,19 @@ const ContextMenu = () => {
           if (menuState === 'background')
             return (
               <>
-                <li onClick={() => setMenuState('closed')}>
-                  Create new folder
-                </li>
+                <li onClick={onNewDirBtn}>Create new folder</li>
               </>
+            )
+          if (menuState === 'newDir')
+            return (
+              <form onSubmit={onCreateNewFolder}>
+                <input
+                  type="text"
+                  placeholder="folder name"
+                  ref={createDirInputRef}
+                />
+                <button type="submit">Create new folder</button>
+              </form>
             )
           if (menuState === 'upload')
             return (

@@ -105,6 +105,13 @@ const API = {
       signal: controller?.signal,
     })
   },
+  createDir: (path = ``) =>
+    fetch(
+      `https://jakubpiskorz.dev:8080/api/v1/files/create-directory/${path}`,
+      {
+        headers: authHeader(),
+      }
+    ),
 }
 
 export default API
