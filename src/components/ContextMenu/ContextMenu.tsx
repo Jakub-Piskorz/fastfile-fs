@@ -98,6 +98,12 @@ const ContextMenu = () => {
                 <li onMouseUp={onDelete}>Delete</li>
               </>
             )
+          if (menuState === 'directory')
+            return (
+              <>
+                <li onMouseUp={onDelete}>Delete</li>
+              </>
+            )
           if (menuState === 'profile')
             return (
               <>
@@ -121,6 +127,7 @@ const ContextMenu = () => {
                   type="text"
                   placeholder="folder name"
                   ref={createDirInputRef}
+                  autoFocus
                 />
                 <button type="submit">Create new folder</button>
               </form>

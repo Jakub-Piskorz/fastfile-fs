@@ -12,12 +12,18 @@ import { useStore } from '@/hooks/store'
 const Files = () => {
   const {
     setMenuState,
+    menuState,
     username,
     setClickedItem,
     files,
     setFiles,
     searchedFiles,
   } = useStore()
+
+  const currentFiles = useMemo(
+    () => searchedFiles || files,
+    [files.length, searchedFiles?.length]
+  )
 
   const refresh = async () => {
     try {
@@ -59,11 +65,6 @@ const Files = () => {
     }
   }
 
-  const currentFiles = useMemo(
-    () => searchedFiles || files,
-    [files, searchedFiles]
-  )
-
   useEffect(() => {
     refresh()
   }, [])
@@ -82,7 +83,10 @@ const Files = () => {
       )
   }
 
-  const clickHandler = (e: MouseEvent, type: 'file' | 'background') => {
+  const clickHandler = (
+    e: MouseEvent,
+    type: 'file' | 'background' | 'directory'
+  ) => {
     e.preventDefault()
     e.stopPropagation()
     const contextMenu: HTMLElement | null = document.querySelector(
@@ -104,9 +108,12 @@ const Files = () => {
         setMenuState('file')
       } else if (type === 'background') {
         setMenuState('background')
+      } else if (type === 'directory') {
+        setClickedItem(e.currentTarget.children[1].innerHTML)
+        setMenuState('directory')
       }
     } else {
-      setMenuState('closed')
+      if (menuState !== 'closed') setMenuState('closed')
     }
   }
 
@@ -143,7 +150,7 @@ const Files = () => {
                     type={file.type}
                     key={i}
                     onContextMenu={stop}
-                    mouseUp={(e) => clickHandler(e, 'file')}
+                    mouseUp={(e) => clickHandler(e, file.type)}
                   />
                 )
               })

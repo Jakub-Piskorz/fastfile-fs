@@ -15,6 +15,7 @@ export interface StoreI {
     | 'upload'
     | 'background'
     | 'newDir'
+    | 'directory'
   setMenuState: (newMenuState: this['menuState']) => void
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void
