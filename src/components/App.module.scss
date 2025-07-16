@@ -440,6 +440,7 @@ body {
       /* On desktop, files are flexboxes with size chosen by user.
          On mobile, files are grid items with strict number of columns. */
       display: inline-flex;
+      align-content: flex-start;
       flex-wrap: wrap;
       margin-top: 25px;
       width: 100%;

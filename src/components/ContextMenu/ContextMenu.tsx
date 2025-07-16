@@ -83,7 +83,7 @@ const ContextMenu = () => {
     <div
       onContextMenu={stop}
       style={{
-        width: menuState === 'upload' ? '300px' : '170px',
+        width: ['upload', 'newDir'].includes(menuState) ? '300px' : '170px',
       }}
       className={`${style.contextMenu} ${
         menuState === 'closed' ? style.hidden : ''
@@ -116,7 +116,7 @@ const ContextMenu = () => {
             )
           if (menuState === 'newDir')
             return (
-              <form onSubmit={onCreateNewFolder}>
+              <form id={style.newDir} onSubmit={onCreateNewFolder}>
                 <input
                   type="text"
                   placeholder="folder name"
@@ -127,7 +127,7 @@ const ContextMenu = () => {
             )
           if (menuState === 'upload')
             return (
-              <form>
+              <form id={style.upload}>
                 <label htmlFor={style.uploadInput}>{uploadName}</label>
                 <input
                   type="file"
