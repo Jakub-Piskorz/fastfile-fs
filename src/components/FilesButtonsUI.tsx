@@ -40,7 +40,10 @@ const FilesButtonsUI = () => {
   }
 
   const onDelete = async () => {
-    await API.delete(selectedItems[0])
+    for (const item of selectedItems) {
+      await API.delete(item)
+    }
+
     const files = await API.listFiles().then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
@@ -48,7 +51,9 @@ const FilesButtonsUI = () => {
     setSelectedItems([])
   }
   const onDownload = async () => {
-    await API.download(selectedItems[0])
+    for (const item of selectedItems) {
+      await API.download(item)
+    }
     setSelectedItems([])
   }
 
