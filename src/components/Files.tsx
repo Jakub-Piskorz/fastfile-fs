@@ -1,9 +1,10 @@
-import React, { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
+import { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from './File'
 import FilesButtonsUI from './FilesButtonsUI'
-import folderBlack from '@/images/folder-black.svg'
+import folderBlackIcon from '@/images/folder-black.svg'
+import searchIcon from '@/images/search-black.svg'
 import style from './App.module.scss'
 import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
 import CookieScripts from '../scripts/cookie-scripts'
@@ -131,9 +132,11 @@ const Files = () => {
       >
         <div className={style['ui-container']}>
           <h1>
-            <img className={style['folder-black']} src={folderBlack} />
+            <img
+              className={style.folderBlack}
+              src={searchedFiles ? searchIcon : folderBlackIcon}
+            />
             <div>{username}</div>
-            {searchedFiles && <div>search:</div>}
           </h1>
           <FilesButtonsUI />
         </div>

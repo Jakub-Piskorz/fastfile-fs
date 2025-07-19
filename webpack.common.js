@@ -1,8 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { mainModule } = require('process')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
@@ -16,7 +14,19 @@ module.exports = {
     path: path.resolve('dist'),
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
+    extensions: [
+      '*',
+      '.js',
+      '.jsx',
+      '.ts',
+      '.tsx',
+      '.css',
+      '.scss',
+      '.svg',
+      '.jpg',
+      '.bmp',
+      '.png',
+    ],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
