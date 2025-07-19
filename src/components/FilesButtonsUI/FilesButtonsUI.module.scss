@@ -1,0 +1,42 @@
+@use '../App.module.scss' as app;
+
+.ui {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  button {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    background-color: var(--bg);
+    border-radius: 999em;
+    border: 0px;
+    padding: 0.4em;
+    height: 100%;
+    margin: 0.3em;
+    height: 3em;
+    width: 3em;
+    transition: 0.2s;
+    font-size: 1em;
+    img {
+      height: 25px;
+      filter: var(--invertOnDark);
+    }
+    @media screen and (max-width: app.$mobile) {
+      font-size: 0.8em;
+      margin: 0 7px;
+      img {
+        /* height: 20px; */
+      }
+    }
+    &.hidden {
+      display: none;
+    }
+    &:hover {
+      background-color: var(--bgSecondary);
+    }
+  }
+}

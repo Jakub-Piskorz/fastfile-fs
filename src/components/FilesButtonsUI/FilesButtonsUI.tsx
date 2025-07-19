@@ -1,5 +1,5 @@
-import style from './App.module.scss'
-import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
+import style from './FilesButtonsUI.module.scss'
+import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
 import deleteIcon from '@/images/trash.svg'

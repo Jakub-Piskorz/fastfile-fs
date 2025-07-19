@@ -1,6 +1,6 @@
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import Files from '@/components/Files'
+import Files from '@/components/Files/Files'
 import HtmlHead from '../scripts/HtmlHead'
 import style from '@/components/App.module.scss'
 import { ReactElement, useEffect } from 'react'

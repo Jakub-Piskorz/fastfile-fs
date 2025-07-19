@@ -1,0 +1,106 @@
+@use '../App.module.scss' as app;
+
+.sidebar-mask {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  transition: 0.2s;
+  @media screen and (max-width: app.$mobile) {
+    pointer-events: initial;
+    height: calc(100vh - 110px);
+  }
+  &.hidden {
+    background-color: rgba(0, 0, 0, 0);
+    pointer-events: none;
+  }
+}
+.files-window {
+  height: calc(100vh - 55px);
+  background-color: var(--bg);
+  transition: background-color 0.2s;
+  padding: 52px 45px 45px 30px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  color: black;
+  @media screen and (max-width: app.$mobile) {
+    padding: 45px 30px;
+  }
+  .ui-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    h1 {
+      color: var(--text);
+      display: flex;
+      line-height: 1;
+      flex-direction: row;
+      gap: 15px;
+      .folder-black {
+        width: 32px;
+        height: 25px;
+        transform: translateY(10%);
+        margin-right: 13px;
+        margin-left: 30px;
+        filter: var(--invertOnDark);
+        @media screen and (max-width: app.$mobile) {
+          margin-left: 0;
+          margin-right: 20px;
+          width: 26px;
+        }
+      }
+    }
+  }
+
+  .files {
+    /* On desktop, files are flexboxes with size chosen by user.
+         On mobile, files are grid items with strict number of columns. */
+    display: inline-flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    width: 100%;
+    /* TODO: zrobić porządnego grida */
+    min-height: 80%;
+
+    /* default size: 3 */
+    --fileHeight: 165px;
+    --fileWidth: 180px;
+    @media screen and (max-width: app.$mobile) {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      grid-gap: 15px;
+      place-items: start stretch;
+    }
+    @media screen and (max-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 320px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  .files[size='5'] {
+    --fileHeight: 205px;
+    --fileWidth: 220px;
+  }
+  .files[size='4'] {
+    --fileHeight: 185px;
+    --fileWidth: 200px;
+  }
+  .files[size='3'] {
+    --fileHeight: 165px;
+    --fileWidth: 180px;
+  }
+  .files[size='2'] {
+    --fileHeight: 145px;
+    --fileWidth: 160px;
+  }
+  .files[size='1'] {
+    --fileHeight: 125px;
+    --fileWidth: 140px;
+  }
+}

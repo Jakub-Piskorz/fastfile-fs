@@ -1,13 +1,13 @@
 import { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
 import toggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
-import File from './File'
-import FilesButtonsUI from './FilesButtonsUI'
+import File from '../File/File'
+import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
-import style from './App.module.scss'
-import contextMenuStyle from './ContextMenu/ContextMenu.module.css'
-import CookieScripts from '../scripts/cookie-scripts'
+import style from './Files.module.scss'
+import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
+import CookieScripts from '../../scripts/cookie-scripts'
 import { useStore } from '@/hooks/store'
 
 const Files = () => {
@@ -130,7 +130,7 @@ const Files = () => {
         onDragOver={stop}
         onMouseUp={() => setMenuState('closed')}
       >
-        <div className={style['ui-container']}>
+        <div className={style.uiContainer}>
           <h1>
             <img
               className={style.folderBlack}
