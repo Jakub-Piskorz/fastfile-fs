@@ -1,0 +1,90 @@
+@use '../../pages/App.module.scss' as app;
+
+.sidebar {
+  display: flex;
+  height: calc(100vh - 90px);
+  background-color: var(--bgSidebar);
+  width: 250px;
+  padding-right: 25px;
+  left: 0;
+  z-index: 3;
+  transition: 0.2s;
+  @media screen and (max-width: app.$mobile) {
+    position: absolute;
+    height: calc(100vh - 120px);
+    transition: 0.3s ease-in-out;
+    left: -260px;
+    padding-right: 20px;
+    &.show {
+      left: 0;
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    }
+  }
+  .menu {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    li {
+      all: unset;
+      display: inline-flex;
+      position: relative;
+      box-sizing: border-box;
+      height: 43px;
+      border-radius: 0 90px 90px 0;
+      align-items: center;
+      line-height: 0;
+      width: 100%;
+      padding: 0 20px 0 54px;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 500;
+      font-style: normal;
+      transition: 0.1s;
+      img {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: filter 0.2s;
+        filter: var(--invertOnLight);
+        left: 20px;
+      }
+      .lock:after {
+        position: absolute;
+        content: '';
+        width: 16px;
+        height: 16px;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-40%);
+        background-image: url('/src/images/key.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      &.red {
+        background-color: app.$red;
+        height: 60px;
+        margin-bottom: 15px;
+        margin-top: 40px;
+        font-weight: 400;
+        color: white;
+        &:hover {
+          background-color: #ff6456;
+        }
+        img {
+          width: 17px;
+          height: 17px;
+          left: 22px;
+          filter: none;
+        }
+      }
+      &:hover {
+        background-color: var(--bgSecondary);
+      }
+    }
+  }
+}

@@ -1,15 +1,15 @@
-import Header from '@/components/Header'
-import Sidebar from '@/components/Sidebar'
+import Header from '@/components/Header/Header'
+import Sidebar from '@/components/Sidebar/Sidebar'
 import Files from '@/components/Files/Files'
-import HtmlHead from '../scripts/HtmlHead'
-import style from '@/components/App.module.scss'
+import HtmlHead from '@/scripts/HtmlHead'
+import style from './App.module.scss'
 import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
-import API from '../scripts/API'
-import CookieWarning from './cookie-popup/CookiePopup'
+import API from '@/scripts/API'
+import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { useStore } from '@/hooks/store'
-import { basename } from '..'
+import { basename } from '../..'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()

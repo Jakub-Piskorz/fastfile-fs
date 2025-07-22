@@ -1,0 +1,52 @@
+@use '../../pages/App.module.scss' as app;
+
+.switch {
+  display: flex;
+  align-items: center;
+  #switchBtn {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  #sun,
+  #moon {
+    width: 20px;
+    height: 20px;
+    margin: 0 6px;
+    filter: var(--invertLite);
+  }
+  #label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 45px;
+    height: 25px;
+    background: grey;
+    display: block;
+    border-radius: 30px;
+    position: relative;
+  }
+  #label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 21px;
+    height: 21px;
+    background: #fff;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
+
+  #switchBtn:checked + label {
+    background: app.$light-red;
+  }
+
+  #switchBtn:checked + label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+  }
+
+  #label:active:after {
+    width: 25px;
+  }
+}

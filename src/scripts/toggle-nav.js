@@ -1,4 +1,4 @@
-import style from '@/components/App.module.scss'
+import style from '@/pages/App.module.scss'
 
 const toggleNav = (...items) => {
   document.querySelector('.' + style.sidebar).classList.toggle(style.show)

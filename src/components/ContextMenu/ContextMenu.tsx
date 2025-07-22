@@ -1,7 +1,7 @@
 import API from '@/scripts/API'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
-import DarkModeSwitch from '../DarkModeSwitch'
+import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import { StoreI, useStore } from '@/hooks/store'
 import { basename } from '../..'
 import { useEffect, useRef, useState } from 'react'
