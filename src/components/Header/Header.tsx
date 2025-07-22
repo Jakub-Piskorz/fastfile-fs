@@ -13,11 +13,6 @@ const Header = () => {
   const { darkMode, menuState, setMenuState, setSearchedFiles, files } =
     useStore()
 
-  const filesCache = useMemo(() => {
-    console.log(files)
-    return files
-  }, [])
-
   const onDebouncedSearch = useMemo(
     () =>
       (() => {

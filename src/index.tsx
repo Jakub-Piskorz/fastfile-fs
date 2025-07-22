@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from '@/pages/App'
-import LandingPage from '@/components/LandingPage/LandingPage'
-import Register from '@/components/LandingPage/Register'
+import LandingPage from '@/pages/LandingPage/LandingPage'
+import Register from '@/pages/LandingPage/Register'
 import CookieScripts from '@/scripts/cookie-scripts'
 import {
   BrowserRouter as Router,
