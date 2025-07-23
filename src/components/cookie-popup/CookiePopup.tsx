@@ -21,7 +21,7 @@ export default function CookiePopup() {
     )
     if (!consentBanner) return
     consentBanner.style.display = 'none'
-    CookieScripts.add('consent', value === true ? 'aye' : 'nay', 100)
+    CookieScripts.add('consent', value === true ? 'aye' : 'nay', 14)
   }
 
   return (

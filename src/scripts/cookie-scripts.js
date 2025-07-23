@@ -8,16 +8,20 @@ const CookieScripts = {
       return cookies
     })
   },
-  add: function (name = '', value = '', expireDays = 0) {
+  add: function (cookieName = '', value = '', expireDays = 0) {
     let expires = ''
-    if (expireDays) {
-      const _expires = new Date()
-      _expires.setDate(_expires.getTime() + expireDays * 24 * 60 * 60 * 1000)
-      expires = `expires=${_expires.toUTCString()};`
+    if (expireDays > 0) {
+      const _expires = new Date(Date.now() + expireDays * 24 * 60 * 60 * 1000)
+      expires = `expires=${_expires.toGMTString()};`
     }
-    name
-      ? (document.cookie = `${name}=${value};${expires ? expires : ''}`)
-      : console.error(`Cookie.add error: no name or value.`)
+    if (cookieName && value) {
+      const newCookie = `${cookieName}=${value};${expires}path=/`
+      console.log(newCookie)
+      document.cookie = newCookie
+      console.log(document.cookie)
+    } else {
+      console.error(`Cookie.add error: no name or value.`)
+    }
   },
   value: function (name = '') {
     try {
