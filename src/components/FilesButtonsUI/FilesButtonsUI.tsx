@@ -7,7 +7,7 @@ import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent } from 'react'
 import API from '@/scripts/API'
-import { useStore } from '@/hooks/store'
+import { MenuState, useStore } from '@/hooks/store'
 
 const FilesButtonsUI = () => {
   const { selectedItems, setSelectedItems, menuState, setMenuState, setFiles } =
@@ -20,7 +20,7 @@ const FilesButtonsUI = () => {
       `.${contextMenuStyle.contextMenu}`
     )
     if (menuState === 'upload') {
-      setMenuState('closed')
+      setMenuState(MenuState.closed)
       contextMenu?.classList.add(style.hidden)
       return
     }
@@ -35,7 +35,7 @@ const FilesButtonsUI = () => {
       contextMenu.style.top = `115px`
       contextMenu.style.left = ``
       contextMenu.style.right = `42px`
-      setMenuState('upload')
+      setMenuState(MenuState.upload)
     }
   }
 

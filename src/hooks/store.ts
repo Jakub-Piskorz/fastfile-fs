@@ -1,5 +1,15 @@
 import { create } from 'zustand'
 
+export enum MenuState {
+  closed = 'closed',
+  file = 'file',
+  directory = 'directory',
+  profile = 'profile',
+  upload = 'upload',
+  background = 'background',
+  newDir = 'newDir',
+}
+
 export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
@@ -7,15 +17,7 @@ export interface StoreI {
   setSelectedItems: (newSelectedItems: string[]) => void
   clickedItem?: string
   setClickedItem: (newClickedItem: string) => void
-  menuState:
-    | 'closed'
-    | 'file'
-    | 'directory'
-    | 'profile'
-    | 'upload'
-    | 'background'
-    | 'newDir'
-    | 'directory'
+  menuState: MenuState
   setMenuState: (newMenuState: this['menuState']) => void
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void
@@ -38,7 +40,7 @@ export const useStore = create<StoreI>()((set) => ({
   setSelectedItems: (selectedItems) => set(() => ({ selectedItems })),
   clickedItem: undefined,
   setClickedItem: (clickedItem) => set(() => ({ clickedItem })),
-  menuState: 'closed',
+  menuState: MenuState.closed,
   setMenuState: (menuState) => set(() => ({ menuState })),
   darkMode: false,
   setDarkMode: (darkMode) => set(() => ({ darkMode })),

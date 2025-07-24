@@ -2,7 +2,7 @@ import API from '@/scripts/API'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
-import { StoreI, useStore } from '@/hooks/store'
+import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '../..'
 import { useEffect, useRef, useState } from 'react'
 
@@ -18,12 +18,12 @@ const ContextMenu = () => {
   const stop = (e: React.MouseEvent) => e.preventDefault()
 
   const onDownload = (e: React.MouseEvent) => {
-    setMenuState('closed')
+    setMenuState(MenuState.closed)
     API.download(clickedItem)
   }
 
   const onDelete = async (e: React.MouseEvent) => {
-    setMenuState('closed')
+    setMenuState(MenuState.closed)
     await API.delete(clickedItem)
     const files = await API.listFiles().then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
@@ -53,19 +53,19 @@ const ContextMenu = () => {
     } catch (e) {
       console.error(e)
     }
-    setMenuState('closed')
+    setMenuState(MenuState.closed)
   }
 
   const onNewDirBtn = (e: React.MouseEvent) => {
     e.preventDefault()
-    setMenuState('newDir')
+    setMenuState(MenuState.newDir)
   }
 
   const onCreateNewFolder = async (e: React.FormEvent) => {
     e.preventDefault()
     const dirName = createDirInputRef.current?.value
     if (!dirName) {
-      setMenuState('closed')
+      setMenuState(MenuState.closed)
       return
     }
     const success = await API.createDir(dirName).then((res) => res.ok && true)
@@ -74,7 +74,7 @@ const ContextMenu = () => {
         .then((res) => res.ok && res.json())
         .then((files) => {
           setFiles(files)
-          setMenuState('closed')
+          setMenuState(MenuState.closed)
         })
     }
   }
@@ -110,7 +110,7 @@ const ContextMenu = () => {
                 <li>
                   <DarkModeSwitch />
                 </li>
-                <li onClick={() => setMenuState('closed')}>Profile settings</li>
+                <li onClick={() => MenuState.closed}>Profile settings</li>
                 <li onClick={logout}>Log Out</li>
               </>
             )

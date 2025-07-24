@@ -5,7 +5,7 @@ import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
 import style from './Header.module.scss'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
-import { useStore } from '@/hooks/store'
+import { MenuState, useStore } from '@/hooks/store'
 import { useMemo } from 'react'
 import API from '@/scripts/API'
 
@@ -43,10 +43,10 @@ const Header = () => {
     e.preventDefault()
     e.stopPropagation()
     if (menuState === 'profile') {
-      setMenuState('closed')
+      setMenuState(MenuState.closed)
       return
     }
-    setMenuState('profile')
+    setMenuState(MenuState.profile)
     const x = e.nativeEvent.clientX
     const y = e.nativeEvent.clientY
     const contextMenu: HTMLElement | null = document.querySelector(
@@ -62,7 +62,10 @@ const Header = () => {
   }
 
   return (
-    <header className={style.header} onClick={() => setMenuState('closed')}>
+    <header
+      className={style.header}
+      onClick={() => setMenuState(MenuState.closed)}
+    >
       <div id={style.left}>
         <div className={style.hamwrapper}>
           <div className={style.hamburger}></div>

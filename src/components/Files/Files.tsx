@@ -8,7 +8,7 @@ import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import CookieScripts from '../../scripts/cookie-scripts'
-import { useStore } from '@/hooks/store'
+import { MenuState, useStore } from '@/hooks/store'
 
 const Files = () => {
   const {
@@ -106,15 +106,15 @@ const Files = () => {
       contextMenu.style.right = ``
       if (type === 'file') {
         setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState('file')
+        setMenuState(MenuState.file)
       } else if (type === 'background') {
-        setMenuState('background')
+        setMenuState(MenuState.background)
       } else if (type === 'directory') {
         setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState('directory')
+        setMenuState(MenuState.directory)
       }
     } else {
-      if (menuState !== 'closed') setMenuState('closed')
+      if (menuState !== MenuState.closed) setMenuState(MenuState.closed)
     }
   }
 
@@ -128,7 +128,7 @@ const Files = () => {
         className={style['files-window']}
         onDrop={upload}
         onDragOver={stop}
-        onMouseUp={() => setMenuState('closed')}
+        onMouseUp={() => setMenuState(MenuState.closed)}
       >
         <div className={style.uiContainer}>
           <h1>
