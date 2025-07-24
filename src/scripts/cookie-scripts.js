@@ -16,9 +16,7 @@ const CookieScripts = {
     }
     if (cookieName && value) {
       const newCookie = `${cookieName}=${value};${expires}path=/`
-      console.log(newCookie)
       document.cookie = newCookie
-      console.log(document.cookie)
     } else {
       console.error(`Cookie.add error: no name or value.`)
     }

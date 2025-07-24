@@ -8,7 +8,7 @@ import CookieScripts from '@/scripts/cookie-scripts'
 import API from '../scripts/API'
 import CookieWarning from '../components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
-import { useStore } from '@/hooks/store'
+import { MenuState, useStore } from '@/hooks/store'
 import { basename } from '..'
 
 const App = (): ReactElement => {
@@ -51,7 +51,7 @@ const App = (): ReactElement => {
       <main
         className={style.fs}
         onContextMenu={stop}
-        onClick={() => setMenuState('closed')}
+        onClick={() => setMenuState(MenuState.closed)}
       >
         <Sidebar />
         <Files />
