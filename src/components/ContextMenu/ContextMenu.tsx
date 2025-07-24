@@ -83,28 +83,30 @@ const ContextMenu = () => {
     <div
       onContextMenu={stop}
       style={{
-        width: ['upload', 'newDir'].includes(menuState) ? '300px' : '170px',
+        width: [MenuState.upload, MenuState.newDir].includes(menuState)
+          ? '300px'
+          : '170px',
       }}
       className={`${style.contextMenu} ${
-        menuState === 'closed' ? style.hidden : ''
+        menuState === MenuState.closed ? style.hidden : ''
       }`}
     >
       <ul>
         {(() => {
-          if (menuState === 'file')
+          if (menuState === MenuState.file)
             return (
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete</li>
               </>
             )
-          if (menuState === 'directory')
+          if (menuState === MenuState.directory)
             return (
               <>
                 <li onMouseUp={onDelete}>Delete</li>
               </>
             )
-          if (menuState === 'profile')
+          if (menuState === MenuState.profile)
             return (
               <>
                 <li>
@@ -114,13 +116,13 @@ const ContextMenu = () => {
                 <li onClick={logout}>Log Out</li>
               </>
             )
-          if (menuState === 'background')
+          if (menuState === MenuState.background)
             return (
               <>
                 <li onClick={onNewDirBtn}>Create new folder</li>
               </>
             )
-          if (menuState === 'newDir')
+          if (menuState === MenuState.newDir)
             return (
               <form id={style.newDir} onSubmit={onCreateNewFolder}>
                 <input
@@ -132,7 +134,7 @@ const ContextMenu = () => {
                 <button type="submit">Create new folder</button>
               </form>
             )
-          if (menuState === 'upload')
+          if (menuState === MenuState.upload)
             return (
               <form id={style.upload}>
                 <label htmlFor={style.uploadInput}>{uploadName}</label>

@@ -19,7 +19,7 @@ const FilesButtonsUI = () => {
     const contextMenu: HTMLElement | null = document.querySelector(
       `.${contextMenuStyle.contextMenu}`
     )
-    if (menuState === 'upload') {
+    if (menuState === MenuState.upload) {
       setMenuState(MenuState.closed)
       contextMenu?.classList.add(style.hidden)
       return
@@ -30,7 +30,7 @@ const FilesButtonsUI = () => {
       console.error(`DOM call for context menu returned null.`)
       return
     }
-    if (menuState === 'closed') {
+    if (menuState === MenuState.closed) {
       contextMenu?.classList.remove(style.hidden)
       contextMenu.style.top = `115px`
       contextMenu.style.left = ``

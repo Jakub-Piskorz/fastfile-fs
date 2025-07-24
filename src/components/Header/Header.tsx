@@ -42,7 +42,7 @@ const Header = () => {
   const clickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (menuState === 'profile') {
+    if (menuState === MenuState.profile) {
       setMenuState(MenuState.closed)
       return
     }

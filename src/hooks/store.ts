@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
 export enum MenuState {
-  closed = 'closed',
-  file = 'file',
-  directory = 'directory',
-  profile = 'profile',
-  upload = 'upload',
-  background = 'background',
-  newDir = 'newDir',
+  closed,
+  file,
+  directory,
+  profile,
+  upload,
+  background,
+  newDir,
 }
 
 export interface StoreI {
