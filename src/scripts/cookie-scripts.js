@@ -8,13 +8,13 @@ const CookieScripts = {
       return cookies
     })
   },
-  add: function (cookieName = '', value = '', expireDays = 0) {
+  add: function (cookieName, value = '', expireDays = 0) {
     let expires = ''
     if (expireDays > 0) {
       const _expires = new Date(Date.now() + expireDays * 24 * 60 * 60 * 1000)
       expires = `expires=${_expires.toGMTString()};`
     }
-    if (cookieName && value) {
+    if (cookieName) {
       const newCookie = `${cookieName}=${value};${expires}path=/`
       document.cookie = newCookie
     } else {
