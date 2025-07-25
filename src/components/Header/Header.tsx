@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import toggleNav from '@/scripts/toggle-nav.js'
+import useToggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
@@ -12,6 +12,7 @@ import API from '@/scripts/API'
 const Header = () => {
   const { darkMode, menuState, setMenuState, setSearchedFiles, files } =
     useStore()
+  const toggleNav = useToggleNav()
 
   const onDebouncedSearch = useMemo(
     () =>

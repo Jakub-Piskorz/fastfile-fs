@@ -1,4 +1,4 @@
-@use '../../pages/App.module.scss' as app;
+@use '../../pages/App/App.module.scss' as app;
 
 .sidebar-mask {
   display: block;
@@ -8,6 +8,7 @@
   overflow: hidden;
   pointer-events: none;
   transition: 0.2s;
+  background-color: rgba(0, 0, 0, 0.2);
   @media screen and (max-width: app.$mobile) {
     pointer-events: initial;
     height: calc(100vh - 110px);

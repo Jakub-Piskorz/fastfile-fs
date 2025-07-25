@@ -5,11 +5,13 @@ import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
 import style from './Sidebar.module.scss'
 import { useStore } from '@/hooks/store'
+import { useEffect } from 'react'
 
 const Sidebar = () => {
-  const { username } = useStore()
+  const { username, sidebarRef } = useStore()
+
   return (
-    <main className={style.sidebar}>
+    <main className={style.sidebar} ref={sidebarRef}>
       <ul className={style.menu}>
         <li className={style.red}>
           <img src={folder} />

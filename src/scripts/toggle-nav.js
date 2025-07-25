@@ -1,11 +1,22 @@
-import style from '@/pages/App.module.scss'
+import sidebarStyle from '@/components/Sidebar/Sidebar.module.scss'
+import filesStyle from '@/components/Files/Files.module.scss'
+import headerStyle from '@/components/Header/Header.module.scss'
+import { useStore } from '@/hooks/store'
 
-const toggleNav = (...items) => {
-  document.querySelector('.' + style.sidebar).classList.toggle(style.show)
-  document
-    .querySelector('.' + style['sidebar-mask'])
-    .classList.toggle(style.hidden)
-  document.querySelector('.' + style['nav-button']).classList.toggle(style.open)
+const useToggleNav = () => {
+  const { sidebarRef } = useStore()
+
+  return () => {
+    const sidebarEl = sidebarRef.current
+
+    sidebarEl.classList.toggle(sidebarStyle.show)
+    document
+      .querySelector('.' + filesStyle['sidebar-mask'])
+      .classList.toggle(filesStyle.hidden)
+    document
+      .querySelector('.' + headerStyle['nav-button'])
+      .classList.toggle(headerStyle.open)
+  }
 }
 
-export default toggleNav
+export default useToggleNav

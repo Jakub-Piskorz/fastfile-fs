@@ -1,5 +1,5 @@
 import { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
-import toggleNav from '@/scripts/toggle-nav.js'
+import useToggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from '../File/File'
 import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
@@ -25,6 +25,8 @@ const Files = () => {
     () => searchedFiles || files,
     [files.length, searchedFiles?.length]
   )
+
+  const toggleNav = useToggleNav()
 
   const refresh = async () => {
     try {
