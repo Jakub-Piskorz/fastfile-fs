@@ -159,7 +159,7 @@ const Files = () => {
                   />
                 )
               })
-            : 'Loading files...'}
+            : 'Loading files, please wait...'}
         </div>
       </div>
     </>
