@@ -6,8 +6,6 @@ import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
-import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
-import CookieScripts from '../../scripts/cookie-scripts'
 import { MenuState, useStore } from '@/hooks/store'
 
 const Files = () => {
@@ -19,6 +17,8 @@ const Files = () => {
     files,
     setFiles,
     searchedFiles,
+    contextMenuRef,
+    iconSize,
   } = useStore()
 
   const currentFiles = useMemo(
@@ -37,34 +37,6 @@ const Files = () => {
       return
     } catch (e) {
       console.error(e)
-    }
-  }
-  // TODO: Move somewhere else and implement
-  const setFileSize = async (
-    inputSize: 1 | 2 | 3 | 4 | 5 | 6 | null = null
-  ) => {
-    const filesElement: HTMLElement | null = document.querySelector(
-      `.${style.files}`
-    )
-    if (filesElement === null) return
-    if (inputSize) {
-      filesElement.setAttribute('file-size', inputSize.toString())
-      CookieScripts.add('file-size', inputSize.toString())
-      return
-    }
-    const SizeFromCookie: string | null = CookieScripts.value('file-size')
-    if (SizeFromCookie === null) {
-      filesElement.setAttribute('file-size', '3')
-      return
-    } else if (/[1-6]/.test(SizeFromCookie)) {
-      filesElement.setAttribute('file-size', SizeFromCookie)
-      return
-    } else {
-      console.error(
-        `Something went wrong.\n
-        filesElement: ${filesElement}, SizeFromCookie: ${SizeFromCookie}, inputSize: ${inputSize}`
-      )
-      return
     }
   }
 
@@ -92,10 +64,9 @@ const Files = () => {
   ) => {
     e.preventDefault()
     e.stopPropagation()
-    const contextMenu: HTMLElement | null = document.querySelector(
-      `.${contextMenuStyle.contextMenu}`
-    )
-    if (contextMenu === null) {
+
+    const contextMenu: HTMLElement | null = contextMenuRef?.current || null
+    if (!contextMenu) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
       return
     }
@@ -146,6 +117,7 @@ const Files = () => {
           className={style.files}
           onContextMenu={stop}
           onMouseUp={(e) => clickHandler(e, 'background')}
+          icon-size={String(iconSize)}
         >
           {currentFiles
             ? currentFiles.map((file: any, i: number) => {
@@ -154,8 +126,7 @@ const Files = () => {
                     name={file.name}
                     type={file.type}
                     key={i}
-                    onContextMenu={stop}
-                    mouseUp={(e) => clickHandler(e, file.type)}
+                    onMouseUp={(e) => clickHandler(e, file.type)}
                   />
                 )
               })

@@ -5,13 +5,26 @@ import uploadIcon from '@/images/upload.svg'
 import deleteIcon from '@/images/trash.svg'
 import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
-import { MouseEvent } from 'react'
+import { MouseEvent, useEffect } from 'react'
 import API from '@/scripts/API'
 import { MenuState, useStore } from '@/hooks/store'
+import CookieScripts from '@/scripts/cookie-scripts'
 
 const FilesButtonsUI = () => {
-  const { selectedItems, setSelectedItems, menuState, setMenuState, setFiles } =
-    useStore()
+  const {
+    selectedItems,
+    setSelectedItems,
+    menuState,
+    setMenuState,
+    setFiles,
+    iconSize,
+    setIconSize,
+  } = useStore()
+
+  useEffect(() => {
+    localStorage.setItem('icon-size', String(iconSize))
+    console.log(iconSize)
+  }, [iconSize])
 
   const onUpload = (e: MouseEvent) => {
     e.preventDefault()
@@ -58,7 +71,7 @@ const FilesButtonsUI = () => {
   }
 
   return (
-    <div className={style['ui']}>
+    <div className={style.ui}>
       <button
         className={`${selectedItems.length === 0 ? style.hidden : ''}`}
         onClick={onDelete}
@@ -71,13 +84,21 @@ const FilesButtonsUI = () => {
       >
         <img src={downloadIcon} />
       </button>
-      <button>
-        <img src={uploadIcon} onClick={onUpload} />
+      <button onClick={onUpload}>
+        <img src={uploadIcon} />
       </button>
-      <button>
+      <button
+        onClick={() => {
+          setIconSize(Math.min(5, iconSize + 1) as typeof iconSize)
+        }}
+      >
         <img src={plusIcon} />
       </button>
-      <button>
+      <button
+        onClick={() => {
+          setIconSize(Math.max(1, iconSize - 1) as typeof iconSize)
+        }}
+      >
         <img src={minusIcon} />
       </button>
     </div>

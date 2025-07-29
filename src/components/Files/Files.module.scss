@@ -74,6 +74,7 @@
     /* default size: 3 */
     --fileHeight: 165px;
     --fileWidth: 180px;
+
     @media screen and (max-width: app.$mobile) {
       display: inline-grid;
       grid-template-columns: repeat(3, 1fr);
@@ -88,23 +89,23 @@
       grid-template-columns: repeat(1, 1fr);
     }
   }
-  .files[size='5'] {
+  .files[icon-size='5'] {
     --fileHeight: 205px;
     --fileWidth: 220px;
   }
-  .files[size='4'] {
+  .files[icon-size='4'] {
     --fileHeight: 185px;
     --fileWidth: 200px;
   }
-  .files[size='3'] {
+  .files[icon-size='3'] {
     --fileHeight: 165px;
     --fileWidth: 180px;
   }
-  .files[size='2'] {
+  .files[icon-size='2'] {
     --fileHeight: 145px;
     --fileWidth: 160px;
   }
-  .files[size='1'] {
+  .files[icon-size='1'] {
     --fileHeight: 125px;
     --fileWidth: 140px;
   }

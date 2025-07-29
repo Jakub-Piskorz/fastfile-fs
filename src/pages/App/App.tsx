@@ -48,11 +48,7 @@ const App = (): ReactElement => {
       />
       <CookieWarning />
       <Header />
-      <main
-        className={style.fs}
-        onContextMenu={stop}
-        onClick={() => setMenuState(MenuState.closed)}
-      >
+      <main className={style.fs} onClick={() => setMenuState(MenuState.closed)}>
         <Sidebar />
         <Files />
       </main>

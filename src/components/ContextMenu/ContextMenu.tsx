@@ -7,7 +7,8 @@ import { basename } from '../..'
 import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {
-  const { clickedItem, menuState, setMenuState, setFiles } = useStore()
+  const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
+    useStore()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
@@ -81,6 +82,7 @@ const ContextMenu = () => {
 
   return (
     <div
+      ref={contextMenuRef}
       onContextMenu={stop}
       style={{
         width: [MenuState.upload, MenuState.newDir].includes(menuState)

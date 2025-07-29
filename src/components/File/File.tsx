@@ -5,23 +5,19 @@ import fileIcon from '@/images/file.svg'
 import psdIcon from '@/images/psd.svg'
 import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.scss'
-import React, { MouseEvent, useMemo } from 'react'
+import React, { MouseEvent, useEffect, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
 
 interface FileProps {
   name: string
   type: 'file' | 'directory'
-  onContextMenu: (...args: any) => any
-  mouseUp: (...args: any) => any
+  onMouseUp: (...args: any) => any
 }
 
 const File = ({
   name = '',
   type,
-  onContextMenu = (...args: any) => {
-    console.error('error: onContextMenu function not found')
-  },
-  mouseUp = (...args: any) => {
+  onMouseUp: mouseUp = (...args: any) => {
     console.error('error: mouseUp function not found')
   },
 }: FileProps) => {
@@ -81,7 +77,7 @@ const File = ({
       className={
         style.file + (selectedItems.includes(name) ? ` ${style.selected}` : '')
       }
-      onContextMenu={onContextMenu}
+      onContextMenu={stop}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {
         mouseUp(e, name)

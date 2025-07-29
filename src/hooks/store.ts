@@ -1,3 +1,4 @@
+import CookieScripts from '@/scripts/cookie-scripts'
 import { createRef, useRef } from 'react'
 import { create } from 'zustand'
 
@@ -14,14 +15,19 @@ export enum MenuState {
 export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
+
   selectedItems: string[]
   setSelectedItems: (newSelectedItems: string[]) => void
+
   clickedItem?: string
   setClickedItem: (newClickedItem: string) => void
+
   menuState: MenuState
   setMenuState: (newMenuState: this['menuState']) => void
+
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void
+
   files: {
     lastModified: number
     name: string
@@ -30,8 +36,12 @@ export interface StoreI {
     type: string
   }[]
   setFiles: (files: this['files']) => void
+
   searchedFiles: this['files'] | null
   setSearchedFiles: (searchedFiles: this['files'] | null) => void
+
+  iconSize: 1 | 2 | 3 | 4 | 5
+  setIconSize: (iconSize: this['iconSize']) => void
 
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
@@ -59,6 +69,10 @@ export const useStore = create<StoreI>()((set) => ({
 
   searchedFiles: null,
   setSearchedFiles: (searchedFiles) => set(() => ({ searchedFiles })),
+
+  iconSize:
+    (Number(localStorage.getItem('icon-size')) as StoreI['iconSize']) || 3,
+  setIconSize: (iconSize) => set(() => ({ iconSize })),
 
   // Refs:
   sidebarRef: createRef(),
