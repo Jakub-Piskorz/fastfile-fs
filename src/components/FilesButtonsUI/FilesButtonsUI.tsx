@@ -88,6 +88,7 @@ const FilesButtonsUI = () => {
         <img src={uploadIcon} />
       </button>
       <button
+        className="mobile-hidden"
         onClick={() => {
           setIconSize(Math.min(5, iconSize + 1) as typeof iconSize)
         }}
@@ -95,6 +96,7 @@ const FilesButtonsUI = () => {
         <img src={plusIcon} />
       </button>
       <button
+        className="mobile-hidden"
         onClick={() => {
           setIconSize(Math.max(1, iconSize - 1) as typeof iconSize)
         }}
