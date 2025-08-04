@@ -3,7 +3,7 @@ import filesStyle from '@/components/Files/Files.module.scss'
 import headerStyle from '@/components/Header/Header.module.scss'
 import { useStore } from '@/hooks/store'
 
-const useToggleNav = () => {
+const useToggleNav = (state = null) => {
   const { sidebarRef } = useStore()
 
   return () => {

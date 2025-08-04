@@ -45,8 +45,16 @@ const Files = () => {
   }, [])
 
   const stop = (e: MouseEvent) => {
+    e.preventDefault()
+  }
+  const onDrag = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
+    console.log('Dragging')
+  }
+  const onDragStop = (e: MouseEvent) => {
+    e.preventDefault()
+    console.log('Dragging stopped')
   }
 
   const upload = (e: DragEvent) => {
@@ -101,6 +109,8 @@ const Files = () => {
         className={style['files-window']}
         onDrop={upload}
         onDragOver={stop}
+        onDragEnter={onDrag}
+        onDragLeave={onDragStop}
         onMouseUp={() => setMenuState(MenuState.closed)}
       >
         <div className={style.uiContainer}>

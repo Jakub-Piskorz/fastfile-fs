@@ -81,10 +81,10 @@ const Header = () => {
         </Link>
       </div>
       <div id={style.mid}>
-        <div className={style['nav-button']} onClick={toggleNav}>
-          <i className={style['nav-icon']}></i>
+        <div className={style.navButton} onClick={toggleNav}>
+          <i className={style.navIcon}></i>
         </div>
-        <div id={style['searchbar']}>
+        <div id={style.searchbar}>
           <input
             type="text"
             placeholder="Search something..."
