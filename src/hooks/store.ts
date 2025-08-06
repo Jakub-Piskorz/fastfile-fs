@@ -12,6 +12,12 @@ export enum MenuState {
   newDir,
 }
 
+export enum OverlayState {
+  hidden,
+  sidebar,
+  upload,
+}
+
 export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
@@ -43,6 +49,9 @@ export interface StoreI {
   iconSize: 1 | 2 | 3 | 4 | 5
   setIconSize: (iconSize: this['iconSize']) => void
 
+  overlay: OverlayState
+  setOverlay: (overlay: this['overlay']) => void
+
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
 }
@@ -73,6 +82,9 @@ export const useStore = create<StoreI>()((set) => ({
   iconSize:
     (Number(localStorage.getItem('icon-size')) as StoreI['iconSize']) || 3,
   setIconSize: (iconSize) => set(() => ({ iconSize })),
+
+  overlay: OverlayState.hidden,
+  setOverlay: (overlay) => set(() => ({ overlay })),
 
   // Refs:
   sidebarRef: createRef(),

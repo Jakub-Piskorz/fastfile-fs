@@ -6,7 +6,7 @@ import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
-import { MenuState, useStore } from '@/hooks/store'
+import { MenuState, OverlayState, useStore } from '@/hooks/store'
 
 const Files = () => {
   const {
@@ -19,7 +19,19 @@ const Files = () => {
     searchedFiles,
     contextMenuRef,
     iconSize,
+    overlay,
   } = useStore()
+
+  const sidebarCssClass = useMemo(() => {
+    switch (overlay) {
+      case OverlayState.hidden: {
+        return style.hidden
+      }
+      case OverlayState.sidebar: {
+        return ''
+      }
+    }
+  }, [overlay])
 
   const currentFiles = useMemo(
     () => searchedFiles || files,
@@ -102,7 +114,7 @@ const Files = () => {
   return (
     <>
       <span
-        className={`${style['sidebar-mask']} ${style.hidden}`}
+        className={`${style['sidebar-mask']} ${sidebarCssClass}`}
         onClick={toggleNav}
       ></span>
       <div
