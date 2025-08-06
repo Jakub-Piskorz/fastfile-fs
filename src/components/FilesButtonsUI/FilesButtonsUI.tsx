@@ -23,7 +23,6 @@ const FilesButtonsUI = () => {
 
   useEffect(() => {
     localStorage.setItem('icon-size', String(iconSize))
-    console.log(iconSize)
   }, [iconSize])
 
   const onUpload = (e: MouseEvent) => {
