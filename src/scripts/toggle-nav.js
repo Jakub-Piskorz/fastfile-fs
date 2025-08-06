@@ -1,21 +1,22 @@
 import sidebarStyle from '@/components/Sidebar/Sidebar.module.scss'
-import filesStyle from '@/components/Files/Files.module.scss'
 import headerStyle from '@/components/Header/Header.module.scss'
-import { useStore } from '@/hooks/store'
+import { OverlayState, useStore } from '@/hooks/store'
 
-const useToggleNav = (state = null) => {
-  const { sidebarRef } = useStore()
+const useToggleNav = () => {
+  const { overlay, setOverlay, sidebarRef } = useStore()
 
   return () => {
     const sidebarEl = sidebarRef.current
 
-    sidebarEl.classList.toggle(sidebarStyle.show)
-    document
-      .querySelector('.' + filesStyle['sidebar-mask'])
-      .classList.toggle(filesStyle.hidden)
+    setOverlay(
+      overlay === OverlayState.hidden
+        ? OverlayState.sidebar
+        : OverlayState.hidden
+    )
     document
       .querySelector('.' + headerStyle['nav-button'])
       .classList.toggle(headerStyle.open)
+    sidebarEl.classList.toggle(sidebarStyle.show)
   }
 }
 
