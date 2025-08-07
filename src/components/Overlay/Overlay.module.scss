@@ -1,0 +1,39 @@
+@use '../../pages/App/App.module.scss' as app;
+
+.overlay {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  transition: 0.2s;
+  background-color: rgba(0, 0, 0, 0.2);
+  @media screen and (max-width: app.$mobile) {
+    pointer-events: initial;
+    height: calc(100vh - 110px);
+  }
+  &.hidden {
+    background-color: rgba(0, 0, 0, 0);
+    pointer-events: none;
+  }
+  &.upload {
+    background-color: rgb(0, 0, 0, 0.2);
+    pointer-events: none;
+  }
+  .uploadBox {
+    max-width: 80%;
+    max-height: 80%;
+    color: black;
+    font-size: 16px;
+    border-radius: 15px;
+    pointer-events: none;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+  }
+}

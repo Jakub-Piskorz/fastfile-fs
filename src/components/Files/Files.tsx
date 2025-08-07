@@ -1,5 +1,4 @@
 import { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
-import useToggleNav from '@/scripts/toggle-nav.js'
 import API from '@/scripts/API.js'
 import File from '../File/File'
 import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
@@ -7,6 +6,7 @@ import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
+import Overlay from '../Overlay/Overlay'
 
 const Files = () => {
   const {
@@ -19,26 +19,13 @@ const Files = () => {
     searchedFiles,
     contextMenuRef,
     iconSize,
-    overlay,
+    setOverlay,
   } = useStore()
-
-  const sidebarCssClass = useMemo(() => {
-    switch (overlay) {
-      case OverlayState.hidden: {
-        return style.hidden
-      }
-      case OverlayState.sidebar: {
-        return ''
-      }
-    }
-  }, [overlay])
 
   const currentFiles = useMemo(
     () => searchedFiles || files,
     [files.length, searchedFiles?.length]
   )
-
-  const toggleNav = useToggleNav()
 
   const refresh = async () => {
     try {
@@ -62,16 +49,21 @@ const Files = () => {
   const onDrag = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
-    console.log('Dragging')
+    setOverlay(OverlayState.upload)
+    console.log(e.target)
   }
   const onDragStop = (e: MouseEvent) => {
+    e.stopPropagation()
     e.preventDefault()
-    console.log('Dragging stopped')
+    setOverlay(OverlayState.hidden)
+    console.log(e.target)
   }
 
   const upload = (e: DragEvent) => {
     e.stopPropagation()
     e.preventDefault()
+    setOverlay(OverlayState.hidden)
+    console.log(e.target)
     if (e.dataTransfer.files[0])
       API.upload('', e.dataTransfer?.files[0] as FileList[0]).then(() =>
         refresh()
@@ -113,16 +105,9 @@ const Files = () => {
 
   return (
     <>
-      <span
-        className={`${style['sidebar-mask']} ${sidebarCssClass}`}
-        onClick={toggleNav}
-      ></span>
+      <Overlay />
       <div
         className={style['files-window']}
-        onDrop={upload}
-        onDragOver={stop}
-        onDragEnter={onDrag}
-        onDragLeave={onDragStop}
         onMouseUp={() => setMenuState(MenuState.closed)}
       >
         <div className={style.uiContainer}>
@@ -138,6 +123,10 @@ const Files = () => {
         <div
           className={style.files}
           onContextMenu={stop}
+          onDragOver={stop}
+          onDrop={upload}
+          onDragEnter={onDrag}
+          onDragLeave={onDragStop}
           onMouseUp={(e) => clickHandler(e, 'background')}
           icon-size={String(iconSize)}
         >
@@ -148,6 +137,7 @@ const Files = () => {
                     name={file.name}
                     type={file.type}
                     key={i}
+                    onDragOver={(e) => e.stopPropagation()}
                     onMouseUp={(e) => clickHandler(e, file.type)}
                   />
                 )

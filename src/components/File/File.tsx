@@ -12,9 +12,11 @@ interface FileProps {
   name: string
   type: 'file' | 'directory'
   onMouseUp: (...args: any) => any
+  onDragOver: any
 }
 
 const File = ({
+  onDragOver,
   name = '',
   type,
   onMouseUp: mouseUp = (...args: any) => {
@@ -79,6 +81,9 @@ const File = ({
       }
       onContextMenu={stop}
       onClick={selectFile}
+      onDragOver={stop}
+      onDragEnter={stop}
+      onDragLeave={stop}
       onMouseUp={(e: MouseEvent) => {
         mouseUp(e, name)
       }}
