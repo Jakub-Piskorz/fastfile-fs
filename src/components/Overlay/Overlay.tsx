@@ -1,14 +1,15 @@
-import { OverlayState, useStore } from '@/hooks/store'
+import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import style from './Overlay.module.scss'
 import { useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 
 const Overlay = () => {
-  const { overlay } = useStore()
+  const { overlay, setMenuState } = useStore()
 
   const toggleNav = useToggleNav()
 
   const overlayCssClass = useMemo(() => {
+    setMenuState(MenuState.closed) // We want to close the context menu, when any overlay change is triggered
     switch (overlay) {
       case OverlayState.hidden: {
         return style.hidden
