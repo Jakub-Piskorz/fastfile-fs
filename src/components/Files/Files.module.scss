@@ -1,5 +1,11 @@
 @use '../../pages/App/App.module.scss' as app;
 
+.dragging {
+  pointer-events: none;
+  * {
+    pointer-events: none;
+  }
+}
 .files-window {
   height: calc(100vh - 55px);
   background-color: var(--bg);

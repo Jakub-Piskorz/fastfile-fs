@@ -1,4 +1,4 @@
-import { DragEvent, useEffect, MouseEvent, useMemo } from 'react'
+import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API from '@/scripts/API.js'
 import File from '../File/File'
 import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
@@ -20,6 +20,7 @@ const Files = () => {
     contextMenuRef,
     iconSize,
     setOverlay,
+    overlay,
   } = useStore()
 
   const currentFiles = useMemo(
@@ -43,27 +44,37 @@ const Files = () => {
     refresh()
   }, [])
 
+  const dragCounter = useRef(0)
+
   const stop = (e: MouseEvent) => {
     e.preventDefault()
   }
   const onDrag = (e: MouseEvent) => {
-    e.stopPropagation()
     e.preventDefault()
-    setOverlay(OverlayState.upload)
-    console.log(e.target)
+    e.stopPropagation()
+
+    dragCounter.current++
+
+    if (dragCounter.current === 1) {
+      setOverlay(OverlayState.upload)
+    }
   }
   const onDragStop = (e: MouseEvent) => {
-    e.stopPropagation()
     e.preventDefault()
-    setOverlay(OverlayState.hidden)
-    console.log(e.target)
+    e.stopPropagation()
+
+    dragCounter.current--
+    if (dragCounter.current === 0) {
+      setOverlay(OverlayState.hidden)
+    }
   }
 
   const upload = (e: DragEvent) => {
     e.stopPropagation()
     e.preventDefault()
+
+    dragCounter.current = 0
     setOverlay(OverlayState.hidden)
-    console.log(e.target)
     if (e.dataTransfer.files[0])
       API.upload('', e.dataTransfer?.files[0] as FileList[0]).then(() =>
         refresh()
@@ -109,8 +120,16 @@ const Files = () => {
       <div
         className={style['files-window']}
         onMouseUp={() => setMenuState(MenuState.closed)}
+        onDragOver={stop}
+        onDrop={upload}
+        onDragEnter={onDrag}
+        onDragLeave={onDragStop}
       >
-        <div className={style.uiContainer}>
+        <div
+          className={`${style.uiContainer} ${
+            overlay === OverlayState.upload && style.draggingg
+          }`}
+        >
           <h1>
             <img
               className={style.folderBlack}
@@ -121,12 +140,10 @@ const Files = () => {
           <FilesButtonsUI />
         </div>
         <div
-          className={style.files}
+          className={`${style.files} ${
+            overlay === OverlayState.upload && style.draggingg
+          }`}
           onContextMenu={stop}
-          onDragOver={stop}
-          onDrop={upload}
-          onDragEnter={onDrag}
-          onDragLeave={onDragStop}
           onMouseUp={(e) => clickHandler(e, 'background')}
           icon-size={String(iconSize)}
         >
@@ -137,7 +154,6 @@ const Files = () => {
                     name={file.name}
                     type={file.type}
                     key={i}
-                    onDragOver={(e) => e.stopPropagation()}
                     onMouseUp={(e) => clickHandler(e, file.type)}
                   />
                 )

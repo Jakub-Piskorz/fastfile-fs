@@ -9,7 +9,6 @@ const Overlay = () => {
   const toggleNav = useToggleNav()
 
   const overlayCssClass = useMemo(() => {
-    console.log(overlay)
     switch (overlay) {
       case OverlayState.hidden: {
         return style.hidden
@@ -29,7 +28,7 @@ const Overlay = () => {
         className={style.uploadBox}
         style={{ display: overlay === OverlayState.upload ? 'flex' : 'none' }}
       >
-        Drop your file
+        Drop your file to upload
       </div>
     </span>
   )

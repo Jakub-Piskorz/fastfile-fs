@@ -6,24 +6,22 @@ import psdIcon from '@/images/psd.svg'
 import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.scss'
 import React, { MouseEvent, useEffect, useMemo } from 'react'
-import { useStore } from '@/hooks/store'
+import { OverlayState, useStore } from '@/hooks/store'
 
 interface FileProps {
   name: string
   type: 'file' | 'directory'
   onMouseUp: (...args: any) => any
-  onDragOver: any
 }
 
 const File = ({
-  onDragOver,
   name = '',
   type,
   onMouseUp: mouseUp = (...args: any) => {
     console.error('error: mouseUp function not found')
   },
 }: FileProps) => {
-  const { selectedItems, setSelectedItems } = useStore()
+  const { selectedItems, setSelectedItems, overlay, setOverlay } = useStore()
 
   const icon = useMemo(() => {
     if (type === 'directory') {
@@ -81,9 +79,6 @@ const File = ({
       }
       onContextMenu={stop}
       onClick={selectFile}
-      onDragOver={stop}
-      onDragEnter={stop}
-      onDragLeave={stop}
       onMouseUp={(e: MouseEvent) => {
         mouseUp(e, name)
       }}
