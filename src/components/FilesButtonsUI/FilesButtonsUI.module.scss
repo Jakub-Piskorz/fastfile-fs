@@ -28,15 +28,17 @@
     @media screen and (max-width: app.$mobile) {
       font-size: 0.8em;
       margin: 0 7px;
-      img {
-        /* height: 20px; */
-      }
-    }
-    &.hidden {
-      display: none;
     }
     &:hover {
       background-color: var(--bgSecondary);
+      &.disabled {
+        background-color: var(--bg);
+      }
+    }
+    &.disabled {
+      // background-color: var(--bgSecondary);
+      filter: contrast(0.2) brightness(1.61);
+      cursor: initial;
     }
   }
 }

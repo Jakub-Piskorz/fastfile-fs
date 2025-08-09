@@ -8,7 +8,6 @@ import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
 import API from '@/scripts/API'
 import { MenuState, useStore } from '@/hooks/store'
-import CookieScripts from '@/scripts/cookie-scripts'
 
 const FilesButtonsUI = () => {
   const {
@@ -87,7 +86,7 @@ const FilesButtonsUI = () => {
         <img src={uploadIcon} />
       </button>
       <button
-        className="mobile-hidden"
+        className={`mobile-hidden ${iconSize === 5 && style.disabled}`}
         onClick={() => {
           setIconSize(Math.min(5, iconSize + 1) as typeof iconSize)
         }}
@@ -95,7 +94,7 @@ const FilesButtonsUI = () => {
         <img src={plusIcon} />
       </button>
       <button
-        className="mobile-hidden"
+        className={`mobile-hidden ${iconSize === 1 && style.disabled}`}
         onClick={() => {
           setIconSize(Math.max(1, iconSize - 1) as typeof iconSize)
         }}
