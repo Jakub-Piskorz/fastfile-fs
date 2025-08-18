@@ -38,7 +38,7 @@ const App = (): ReactElement => {
     e.stopPropagation()
   }
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <HtmlHead
         title="Fastfile | Your files"
         htmlAttrs={{
@@ -54,7 +54,7 @@ const App = (): ReactElement => {
         <Files />
       </main>
       <ContextMenu />
-    </>
+    </div>
   )
 }
 
