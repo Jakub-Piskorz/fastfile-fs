@@ -2,9 +2,10 @@ import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import style from './Overlay.module.scss'
 import { useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
+import cloudIcon from '@/images/cloud-arrow-up.svg'
 
 const Overlay = () => {
-  const { overlay, setMenuState } = useStore()
+  const { overlay, setMenuState, setOverlay } = useStore()
 
   const toggleNav = useToggleNav()
 
@@ -26,10 +27,13 @@ const Overlay = () => {
   return (
     <span className={`${style.overlay} ${overlayCssClass}`} onClick={toggleNav}>
       <div
-        className={style.uploadBox}
+        className={style.uploadWrapper}
         style={{ display: overlay === OverlayState.upload ? 'flex' : 'none' }}
       >
-        Drop your file to upload
+        <div className={style.uploadBox}>
+          <img src={cloudIcon} alt="Upload file icon" />
+          <div>Drop your file to upload</div>
+        </div>
       </div>
     </span>
   )

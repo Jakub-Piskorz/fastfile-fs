@@ -26,17 +26,34 @@
     z-index: 3;
     pointer-events: none;
   }
-  .uploadBox {
+  .uploadWrapper {
     max-width: 80%;
     max-height: 80%;
-    color: black;
-    font-size: 16px;
-    border-radius: 15px;
     pointer-events: none;
     background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px 20px;
+    padding: 30px;
+    border-radius: 10px;
+
+    .uploadBox {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      color: black;
+      border-radius: 10px;
+      font-size: 16px;
+      border: 2px rgb(226, 226, 226) dashed;
+      padding: 60px 40px;
+      img {
+        filter: hue-rotate(0.5);
+        width: 100px;
+        height: 100px;
+        max-height: calc(100% - 30px);
+        max-width: calc(100% - 30px);
+        filter: brightness(0) saturate(100%) invert(38%) sepia(98%)
+          saturate(4515%) hue-rotate(209deg) brightness(99%) contrast(102%);
+      }
+    }
   }
 }
