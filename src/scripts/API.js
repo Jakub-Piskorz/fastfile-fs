@@ -112,6 +112,10 @@ const API = {
         headers: authHeader(),
       }
     ),
+  sharedByMe: () =>
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/shared-by-me`, {
+      headers: authHeader(),
+    }),
 }
 
 export default API

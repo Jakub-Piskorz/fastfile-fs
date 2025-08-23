@@ -40,16 +40,16 @@
       justify-content: center;
       display: flex;
       flex-direction: column;
-      gap: 20px;
       color: black;
       border-radius: 10px;
+      gap: 15px;
       font-size: 16px;
       border: 2px rgb(226, 226, 226) dashed;
-      padding: 60px 40px;
+      padding: 40px 50px 70px;
       img {
         filter: hue-rotate(0.5);
-        width: 100px;
-        height: 100px;
+        width: 130px;
+        height: 130px;
         max-height: calc(100% - 30px);
         max-width: calc(100% - 30px);
         filter: brightness(0) saturate(100%) invert(38%) sepia(98%)

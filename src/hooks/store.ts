@@ -52,6 +52,9 @@ export interface StoreI {
   overlay: OverlayState
   setOverlay: (overlay: this['overlay']) => void
 
+  moduleSelected: Number
+  setModuleSelected: (moduleSelected: this['moduleSelected']) => void
+
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
 }
@@ -85,6 +88,9 @@ export const useStore = create<StoreI>()((set) => ({
 
   overlay: OverlayState.hidden,
   setOverlay: (overlay) => set(() => ({ overlay })),
+
+  moduleSelected: 0,
+  setModuleSelected: (moduleSelected) => set(() => ({ moduleSelected })),
 
   // Refs:
   sidebarRef: createRef(),

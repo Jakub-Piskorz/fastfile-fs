@@ -8,28 +8,43 @@ import { useStore } from '@/hooks/store'
 import { useEffect } from 'react'
 
 const Sidebar = () => {
-  const { username, sidebarRef } = useStore()
+  const { username, sidebarRef, moduleSelected, setModuleSelected } = useStore()
 
   return (
     <main className={style.sidebar} ref={sidebarRef}>
       <ul className={style.menu}>
-        <li className={style.red}>
+        <li
+          className={moduleSelected === 0 && style.red}
+          onClick={() => setModuleSelected(0)}
+        >
           <img src={folder} />
           {username}
         </li>
-        <li>
+        <li
+          className={moduleSelected === 1 && style.red}
+          onClick={() => setModuleSelected(1)}
+        >
           <img src={share} />
           Shared
         </li>
-        <li>
+        <li
+          className={moduleSelected === 2 && style.red}
+          onClick={() => setModuleSelected(2)}
+        >
           <img src={plusCircle} />
           Latest files
         </li>
-        <li>
+        <li
+          className={moduleSelected === 3 && style.red}
+          onClick={() => setModuleSelected(3)}
+        >
           <img src={camera} />
           Photos
         </li>
-        <li>
+        <li
+          className={moduleSelected === 4 && style.red}
+          onClick={() => setModuleSelected(4)}
+        >
           <img src={code} />
           Code hosting
           <i className="lock"></i>

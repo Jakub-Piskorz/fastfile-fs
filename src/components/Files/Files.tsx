@@ -21,6 +21,7 @@ const Files = () => {
     iconSize,
     setOverlay,
     overlay,
+    moduleSelected,
   } = useStore()
 
   const currentFiles = useMemo(
@@ -28,9 +29,31 @@ const Files = () => {
     [files.length, searchedFiles?.length]
   )
 
+  const title = useMemo(() => {
+    switch (moduleSelected) {
+      case 0:
+        return username
+      case 1:
+        return 'Shared files'
+      default:
+        return username
+    }
+  }, [moduleSelected, username])
+
   const refresh = async () => {
+    let apiCall
+    switch (moduleSelected) {
+      case 0:
+        apiCall = API.listFiles
+        break
+      case 1:
+        apiCall = API.sharedByMe
+        break
+      default:
+        apiCall = API.listFiles
+    }
     try {
-      const files = await API.listFiles().then((response) => {
+      const files = await apiCall().then((response) => {
         if (response.ok) return response.json()
       })
       setFiles(files)
@@ -42,7 +65,7 @@ const Files = () => {
 
   useEffect(() => {
     refresh()
-  }, [])
+  }, [moduleSelected])
 
   const dragCounter = useRef(0)
 
@@ -135,7 +158,7 @@ const Files = () => {
               className={style.folderBlack}
               src={searchedFiles ? searchIcon : folderBlackIcon}
             />
-            <div>{username}</div>
+            <div>{title}</div>
           </h1>
           <FilesButtonsUI />
         </div>
