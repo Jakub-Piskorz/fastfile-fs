@@ -62,9 +62,7 @@ const FilesButtonsUI = () => {
     setSelectedItems([])
   }
   const onDownload = async () => {
-    for (const item of selectedItems) {
-      await API.download(item)
-    }
+    await API.download(selectedItems)
     setSelectedItems([])
   }
 

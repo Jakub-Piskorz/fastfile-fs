@@ -20,7 +20,7 @@ const ContextMenu = () => {
 
   const onDownload = (e: React.MouseEvent) => {
     setMenuState(MenuState.closed)
-    API.download(clickedItem)
+    API.download([clickedItem])
   }
 
   const onDelete = async (e: React.MouseEvent) => {

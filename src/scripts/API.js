@@ -58,28 +58,47 @@ const API = {
       headers: authHeader(),
     })
   },
-  download: (filePath = '') => {
-    return fetch(
-      `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePath}`,
-      {
-        method: `GET`,
-        headers: {
-          ...authHeader(),
-        },
-      }
-    )
+  download: (filePaths = []) => {
+    let fetchCall
+    let fileName
+    if (filePaths.length === 1) {
+      fetchCall = fetch(
+        `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePaths[0]}`,
+        {
+          method: `GET`,
+          headers: authHeader(),
+        }
+      )
+    } else {
+      fetchCall = fetch(
+        `https://jakubpiskorz.dev:8080/api/v1/files/download-multiple`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            filePaths,
+          }),
+          headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        }
+      )
+    }
+    return fetchCall
       .then((response) => {
         if (response === null || !response.ok)
           throw new Error(
             `Error code: ${response.status}. File cannot be downloaded.`
           )
+
+        // Extract file name from response header.
+        fileName = response.headers
+          .get('content-disposition')
+          .match(/filename="?([^"]+)"?/i)[1]
         return response.blob()
       })
       .then((blob) => {
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = filePath
+        a.download = fileName
         document.body.appendChild(a)
         a.click()
         a.remove()
