@@ -7,8 +7,14 @@ import { basename } from '../..'
 import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {
-  const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
-    useStore()
+  const {
+    clickedItem,
+    menuState,
+    setMenuState,
+    setFiles,
+    contextMenuRef,
+    setShareLink,
+  } = useStore()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
@@ -80,6 +86,18 @@ const ContextMenu = () => {
     }
   }
 
+  const onShare = async (e: React.MouseEvent) => {
+    const link = await API.shareLink(clickedItem).then(
+      (res) => res.ok && res.json()
+    )
+    if (link.uuid) {
+      setMenuState(MenuState.copiedLink)
+      navigator.clipboard.writeText(window.location + 'download/' + link.uuid) // TODO: Make this link work
+    } else {
+      setMenuState(MenuState.closed)
+    }
+  }
+
   return (
     <div
       ref={contextMenuRef}
@@ -100,6 +118,7 @@ const ContextMenu = () => {
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete</li>
+                <li onMouseUp={onShare}>Share</li>
               </>
             )
           if (menuState === MenuState.directory)
@@ -156,6 +175,8 @@ const ContextMenu = () => {
                 </button>
               </form>
             )
+          if (menuState === MenuState.copiedLink)
+            return <div className={style.normal}>Link copied!</div>
         })()}
       </ul>
     </div>

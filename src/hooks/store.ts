@@ -10,6 +10,7 @@ export enum MenuState {
   upload,
   background,
   newDir,
+  copiedLink,
 }
 
 export enum OverlayState {

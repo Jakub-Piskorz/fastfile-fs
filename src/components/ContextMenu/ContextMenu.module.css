@@ -13,6 +13,11 @@
   overflow: hidden;
   cursor: pointer;
 
+  .normal {
+    color: black;
+    padding: 15px;
+  }
+
   &.hidden {
     display: none;
   }

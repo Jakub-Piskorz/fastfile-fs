@@ -135,6 +135,13 @@ const API = {
     fetch(`https://jakubpiskorz.dev:8080/api/v1/files/shared-by-me`, {
       headers: authHeader(),
     }),
+
+  shareLink: (filePath) =>
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/share-link`, {
+      headers: authHeader(),
+      method: 'POST',
+      body: filePath,
+    }),
 }
 
 export default API
