@@ -26,7 +26,7 @@ const Files = () => {
 
   const currentFiles = useMemo(
     () => searchedFiles || files,
-    [files.length, searchedFiles?.length]
+    [files?.length, searchedFiles?.length]
   )
 
   const title = useMemo(() => {

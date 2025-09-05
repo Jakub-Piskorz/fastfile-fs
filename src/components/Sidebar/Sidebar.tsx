@@ -14,35 +14,35 @@ const Sidebar = () => {
     <main className={style.sidebar} ref={sidebarRef}>
       <ul className={style.menu}>
         <li
-          className={moduleSelected === 0 && style.red}
+          className={moduleSelected === 0 ? style.red : undefined}
           onClick={() => setModuleSelected(0)}
         >
           <img src={folder} />
           {username}
         </li>
         <li
-          className={moduleSelected === 1 && style.red}
+          className={moduleSelected === 1 ? style.red : undefined}
           onClick={() => setModuleSelected(1)}
         >
           <img src={share} />
           Shared
         </li>
         <li
-          className={moduleSelected === 2 && style.red}
+          className={moduleSelected === 2 ? style.red : undefined}
           onClick={() => setModuleSelected(2)}
         >
           <img src={plusCircle} />
           Latest files
         </li>
         <li
-          className={moduleSelected === 3 && style.red}
+          className={moduleSelected === 3 ? style.red : undefined}
           onClick={() => setModuleSelected(3)}
         >
           <img src={camera} />
           Photos
         </li>
         <li
-          className={moduleSelected === 4 && style.red}
+          className={moduleSelected === 4 ? style.red : undefined}
           onClick={() => setModuleSelected(4)}
         >
           <img src={code} />
