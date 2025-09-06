@@ -9,8 +9,8 @@ export default function CookiePopup() {
     )
     if (consentBanner !== null) {
       consentBanner.style.display =
-        CookieScripts.value('consent') === 'aye' ||
-        CookieScripts.value('consent') === 'nay'
+        CookieScripts.get('consent') === 'aye' ||
+        CookieScripts.get('consent') === 'nay'
           ? 'none'
           : 'flex'
     }

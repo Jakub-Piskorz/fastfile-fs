@@ -4,7 +4,7 @@
 import CookieScripts from './cookie-scripts'
 
 const authHeader = () => ({
-  Authorization: `Bearer ${CookieScripts.value('token')}`,
+  Authorization: `Bearer ${CookieScripts.get('token')}`,
 })
 
 const API = {

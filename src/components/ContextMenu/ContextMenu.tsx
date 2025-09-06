@@ -3,7 +3,7 @@ import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
-import { basename } from '../..'
+import { basename } from '@/router/router'
 import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {

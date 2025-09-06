@@ -9,14 +9,14 @@ import API from '@/scripts/API'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { MenuState, useStore } from '@/hooks/store'
-import { basename } from '../..'
+import { basename } from '@/router/router'
 import Overlay from '@/components/Overlay/Overlay'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()
 
   useEffect(() => {
-    setDarkMode(CookieScripts.value('theme') === 'dark')
+    setDarkMode(CookieScripts.get('theme') === 'dark')
 
     const fetchUserInfo = async () => {
       const response = await API.userInfo()
@@ -42,8 +42,8 @@ const App = (): ReactElement => {
       <HtmlHead
         title="Fastfile | Your files"
         htmlAttrs={{
-          theme: CookieScripts.value('theme')
-            ? CookieScripts.value('theme')
+          theme: CookieScripts.get('theme')
+            ? CookieScripts.get('theme')
             : 'light',
         }}
       />

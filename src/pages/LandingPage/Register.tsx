@@ -7,12 +7,12 @@ import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
 import LpHeader from './LpHeader'
 import { useEffect, useRef, useState } from 'react'
 import API from '@/scripts/API'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  let history = useHistory()
+  let navigate = useNavigate()
 
   useEffect(() => {
     const form = formRef.current
@@ -36,7 +36,7 @@ const Register = () => {
       API.register(data)
         .then((res) => {
           if (res.ok) {
-            history.push('/')
+            navigate('/')
           } else {
             setErrorMsg('Inputs not correct.')
           }
@@ -110,7 +110,7 @@ const Register = () => {
                 className={style.textInput}
                 placeholder="Confirm password"
               />
-              {errorMsg && <div>{errorMsg}</div>}
+              {errorMsg ? <div>{errorMsg}</div> : ''}
               <label className={style['form__wrapper']}>
                 <input type="submit" value="Sign Up" id={style.submit} />
               </label>

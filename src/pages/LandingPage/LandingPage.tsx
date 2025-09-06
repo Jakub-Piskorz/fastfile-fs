@@ -20,7 +20,7 @@ import twitterIcon from '@/images/icons/twitter-icon.png'
 import ytIcon from '@/images/icons/yt-icon.png'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 import securityImage from '@/images/icons/security.jpg'
-import { basename } from '../..'
+import { basename } from '@/router/router'
 
 const LandingPage = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
@@ -43,7 +43,7 @@ const LandingPage = () => {
         })
         .then((token) => {
           CookieScripts.add('token', token)
-          if (CookieScripts.value('token')) window.location.href = basename
+          if (CookieScripts.get('token')) window.location.href = basename
         })
     } catch (error) {
       console.error(error)
@@ -95,7 +95,7 @@ const LandingPage = () => {
                     id={style.password}
                     placeholder="Password"
                   />
-                  {errorMsg && <div>{errorMsg}</div>}
+                  {errorMsg ? <div>{errorMsg}</div> : ''}
                   <label className={style.form__wrapper}>
                     <input
                       type="submit"

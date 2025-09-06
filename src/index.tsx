@@ -7,6 +7,5 @@ import { router } from '@/router/router'
 import { RouterProvider } from 'react-router-dom'
 
 const root = createRoot(document.getElementById('app')!)
-export const basename = '/fastfile/'
 
 root.render(<RouterProvider router={router} />)
