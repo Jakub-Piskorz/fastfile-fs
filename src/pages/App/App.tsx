@@ -10,7 +10,6 @@ import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { MenuState, useStore } from '@/hooks/store'
 import { basename } from '@/router/router'
-import Overlay from '@/components/Overlay/Overlay'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()

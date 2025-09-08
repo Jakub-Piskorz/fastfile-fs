@@ -59,6 +59,7 @@ const API = {
     })
   },
   download: (filePaths = []) => {
+    if (filePaths.length === 0) return
     let fetchCall
     let fileName
     if (filePaths.length === 1) {
