@@ -10,6 +10,7 @@ import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { MenuState, useStore } from '@/hooks/store'
 import { basename } from '@/router/router'
+import { redirect } from 'react-router-dom'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()
@@ -18,14 +19,17 @@ const App = (): ReactElement => {
     setDarkMode(CookieScripts.get('theme') === 'dark')
 
     const fetchUserInfo = async () => {
-      const response = await API.userInfo()
-      if (!response.ok) {
+      try {
+        const response = await API.userInfo()
+        if (!response.ok) {
+          throw new Error('Wrong token')
+        }
+        const resJson = await response.json()
+        setUsername(resJson.username)
+      } catch (e) {
         CookieScripts.add('token', '')
-        window.location.href = basename
-        return
+        redirect('/lp')
       }
-      const resJson = await response.json()
-      setUsername(resJson.username)
     }
 
     fetchUserInfo()

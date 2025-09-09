@@ -28,18 +28,18 @@ html {
 }
 // Dark mode
 html[theme='dark'] {
-  --bgHeader: #1b1b1b;
-  --bgSidebar: #1b1b1b;
-  --headerBorder: 1px solid #434343;
-  --bg: rgb(17, 17, 17);
-  --bgSecondary: #434343;
-  --text: white;
-  --textSecondary: #dadada;
+  --bgHeader: #161616;
+  --bgSidebar: #161616;
+  --headerBorder: 1px solid #2c2c2c;
+  --bg: rgb(29, 29, 29);
+  --bgSecondary: #303030;
+  --text: #ddd;
+  --textSecondary: #bbbbbb;
   --invertOnDark: invert(1);
   --invertOnLight: invert(0);
   --invertLite: invert(0.3);
   --fileShadow: none;
-  --fileHover: #242424;
+  --fileHover: #313131;
   --fileBorder: 1px solid rgba(0, 0, 0, 0);
 }
 * {
