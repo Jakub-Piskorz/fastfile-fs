@@ -7,6 +7,7 @@ import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../Overlay/Overlay'
+import useFileClick from '@/hooks/useFileClick'
 
 const Files = () => {
   const {
@@ -23,6 +24,7 @@ const Files = () => {
     overlay,
     moduleSelected,
   } = useStore()
+  const fileClick = useFileClick()
 
   const currentFiles = useMemo(
     () => searchedFiles || files,
@@ -104,44 +106,44 @@ const Files = () => {
       )
   }
 
-  const clickHandler = (
-    e: MouseEvent,
-    type: 'file' | 'background' | 'directory'
-  ) => {
-    e.preventDefault()
-    e.stopPropagation()
+  // const clickHandler = (
+  //   e: MouseEvent,
+  //   type: 'file' | 'background' | 'directory'
+  // ) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
 
-    const contextMenu: HTMLElement | null = contextMenuRef?.current || null
-    if (!contextMenu) {
-      console.error(`contextMenu HTML Element returns null in Files.tsx`)
-      return
-    }
-    // Is right click?
-    if (e.nativeEvent.button === 2) {
-      const posX = e.nativeEvent.clientX
-      const posY = e.nativeEvent.clientY
-      contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
-      contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
-      contextMenu.style.right = ``
-      if (type === 'file') {
-        setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState(MenuState.file)
-      } else if (type === 'background') {
-        setMenuState(MenuState.background)
-      } else if (type === 'directory') {
-        setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState(MenuState.directory)
-      }
-    } else {
-      if (menuState !== MenuState.closed) setMenuState(MenuState.closed)
-    }
-  }
+  //   const contextMenu: HTMLElement | null = contextMenuRef?.current || null
+  //   if (!contextMenu) {
+  //     console.error(`contextMenu HTML Element returns null in Files.tsx`)
+  //     return
+  //   }
+  //   // Is right click?
+  //   if (e.nativeEvent.button === 2) {
+  //     const posX = e.nativeEvent.clientX
+  //     const posY = e.nativeEvent.clientY
+  //     contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
+  //     contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
+  //     contextMenu.style.right = ``
+  //     if (type === 'file') {
+  //       setClickedItem(e.currentTarget.children[1].innerHTML)
+  //       setMenuState(MenuState.file)
+  //     } else if (type === 'background') {
+  //       setMenuState(MenuState.background)
+  //     } else if (type === 'directory') {
+  //       setClickedItem(e.currentTarget.children[1].innerHTML)
+  //       setMenuState(MenuState.directory)
+  //     }
+  //   } else {
+  //     if (menuState !== MenuState.closed) setMenuState(MenuState.closed)
+  //   }
+  // }
 
   return (
     <>
       <Overlay />
       <div
-        className={style['files-window']}
+        className={style.filesWindow}
         onMouseUp={() => setMenuState(MenuState.closed)}
         onDragOver={stop}
         onDrop={upload}
@@ -167,19 +169,12 @@ const Files = () => {
             overlay === OverlayState.upload && style.draggingg
           }`}
           onContextMenu={stop}
-          onMouseUp={(e) => clickHandler(e, 'background')}
+          onMouseUp={(e) => fileClick(e, 'background')}
           icon-size={String(iconSize)}
         >
           {currentFiles
             ? currentFiles.map((file: any, i: number) => {
-                return (
-                  <File
-                    name={file.name}
-                    type={file.type}
-                    key={i}
-                    onMouseUp={(e) => clickHandler(e, file.type)}
-                  />
-                )
+                return <File name={file.name} type={file.type} key={i} />
               })
             : 'Loading files, please wait...'}
         </div>

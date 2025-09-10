@@ -7,21 +7,16 @@ import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.scss'
 import React, { MouseEvent, useEffect, useMemo } from 'react'
 import { OverlayState, useStore } from '@/hooks/store'
+import useFileClick from '@/hooks/useFileClick'
 
 interface FileProps {
   name: string
   type: 'file' | 'directory'
-  onMouseUp: (...args: any) => any
 }
 
-const File = ({
-  name = '',
-  type,
-  onMouseUp: mouseUp = (...args: any) => {
-    console.error('error: mouseUp function not found')
-  },
-}: FileProps) => {
+const File = ({ name = '', type }: FileProps) => {
   const { selectedItems, setSelectedItems, overlay, setOverlay } = useStore()
+  const fileClick = useFileClick()
 
   const icon = useMemo(() => {
     if (type === 'directory') {
@@ -80,7 +75,7 @@ const File = ({
       onContextMenu={stop}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {
-        mouseUp(e, name)
+        fileClick(e, 'file')
       }}
     >
       <img src={icon} draggable="false" />

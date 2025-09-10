@@ -9,8 +9,7 @@ import API from '@/scripts/API'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { MenuState, useStore } from '@/hooks/store'
-import { basename } from '@/router/router'
-import { redirect } from 'react-router-dom'
+import { Outlet, redirect } from 'react-router-dom'
 
 const App = (): ReactElement => {
   const { setUsername, setMenuState, setDarkMode } = useStore()
@@ -54,7 +53,7 @@ const App = (): ReactElement => {
       <Header />
       <main className={style.fs} onClick={() => setMenuState(MenuState.closed)}>
         <Sidebar />
-        <Files />
+        <Outlet />
       </main>
       <ContextMenu />
     </div>

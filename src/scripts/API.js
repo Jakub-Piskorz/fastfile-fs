@@ -143,6 +143,10 @@ const API = {
       method: 'POST',
       body: filePath,
     }),
+  lookupLink: (uuid) =>
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/lookup-link/${uuid}`, {
+      headers: authHeader(),
+    }),
 }
 
 export default API
