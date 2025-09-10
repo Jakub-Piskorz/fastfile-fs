@@ -75,7 +75,7 @@ const File = ({ name = '', type }: FileProps) => {
       onContextMenu={stop}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {
-        fileClick(e, 'file')
+        fileClick(e, type)
       }}
     >
       <img src={icon} draggable="false" />
