@@ -12,7 +12,7 @@ import { MenuState, useStore } from '@/hooks/store'
 import { Outlet, redirect } from 'react-router-dom'
 
 const App = (): ReactElement => {
-  const { setUsername, setMenuState, setDarkMode } = useStore()
+  const { setUsername, setMenuState, setDarkMode, iconSize } = useStore()
 
   useEffect(() => {
     setDarkMode(CookieScripts.get('theme') === 'dark')
@@ -51,7 +51,11 @@ const App = (): ReactElement => {
       />
       <CookieWarning />
       <Header />
-      <main className={style.fs} onClick={() => setMenuState(MenuState.closed)}>
+      <main
+        className={style.fs}
+        onClick={() => setMenuState(MenuState.closed)}
+        icon-size={String(iconSize)}
+      >
         <Sidebar />
         <Outlet />
       </main>

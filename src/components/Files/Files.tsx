@@ -12,14 +12,10 @@ import useFileClick from '@/hooks/useFileClick'
 const Files = () => {
   const {
     setMenuState,
-    menuState,
     username,
-    setClickedItem,
     files,
     setFiles,
     searchedFiles,
-    contextMenuRef,
-    iconSize,
     setOverlay,
     overlay,
     moduleSelected,
@@ -106,39 +102,6 @@ const Files = () => {
       )
   }
 
-  // const clickHandler = (
-  //   e: MouseEvent,
-  //   type: 'file' | 'background' | 'directory'
-  // ) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-
-  //   const contextMenu: HTMLElement | null = contextMenuRef?.current || null
-  //   if (!contextMenu) {
-  //     console.error(`contextMenu HTML Element returns null in Files.tsx`)
-  //     return
-  //   }
-  //   // Is right click?
-  //   if (e.nativeEvent.button === 2) {
-  //     const posX = e.nativeEvent.clientX
-  //     const posY = e.nativeEvent.clientY
-  //     contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
-  //     contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
-  //     contextMenu.style.right = ``
-  //     if (type === 'file') {
-  //       setClickedItem(e.currentTarget.children[1].innerHTML)
-  //       setMenuState(MenuState.file)
-  //     } else if (type === 'background') {
-  //       setMenuState(MenuState.background)
-  //     } else if (type === 'directory') {
-  //       setClickedItem(e.currentTarget.children[1].innerHTML)
-  //       setMenuState(MenuState.directory)
-  //     }
-  //   } else {
-  //     if (menuState !== MenuState.closed) setMenuState(MenuState.closed)
-  //   }
-  // }
-
   return (
     <>
       <Overlay />
@@ -170,7 +133,6 @@ const Files = () => {
           }`}
           onContextMenu={stop}
           onMouseUp={(e) => fileClick(e, 'background')}
-          icon-size={String(iconSize)}
         >
           {currentFiles
             ? currentFiles.map((file: any, i: number) => {

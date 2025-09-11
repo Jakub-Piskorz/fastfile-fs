@@ -6,8 +6,7 @@ import { requireAuthentication } from './redirect'
 import Download from '@/pages/download/Download'
 import Files from '@/components/Files/Files'
 import API from '@/scripts/API'
-
-export const basename = '/fastfile/'
+import { basename } from '@/config'
 
 export const router = createBrowserRouter(
   [

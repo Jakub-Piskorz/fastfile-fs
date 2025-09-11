@@ -58,10 +58,6 @@
     /* TODO: zrobić porządnego grida */
     min-height: 80%;
 
-    /* default size: 3 */
-    --fileHeight: 165px;
-    --fileWidth: 180px;
-
     @media screen and (max-width: app.$mobile) {
       display: inline-grid;
       grid-template-columns: repeat(3, 1fr);
@@ -75,25 +71,5 @@
     @media screen and (max-width: 320px) {
       grid-template-columns: repeat(1, 1fr);
     }
-  }
-  .files[icon-size='5'] {
-    --fileHeight: 205px;
-    --fileWidth: 220px;
-  }
-  .files[icon-size='4'] {
-    --fileHeight: 185px;
-    --fileWidth: 200px;
-  }
-  .files[icon-size='3'] {
-    --fileHeight: 165px;
-    --fileWidth: 180px;
-  }
-  .files[icon-size='2'] {
-    --fileHeight: 145px;
-    --fileWidth: 160px;
-  }
-  .files[icon-size='1'] {
-    --fileHeight: 125px;
-    --fileWidth: 140px;
   }
 }

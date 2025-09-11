@@ -77,3 +77,29 @@ h1 {
     display: none !important;
   }
 }
+
+main {
+  /* default size: 3 */
+  --fileHeight: 165px;
+  --fileWidth: 180px;
+  &[icon-size='5'] {
+    --fileHeight: 205px;
+    --fileWidth: 220px;
+  }
+  &[icon-size='4'] {
+    --fileHeight: 185px;
+    --fileWidth: 200px;
+  }
+  &[icon-size='3'] {
+    --fileHeight: 165px;
+    --fileWidth: 180px;
+  }
+  &[icon-size='2'] {
+    --fileHeight: 145px;
+    --fileWidth: 160px;
+  }
+  &[icon-size='1'] {
+    --fileHeight: 125px;
+    --fileWidth: 140px;
+  }
+}

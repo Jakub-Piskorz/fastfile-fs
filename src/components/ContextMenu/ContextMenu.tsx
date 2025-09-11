@@ -3,7 +3,7 @@ import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
-import { basename } from '@/router/router'
+import { basename } from '@/config'
 import { useEffect, useRef, useState } from 'react'
 
 const ContextMenu = () => {
@@ -86,7 +86,9 @@ const ContextMenu = () => {
     )
     if (link.uuid) {
       setMenuState(MenuState.copiedLink)
-      navigator.clipboard.writeText(window.location + 'download/' + link.uuid) // TODO: Make this link work
+      navigator.clipboard.writeText(
+        window.location.origin + basename + 'download/' + link.uuid
+      ) // TODO: Make this link work
     } else {
       setMenuState(MenuState.closed)
     }

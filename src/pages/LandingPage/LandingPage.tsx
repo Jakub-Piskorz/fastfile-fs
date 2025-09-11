@@ -20,7 +20,7 @@ import twitterIcon from '@/images/icons/twitter-icon.png'
 import ytIcon from '@/images/icons/yt-icon.png'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 import securityImage from '@/images/icons/security.jpg'
-import { basename } from '@/router/router'
+import { basename } from '@/config'
 
 const LandingPage = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
