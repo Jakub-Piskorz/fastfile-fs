@@ -6,7 +6,6 @@ import File from '@/components/File/File'
 
 export const Download = () => {
   const data = useLoaderData()
-  console.log(data)
 
   return (
     <>

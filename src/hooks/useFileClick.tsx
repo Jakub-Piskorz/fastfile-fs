@@ -4,7 +4,6 @@ const useFileClick = () => {
   const { setMenuState, menuState, setClickedItem, contextMenuRef } = useStore()
 
   return (e: React.MouseEvent, type: 'file' | 'background' | 'directory') => {
-    console.log(type)
     e.preventDefault()
     e.stopPropagation()
     const contextMenu: HTMLElement | null = contextMenuRef?.current || null

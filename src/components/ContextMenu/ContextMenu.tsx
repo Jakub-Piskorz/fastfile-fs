@@ -4,11 +4,13 @@ import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
     useStore()
+  const location = useLocation()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
@@ -16,14 +18,24 @@ const ContextMenu = () => {
     setUploadName('Select file')
   }, [menuState])
 
+  const uuid = useMemo(() => {
+    if (!/^\/download/.test(location.pathname)) return null
+    return location.pathname.split('/')[2]
+  }, [location])
+
   const stop = (e: React.MouseEvent) => e.preventDefault()
 
-  const onDownload = (e: React.MouseEvent) => {
+  const onDownload = () => {
     setMenuState(MenuState.closed)
-    API.download([clickedItem])
+    if (uuid) {
+      API.downloadLink(uuid)
+    } else {
+      API.download([clickedItem])
+    }
+
   }
 
-  const onDelete = async (e: React.MouseEvent) => {
+  const onDelete = async () => {
     setMenuState(MenuState.closed)
     await API.delete(clickedItem)
     const files = await API.listFiles().then((res) =>
@@ -32,7 +44,7 @@ const ContextMenu = () => {
     setFiles(files)
   }
 
-  const logout = (e: React.MouseEvent) => {
+  const logout = () => {
     CookieScripts.add('token', '')
     window.location.href = basename
   }
@@ -49,7 +61,7 @@ const ContextMenu = () => {
           setFiles(files)
         })
       } else {
-        throw new Error('No file on input')
+        new Error('No file on input')
       }
     } catch (e) {
       console.error(e)
@@ -80,7 +92,7 @@ const ContextMenu = () => {
     }
   }
 
-  const onShare = async (e: React.MouseEvent) => {
+  const onShare = async () => {
     const link = await API.shareLink(clickedItem).then(
       (res) => res.ok && res.json()
     )
@@ -101,7 +113,7 @@ const ContextMenu = () => {
       style={{
         width: [MenuState.upload, MenuState.newDir].includes(menuState)
           ? '300px'
-          : '170px',
+          : '170px'
       }}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
@@ -159,7 +171,7 @@ const ContextMenu = () => {
                   type="file"
                   ref={uploadInputRef}
                   id={style.uploadInput}
-                  onChange={(e: React.FormEvent) => {
+                  onChange={() => {
                     const input = uploadInputRef.current
                     if (input && input.files && input.files[0]) {
                       setUploadName(input.files[0].name)

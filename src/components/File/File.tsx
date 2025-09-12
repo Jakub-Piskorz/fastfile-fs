@@ -5,8 +5,8 @@ import fileIcon from '@/images/file.svg'
 import psdIcon from '@/images/psd.svg'
 import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.scss'
-import React, { MouseEvent, useEffect, useMemo } from 'react'
-import { OverlayState, useStore } from '@/hooks/store'
+import React, { MouseEvent, useMemo } from 'react'
+import { useStore } from '@/hooks/store'
 import useFileClick from '@/hooks/useFileClick'
 
 interface FileProps {
@@ -15,7 +15,7 @@ interface FileProps {
 }
 
 const File = ({ name = '', type }: FileProps) => {
-  const { selectedItems, setSelectedItems, overlay, setOverlay } = useStore()
+  const { selectedItems, setSelectedItems } = useStore()
   const fileClick = useFileClick()
 
   const icon = useMemo(() => {
@@ -78,7 +78,7 @@ const File = ({ name = '', type }: FileProps) => {
         fileClick(e, type)
       }}
     >
-      <img src={icon} draggable="false" />
+      <img src={icon} draggable="false" alt={name + ' icon'} />
       <p>{name}</p>
       <div className={style.checkmark}>
         <span className={style.mark}>✔</span>
