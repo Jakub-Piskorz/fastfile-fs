@@ -6,13 +6,12 @@ module.exports = merge(common, {
   mode: 'development',
   devServer: {
     port: 8081,
-    open: true,
-    openPage: basename.replace(/^\//, ''),
+    open: basename,
     historyApiFallback: {
-      index: basename,
-    },
+      index: basename
+    }
   },
   output: {
-    publicPath: basename,
-  },
+    publicPath: basename
+  }
 })

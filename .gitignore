@@ -3,4 +3,6 @@ dist
 .eslintrc
 # .prettierrc
 .vscode
+.idea
 package-lock.json
+
