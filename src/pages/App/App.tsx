@@ -1,6 +1,5 @@
 import Header from '@/components/Header/Header'
 import Sidebar from '@/components/Sidebar/Sidebar'
-import Files from '@/components/Files/Files'
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './App.module.scss'
 import { ReactElement, useEffect } from 'react'
@@ -17,14 +16,15 @@ const App = (): ReactElement => {
   useEffect(() => {
     setDarkMode(CookieScripts.get('theme') === 'dark')
 
-    const fetchUserInfo = async () => {
+    const fetchUserInfo = () => {
       try {
-        const response = await API.userInfo()
-        if (!response.ok) {
-          throw new Error('Wrong token')
-        }
-        const resJson = await response.json()
-        setUsername(resJson.username)
+        API.userInfo().then(async (response) => {
+          if (!response.ok) {
+            throw new Error('Wrong token')
+          }
+          const resJson = await response.json()
+          setUsername(resJson.username)
+        })
       } catch (e) {
         CookieScripts.add('token', '')
         redirect('/lp')
@@ -34,11 +34,11 @@ const App = (): ReactElement => {
     fetchUserInfo()
   }, [])
 
-  const stop = (e: React.MouseEvent<HTMLInputElement>) => {
-    if (e === null) return
-    e.preventDefault()
-    e.stopPropagation()
-  }
+  // const stop = (e: React.MouseEvent<HTMLInputElement>) => {
+  //   if (e === null) return
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  // }
   return (
     <div style={{ height: '100vh' }}>
       <HtmlHead
@@ -46,7 +46,7 @@ const App = (): ReactElement => {
         htmlAttrs={{
           theme: CookieScripts.get('theme')
             ? CookieScripts.get('theme')
-            : 'light',
+            : 'light'
         }}
       />
       <CookieWarning />

@@ -3,8 +3,8 @@ import LandingPage from '@/pages/LandingPage/LandingPage'
 import Register from '@/pages/LandingPage/Register'
 import { createBrowserRouter } from 'react-router-dom' // <-- fix here
 import { requireAuthentication } from './redirect'
-import Download from '@/pages/download/Download'
-import Files from '@/components/Files/Files'
+import Download from '@/pages/Download/Download'
+import Files from '@/pages/Files/Files'
 import API from '@/scripts/API'
 import { basename } from '@/config'
 
@@ -25,20 +25,20 @@ export const router = createBrowserRouter(
             }
             return null
           },
-          Component: Download,
-        },
-      ],
+          Component: Download
+        }
+      ]
     },
     {
       path: '/lp',
-      Component: LandingPage,
+      Component: LandingPage
     },
     {
       path: '/register',
-      Component: Register,
-    },
+      Component: Register
+    }
   ],
   {
-    basename,
+    basename
   }
 )

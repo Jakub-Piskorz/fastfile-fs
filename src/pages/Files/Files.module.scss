@@ -1,11 +1,13 @@
-@use '../../pages/App/App.module.scss' as app;
+@use '../App/App.module' as app;
 
 .dragging {
   pointer-events: none;
+
   * {
     pointer-events: none;
   }
 }
+
 .files-window {
   height: calc(100vh - 55px);
   background-color: var(--bg);
@@ -16,11 +18,13 @@
   @media screen and (max-width: app.$mobile) {
     padding: 45px 30px;
   }
+
   .ui-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 50px;
+
     h1 {
       color: var(--text);
       display: flex;
@@ -28,10 +32,8 @@
       line-height: 1;
       flex-direction: row;
       gap: 15px;
-      height: 100%;
-      display: flex;
-      flex-direction: row;
       align-items: center;
+
       .folder-black {
         width: 32px;
         transform: translateY(10%);

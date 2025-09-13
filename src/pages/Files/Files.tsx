@@ -1,12 +1,12 @@
 import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API from '@/scripts/API.js'
-import File from '../File/File'
-import FilesButtonsUI from '../FilesButtonsUI/FilesButtonsUI'
+import File from '../../components/File/File'
+import FilesButtonsUI from '../../components/FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.scss'
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
-import Overlay from '../Overlay/Overlay'
+import Overlay from '../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
 
 const Files = () => {
@@ -18,7 +18,7 @@ const Files = () => {
     searchedFiles,
     setOverlay,
     overlay,
-    moduleSelected,
+    moduleSelected
   } = useStore()
   const fileClick = useFileClick()
 
@@ -122,6 +122,7 @@ const Files = () => {
             <img
               className={style.folderBlack}
               src={searchedFiles ? searchIcon : folderBlackIcon}
+              alt="shared file icon"
             />
             <div>{title}</div>
           </h1>
@@ -136,8 +137,8 @@ const Files = () => {
         >
           {currentFiles
             ? currentFiles.map((file: any, i: number) => {
-                return <File name={file.name} type={file.type} key={i} />
-              })
+              return <File name={file.name} type={file.type} key={i} />
+            })
             : 'Loading files, please wait...'}
         </div>
       </div>

@@ -3,6 +3,7 @@ import Overlay from '@/components/Overlay/Overlay'
 import { useLoaderData } from 'react-router'
 import style from './Download.module.scss'
 import File from '@/components/File/File'
+import folderBlackIcon from '@/images/folder-black.svg'
 
 export const Download = () => {
   const data = useLoaderData()
@@ -12,9 +13,19 @@ export const Download = () => {
       <Overlay />
       <div className={style.downloadSection}>
         <div className={style.uiContainer}>
+          <h1>
+            <img
+              className={style.folderBlack}
+              src={folderBlackIcon}
+              alt="sharedFile" />
+            <div>Shared file</div>
+          </h1>
           <FilesButtonsUI />
         </div>
-        <File name={data.name} type={data.type} />
+        <div className={style.filesContainer}>
+          <File name={data.name} type={data.type} />
+        </div>
+
       </div>
 
       <h1>{data?.uuid}</h1>
