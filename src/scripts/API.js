@@ -138,18 +138,22 @@ const API = {
     }),
 
   shareLink: (filePath) =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/share-link`, {
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link`, {
       headers: authHeader(),
       method: 'POST',
       body: filePath
     }),
   lookupLink: (uuid) =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/lookup-link/${uuid}`, {
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/lookup/${uuid}`, {
+      headers: authHeader()
+    }),
+  myLinks: () =>
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/list`, {
       headers: authHeader()
     }),
   downloadLink: (uuid) => {
     let fileName
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/download-link/${uuid}`, {
+    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/${uuid}`, {
       headers: authHeader()
     }).then((response) => {
       if (response === null || !response.ok)
