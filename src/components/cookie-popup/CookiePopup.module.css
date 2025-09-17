@@ -1,5 +1,3 @@
-@use '../../pages/App/App.module.scss' as app;
-
 .cookie-consent-banner {
   display: none;
   position: fixed;
@@ -44,7 +42,7 @@
   transition: 0.1s;
   border-radius: 8px;
   margin-bottom: 20px;
-  background-color: app.$red;
+  background-color: var(--red);
   color: #fff;
   text-decoration: none;
   text-align: center;
@@ -58,14 +56,14 @@
   padding: 9px 13px;
   border: 2px solid var(--textSecondary);
   background-color: transparent;
-  color: app.$red;
+  color: var(--red);
 }
 
 .cookie-consent-banner__cta:hover {
-  background-color: app.$light-red;
+  background-color: var(--light-red);
 }
 
 .cookie-consent-banner__cta--secondary:hover {
   background-color: transparent;
-  color: app.$light-red;
+  color: var(--light-red);
 }

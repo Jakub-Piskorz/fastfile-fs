@@ -1,4 +1,4 @@
-import style from './DarkModeSwitch.module.scss'
+import style from './DarkModeSwitch.module.css'
 import sun from '@/images/sun.svg'
 import moon from '@/images/moon.svg'
 import CookieScripts from '@/scripts/cookie-scripts'

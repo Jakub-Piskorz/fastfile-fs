@@ -5,13 +5,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-    app: './src/index.tsx',
+    app: './src/index.tsx'
   },
   devtool: 'inline-source-map',
   output: {
     filename: 'js/[name].bundle.js',
     chunkFilename: 'js/[name].chunk.js',
-    path: path.resolve('dist'),
+    path: path.resolve('dist')
   },
   resolve: {
     extensions: [
@@ -21,30 +21,29 @@ module.exports = {
       '.ts',
       '.tsx',
       '.css',
-      '.scss',
       '.svg',
       '.jpg',
       '.bmp',
-      '.png',
+      '.png'
     ],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
+      '@': path.resolve(__dirname, 'src')
+    }
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx|scss|css)$/,
+        test: /\.(js|jsx|ts|tsx|css)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-        },
+          loader: 'babel-loader'
+        }
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
@@ -52,49 +51,43 @@ module.exports = {
               sourceMap: true,
               modules: {
                 localIdentName: '[local]--[hash:base64:6]',
-                exportLocalsConvention: 'camelCase',
-              },
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
+                exportLocalsConvention: 'camelCase'
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif|ico)$/,
         use: [
           {
-            loader: 'url-loader',
-          },
-        ],
+            loader: 'url-loader'
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg|otf)$/,
-        loader: 'url-loader',
-      },
-    ],
+        loader: 'url-loader'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
-      title: 'FastFile',
+      title: 'FastFile'
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css',
+      chunkFilename: 'css/[id].css'
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
           from: 'public',
-          to: '.',
-        },
-      ],
-    }),
-  ],
+          to: '.'
+        }
+      ]
+    })
+  ]
 }

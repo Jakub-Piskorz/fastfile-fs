@@ -1,7 +1,8 @@
-import style from './LandingPage.module.scss'
+import style from './LandingPage.module.css'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 
 const LpHeader = () => {
+  // noinspection HtmlUnknownTarget
   return (
     <div className={style.widthMain}>
       <header className={style.header}>

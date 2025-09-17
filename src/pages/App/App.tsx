@@ -1,7 +1,7 @@
 import Header from '@/components/Header/Header'
 import Sidebar from '@/components/Sidebar/Sidebar'
 import HtmlHead from '@/scripts/HtmlHead'
-import style from './App.module.scss'
+import style from './App.module.css'
 import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import API from '@/scripts/API'

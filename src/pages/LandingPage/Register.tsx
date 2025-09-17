@@ -1,5 +1,5 @@
 import HtmlHead from '@/scripts/HtmlHead'
-import style from './LandingPage.module.scss'
+import style from './LandingPage.module.css'
 
 import facebookRoundIcon from '@/images/icons/facebook-round-icon.png'
 import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
@@ -20,7 +20,7 @@ const Register = () => {
 
     const onSubmit = async (e: SubmitEvent) => {
       e.preventDefault()
-      if (e.target == null) throw new Error("Form element doesn't exist.")
+      if (e.target == null) throw new Error('Form element doesn\'t exist.')
       const formData = new FormData(e.target as HTMLFormElement)
       if (formData.get('password') !== formData.get('password2')) {
         setErrorMsg('Passwords are not identical')
@@ -31,7 +31,7 @@ const Register = () => {
         email: formData.get('email'),
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
-        password: formData.get('password'),
+        password: formData.get('password')
       }
       API.register(data)
         .then((res) => {

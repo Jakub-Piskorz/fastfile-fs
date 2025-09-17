@@ -1,4 +1,4 @@
-import style from './CookiePopup.module.scss'
+import style from './CookiePopup.module.css'
 import { useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 
@@ -21,7 +21,7 @@ export default function CookiePopup() {
     )
     if (!consentBanner) return
     consentBanner.style.display = 'none'
-    CookieScripts.add('consent', value === true ? 'aye' : 'nay', 14)
+    CookieScripts.add('consent', value ? 'aye' : 'nay', 14)
   }
 
   return (

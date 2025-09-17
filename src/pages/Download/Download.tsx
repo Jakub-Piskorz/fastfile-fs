@@ -1,7 +1,7 @@
 import FilesButtonsUI from '@/components/FilesButtonsUI/FilesButtonsUI'
 import Overlay from '@/components/Overlay/Overlay'
 import { useLoaderData } from 'react-router'
-import style from './Download.module.scss'
+import style from './Download.module.css'
 import File from '@/components/File/File'
 import folderBlackIcon from '@/images/folder-black.svg'
 

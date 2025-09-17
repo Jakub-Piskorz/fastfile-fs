@@ -1,5 +1,5 @@
 import HtmlHead from '@/scripts/HtmlHead'
-import style from './LandingPage.module.scss'
+import style from './LandingPage.module.css'
 import { MouseEventHandler, useState } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
@@ -50,6 +50,7 @@ const LandingPage = () => {
     }
   }
 
+  // noinspection HtmlUnknownTarget
   return (
     <>
       <HtmlHead title="FastFile | Home" />

@@ -3,14 +3,14 @@ import useToggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
-import style from './Header.module.scss'
+import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { MenuState, useStore } from '@/hooks/store'
 import { useMemo } from 'react'
 import API from '@/scripts/API'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setSearchedFiles, files } =
+  const { darkMode, menuState, setMenuState, setSearchedFiles } =
     useStore()
   const toggleNav = useToggleNav()
 

@@ -1,0 +1,111 @@
+html {
+    --red: #f63b28;
+    --light-red: #ff6553;
+    --white: white;
+    --header: white;
+    --sidebar: white;
+    --dark-gray: #434343;
+    --gray: #b0b0b0;
+    --light-gray: #f1f1f1;
+    --mobile: 800px;
+
+    /* Light mode */
+    --bgHeader: white;
+    --bgSidebar: white;
+    --headerBorder: 1px solid #e7e7e7;
+    --bg: white;
+    --bgSecondary: #f1f1f1;
+    --text: black;
+    --textSecondary: #434343;
+    --invertOnDark: invert(0);
+    --invertOnLight: invert(1);
+    --invertLite: invert(0.7);
+    --fileShadow: 2px 2px 2px #e2e2e2;
+    --fileHover: none;
+    --fileBorder: #c2c2c2;
+}
+
+/* Dark mode */
+html[theme='dark'] {
+    --bgHeader: #161616;
+    --bgSidebar: #161616;
+    --headerBorder: 1px solid #2c2c2c;
+    --bg: rgb(29, 29, 29);
+    --bgSecondary: #303030;
+    --text: #ddd;
+    --textSecondary: #bbbbbb;
+    --invertOnDark: invert(1);
+    --invertOnLight: invert(0);
+    --invertLite: invert(0.3);
+    --fileShadow: none;
+    --fileHover: #313131;
+    --fileBorder: 1px solid rgba(0, 0, 0, 0);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Exo', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.01em;
+}
+
+body {
+    margin: 0;
+    background-color: white !important;
+}
+
+.fs {
+    display: grid;
+    background: var(--white);
+    grid-template-columns: 230px 1fr;
+    width: 100%;
+    height: calc(100vh - 90px);
+    overflow: hidden;
+    @media screen and (max-width: var(--mobile)) {
+        display: block;
+        height: calc(100vh - 120px);
+        position: relative;
+        top: 55px;
+    }
+}
+
+h1 {
+    font-size: 26px;
+    height: initial;
+}
+
+@media screen and (max-width: var(--mobile)) {
+    :global(.mobile-hidden) {
+        display: none !important;
+    }
+}
+
+main {
+    /* default size: 3 */
+    --fileHeight: 165px;
+    --fileWidth: 180px;
+
+    &[icon-size='5'] {
+        --fileHeight: 205px;
+        --fileWidth: 220px;
+    }
+
+    &[icon-size='4'] {
+        --fileHeight: 185px;
+        --fileWidth: 200px;
+    }
+
+    &[icon-size='3'] {
+        --fileHeight: 165px;
+        --fileWidth: 180px;
+    }
+
+    &[icon-size='2'] {
+        --fileHeight: 145px;
+        --fileWidth: 160px;
+    }
+
+    &[icon-size='1'] {
+        --fileHeight: 125px;
+        --fileWidth: 140px;
+    }
+}

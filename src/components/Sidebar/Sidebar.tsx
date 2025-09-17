@@ -3,9 +3,8 @@ import share from '@/images/share.svg'
 import plusCircle from '@/images/plus-circle.svg'
 import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
-import style from './Sidebar.module.scss'
+import style from './Sidebar.module.css'
 import { useStore } from '@/hooks/store'
-import { useEffect } from 'react'
 
 const Sidebar = () => {
   const { username, sidebarRef, moduleSelected, setModuleSelected } = useStore()

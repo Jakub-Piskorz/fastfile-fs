@@ -1,5 +1,5 @@
-import sidebarStyle from '@/components/Sidebar/Sidebar.module.scss'
-import headerStyle from '@/components/Header/Header.module.scss'
+import sidebarStyle from '@/components/Sidebar/Sidebar.module.css'
+import headerStyle from '@/components/Header/Header.module.css'
 import { OverlayState, useStore } from '@/hooks/store'
 
 const useToggleNav = () => {

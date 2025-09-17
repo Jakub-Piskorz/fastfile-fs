@@ -1,4 +1,4 @@
-import style from './FilesButtonsUI.module.scss'
+import style from './FilesButtonsUI.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import downloadIcon from '@/images/download.svg'
 import uploadIcon from '@/images/upload.svg'
@@ -17,7 +17,7 @@ const FilesButtonsUI = () => {
     setMenuState,
     setFiles,
     iconSize,
-    setIconSize,
+    setIconSize
   } = useStore()
 
   useEffect(() => {
