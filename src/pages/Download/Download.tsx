@@ -1,12 +1,13 @@
 import FilesButtonsUI from '@/components/FilesButtonsUI/FilesButtonsUI'
 import Overlay from '@/components/Overlay/Overlay'
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from 'react-router-dom'
 import style from './Download.module.css'
 import File from '@/components/File/File'
 import folderBlackIcon from '@/images/folder-black.svg'
 
 export const Download = () => {
   const data = useLoaderData()
+  if (!data) return <div className={style.downloadSection}>Nothing</div>
 
   return (
     <>

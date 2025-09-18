@@ -1,12 +1,13 @@
 import App from '@/pages/App/App'
 import LandingPage from '@/pages/LandingPage/LandingPage'
 import Register from '@/pages/LandingPage/Register'
-import { createBrowserRouter } from 'react-router-dom' // <-- fix here
+import { createBrowserRouter } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
 import Download from '@/pages/Download/Download'
 import Files from '@/pages/Files/Files'
 import API from '@/scripts/API'
 import { basename } from '@/config'
+import React, { Suspense } from 'react'
 
 export const router = createBrowserRouter(
   [
@@ -25,7 +26,7 @@ export const router = createBrowserRouter(
             }
             return null
           },
-          Component: Download
+          Component: () => <Suspense fallback={<div>Loading...</div>}><Download /></Suspense>
         }
       ]
     },

@@ -33,12 +33,7 @@ const App = (): ReactElement => {
 
     fetchUserInfo()
   }, [])
-
-  // const stop = (e: React.MouseEvent<HTMLInputElement>) => {
-  //   if (e === null) return
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  // }
+  
   return (
     <div style={{ height: '100vh' }}>
       <HtmlHead
