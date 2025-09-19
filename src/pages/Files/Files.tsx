@@ -1,13 +1,11 @@
 import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API from '@/scripts/API.js'
 import File from '../../components/File/File'
-import FilesButtonsUI from '../../components/FilesButtonsUI/FilesButtonsUI'
-import folderBlackIcon from '@/images/folder-black.svg'
-import searchIcon from '@/images/search-black.svg'
 import style from './Files.module.css'
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
+import FilesHeader from '@/components/FilesHeader/FilesHeader'
 
 const Files = () => {
   const {
@@ -113,21 +111,7 @@ const Files = () => {
         onDragEnter={onDrag}
         onDragLeave={onDragStop}
       >
-        <div
-          className={`${style.uiContainer} ${
-            overlay === OverlayState.upload && style.draggingg
-          }`}
-        >
-          <h1>
-            <img
-              className={style.folderBlack}
-              src={searchedFiles ? searchIcon : folderBlackIcon}
-              alt="shared file icon"
-            />
-            <div>{title}</div>
-          </h1>
-          <FilesButtonsUI />
-        </div>
+        <FilesHeader title={title} />
         <div
           className={`${style.files} ${
             overlay === OverlayState.upload && style.draggingg
