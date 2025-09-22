@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import useToggleNav from '@/scripts/toggle-nav.js'
 import logo from '@/images/logo/FastFile-web.png'
 import logoDark from '@/images/logo/FastFile-reverse.png'
@@ -6,21 +6,30 @@ import profilePic from '@/images/user.svg'
 import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { MenuState, useStore } from '@/hooks/store'
-import { useMemo } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import API from '@/scripts/API'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setSearchedFiles } =
+  const { darkMode, menuState, setMenuState, setSearchedFiles, moduleSelected } =
     useStore()
   const toggleNav = useToggleNav()
+  const location = useLocation()
+  const isSearchDisabled = useMemo(() =>
+    location.pathname.includes('/download/') || moduleSelected !== 0, [location.pathname, moduleSelected])
+  const [inputValue, setInputValue] = useState<string>('')
+
+  useEffect(() => {
+    if (isSearchDisabled) setInputValue('')
+  }, [isSearchDisabled])
 
   const onDebouncedSearch = useMemo(
     () =>
       (() => {
         let timeout: number
         let controller: AbortController
-        return (e: React.KeyboardEvent<HTMLInputElement>) => {
+        return (e: ChangeEvent) => {
           const input = e.target as HTMLInputElement
+          setInputValue(input.value)
           if (timeout) {
             clearTimeout(timeout)
             controller.abort()
@@ -88,7 +97,10 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search something..."
-            onKeyUp={onDebouncedSearch}
+            value={inputValue}
+            onChange={onDebouncedSearch}
+            disabled={isSearchDisabled}
+            className={isSearchDisabled ? style.disabled : ''}
           />
         </div>
       </div>
