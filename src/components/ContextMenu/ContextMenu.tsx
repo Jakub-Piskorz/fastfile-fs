@@ -32,7 +32,6 @@ const ContextMenu = () => {
     } else {
       API.download([clickedItem])
     }
-
   }
 
   const onDelete = async () => {
@@ -93,7 +92,7 @@ const ContextMenu = () => {
   }
 
   const onShare = async () => {
-    const link = await API.shareLink(clickedItem).then(
+    const link = await API.createPublicLink(clickedItem).then(
       (res) => res.ok && res.json()
     )
     if (link.uuid) {
@@ -113,7 +112,7 @@ const ContextMenu = () => {
       style={{
         width: [MenuState.upload, MenuState.newDir].includes(menuState)
           ? '300px'
-          : '170px'
+          : '170px',
       }}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
