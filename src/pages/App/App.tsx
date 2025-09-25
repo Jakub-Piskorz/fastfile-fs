@@ -4,36 +4,20 @@ import HtmlHead from '@/scripts/HtmlHead'
 import style from './App.module.css'
 import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
-import API from '@/scripts/API'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import { ContextMenu } from '@/components/ContextMenu/ContextMenu'
 import { MenuState, useStore } from '@/hooks/store'
-import { Outlet, redirect } from 'react-router-dom'
+import { Outlet, useLoaderData } from 'react-router-dom'
+import { IUserInfo } from '@/router/redirect'
 
 const App = (): ReactElement => {
-  const { setUsername, setMenuState, setDarkMode, iconSize } = useStore()
+  const { setUsername, setMenuState, iconSize } = useStore()
+  const userInfo = useLoaderData<IUserInfo>()
 
   useEffect(() => {
-    setDarkMode(CookieScripts.get('theme') === 'dark')
+    setUsername(userInfo.username)
+  }, [userInfo])
 
-    const fetchUserInfo = () => {
-      try {
-        API.userInfo().then(async (response) => {
-          if (!response.ok) {
-            throw new Error('Wrong token')
-          }
-          const resJson = await response.json()
-          setUsername(resJson.username)
-        })
-      } catch (e) {
-        CookieScripts.add('token', '')
-        redirect('/lp')
-      }
-    }
-
-    fetchUserInfo()
-  }, [])
-  
   return (
     <div style={{ height: '100vh' }}>
       <HtmlHead

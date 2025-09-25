@@ -6,6 +6,7 @@ import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
+import { routes, useCurrentRoute } from '@/router/router'
 
 const Files = () => {
   const {
@@ -15,8 +16,7 @@ const Files = () => {
     setFiles,
     searchedFiles,
     setOverlay,
-    overlay,
-    moduleSelected
+    overlay
   } = useStore()
   const fileClick = useFileClick()
 
@@ -25,25 +25,16 @@ const Files = () => {
     [files?.length, searchedFiles?.length]
   )
 
-  const title = useMemo(() => {
-    switch (moduleSelected) {
-      case 0:
-        return username
-      case 1:
-        return 'Shared files'
-      default:
-        return username
-    }
-  }, [moduleSelected, username])
+  const currentRoute = useCurrentRoute()
 
   const refresh = async () => {
     let apiCall
-    switch (moduleSelected) {
-      case 0:
+    switch (currentRoute) {
+      case routes.app:
         apiCall = API.listFiles
         break
-      case 1:
-        apiCall = API.sharedByMe
+      case routes.shared:
+        apiCall = API.myLinks
         break
       default:
         apiCall = API.listFiles
@@ -61,7 +52,7 @@ const Files = () => {
 
   useEffect(() => {
     refresh()
-  }, [moduleSelected])
+  }, [])
 
   const dragCounter = useRef(0)
 
@@ -111,7 +102,7 @@ const Files = () => {
         onDragEnter={onDrag}
         onDragLeave={onDragStop}
       >
-        <FilesHeader title={title} />
+        <FilesHeader title={username} />
         <div
           className={`${style.files} ${
             overlay === OverlayState.upload && style.draggingg

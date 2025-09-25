@@ -1,6 +1,6 @@
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import style from './Overlay.module.css'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 import cloudIcon from '@/images/cloud-arrow-up.svg'
 
@@ -9,8 +9,15 @@ const Overlay = () => {
 
   const toggleNav = useToggleNav()
 
+  useEffect(() => {
+    return setMenuState(MenuState.closed)
+  }, [])
   const overlayCssClass = useMemo(() => {
-    setMenuState(MenuState.closed) // We want to close the context menu, when any overlay change is triggered
+    // We want to close the context menu, when any overlay change is triggered
+    // below "if" is unnecessary, but console errors "bad setState() call" on page redirect, if removed. Works fine despite that, but I hate console errors.
+    if (overlay !== OverlayState.hidden) {
+      setMenuState(MenuState.closed)
+    }
     switch (overlay) {
       case OverlayState.hidden: {
         return style.hidden

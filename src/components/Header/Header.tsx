@@ -8,14 +8,16 @@ import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { MenuState, useStore } from '@/hooks/store'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import API from '@/scripts/API'
+import { routes, useCurrentRoute } from '@/router/router'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setSearchedFiles, moduleSelected } =
+  const { darkMode, menuState, setMenuState, setSearchedFiles } =
     useStore()
   const toggleNav = useToggleNav()
   const location = useLocation()
+  const currentRoute = useCurrentRoute()
   const isSearchDisabled = useMemo(() =>
-    location.pathname.includes('/download/') || moduleSelected !== 0, [location.pathname, moduleSelected])
+    location.pathname.includes('/download/') || currentRoute !== routes.app, [location.pathname, currentRoute])
   const [inputValue, setInputValue] = useState<string>('')
 
   useEffect(() => {
@@ -105,7 +107,7 @@ const Header = () => {
         </div>
       </div>
       <div id={style.right}>
-        <img src={profilePic} onClick={clickHandler} />
+        <img src={profilePic} onClick={clickHandler} alt="Profile" />
       </div>
     </header>
   )

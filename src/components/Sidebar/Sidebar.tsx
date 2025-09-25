@@ -5,50 +5,38 @@ import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
 import style from './Sidebar.module.css'
 import { useStore } from '@/hooks/store'
+import { routes, useCurrentRoute } from '@/router/router'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
-  const { username, sidebarRef, moduleSelected, setModuleSelected } = useStore()
+  const { username, sidebarRef } = useStore()
+  const currentRoute = useCurrentRoute()
 
   return (
     <main className={style.sidebar} ref={sidebarRef}>
-      <ul className={style.menu}>
-        <li
-          className={moduleSelected === 0 ? style.red : undefined}
-          onClick={() => setModuleSelected(0)}
-        >
-          <img src={folder} />
+      <div className={style.menu}>
+        <Link to={routes.app} className={currentRoute === routes.app ? style.red : undefined}>
+          <img src={folder} alt="folder" />
           {username}
-        </li>
-        <li
-          className={moduleSelected === 1 ? style.red : undefined}
-          onClick={() => setModuleSelected(1)}
-        >
-          <img src={share} />
+        </Link>
+        <Link to={routes.shared} className={currentRoute === routes.shared ? style.red : undefined}>
+          <img src={share} alt="share" />
           Shared
-        </li>
-        <li
-          className={moduleSelected === 2 ? style.red : undefined}
-          onClick={() => setModuleSelected(2)}
-        >
-          <img src={plusCircle} />
+        </Link>
+        <Link to={routes.app}>
+          <img src={plusCircle} alt="plusCircle" />
           Latest files
-        </li>
-        <li
-          className={moduleSelected === 3 ? style.red : undefined}
-          onClick={() => setModuleSelected(3)}
-        >
-          <img src={camera} />
+        </Link>
+        <Link to={routes.app}>
+          <img src={camera} alt="camera" />
           Photos
-        </li>
-        <li
-          className={moduleSelected === 4 ? style.red : undefined}
-          onClick={() => setModuleSelected(4)}
-        >
-          <img src={code} />
+        </Link>
+        <Link to={routes.app}>
+          <img src={code} alt="code" />
           Code hosting
           <i className="lock"></i>
-        </li>
-      </ul>
+        </Link>
+      </div>
     </main>
   )
 }

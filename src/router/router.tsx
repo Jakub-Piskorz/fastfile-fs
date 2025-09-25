@@ -1,13 +1,23 @@
 import App from '@/pages/App/App'
 import LandingPage from '@/pages/LandingPage/LandingPage'
 import Register from '@/pages/LandingPage/Register'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
 import Download from '@/pages/Download/Download'
 import Files from '@/pages/Files/Files'
 import API from '@/scripts/API'
 import { basename } from '@/config'
-import React, { Suspense } from 'react'
+import Shared from '@/pages/Shared/Shared'
+
+export const routes = {
+  landingPage: '/lp',
+  app: '/',
+  link: '/download',
+  linkWithVariable: '/download/:uuid',
+  getLink: (uuid: string) => `/download/${uuid}`,
+  register: '/register',
+  shared: '/shared'
+}
 
 export const router = createBrowserRouter(
   [
@@ -16,30 +26,47 @@ export const router = createBrowserRouter(
       Component: App,
       loader: requireAuthentication,
       children: [
-        { path: '/', Component: Files },
+        { path: routes.app, Component: Files },
         {
-          path: '/download/:uuid',
+          path: routes.linkWithVariable,
+          Component: Download,
           loader: async ({ params }) => {
             const res = await API.lookupLink(params.uuid)
             if (res.ok) {
               return await res.json()
             }
             return null
-          },
-          Component: () => <Suspense fallback={<div>Loading...</div>}><Download /></Suspense>
+          }
+        },
+        {
+          path: routes.shared,
+          Component: Shared,
+          loader: Shared.loader
         }
       ]
     },
     {
-      path: '/lp',
+      path: routes.landingPage,
       Component: LandingPage
     },
     {
-      path: '/register',
+      path: routes.register,
       Component: Register
     }
-  ],
-  {
-    basename
-  }
+  ], { basename }
 )
+
+// Useful hook for checking what web page you're currently in.
+export function useCurrentRoute() {
+  const pathname = useLocation().pathname.split('/')[1]
+  switch (pathname) {
+    case '':
+      return routes.app
+    case 'download':
+      return routes.link
+    case 'shared':
+      return routes.shared
+    default:
+      return null
+  }
+}

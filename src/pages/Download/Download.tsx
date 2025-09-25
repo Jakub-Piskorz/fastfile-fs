@@ -3,10 +3,13 @@ import { useLoaderData } from 'react-router-dom'
 import style from './Download.module.css'
 import File from '@/components/File/File'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
+import API from '@/scripts/API'
+import { LoaderFunctionArgs } from 'react-router-dom'
 
-export const Download = () => {
+const Download = () => {
+
   const data = useLoaderData()
-  if (!data) return <div className={style.downloadSection}>Nothing</div>
+  if (!data) return <div className={style.downloadSection}>Download link doesn't exist</div>
 
   return (
     <>
@@ -22,6 +25,14 @@ export const Download = () => {
       <h1>{data?.uuid}</h1>
     </>
   )
+}
+
+Download.loader = async ({ params }: LoaderFunctionArgs) => {
+  const res = await API.lookupLink(params.uuid)
+  if (res.ok) {
+    return await res.json()
+  }
+  return null
 }
 
 export default Download

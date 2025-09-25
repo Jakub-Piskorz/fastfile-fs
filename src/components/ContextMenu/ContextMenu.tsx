@@ -6,6 +6,7 @@ import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { routes } from '@/router/router'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
@@ -97,9 +98,9 @@ const ContextMenu = () => {
     )
     if (link.uuid) {
       setMenuState(MenuState.copiedLink)
-      navigator.clipboard.writeText(
-        window.location.origin + basename + 'download/' + link.uuid
-      ) // TODO: Make this link work
+      await navigator.clipboard.writeText(
+        window.location.origin + basename + routes.getLink(link.uuid).slice(1)
+      )
     } else {
       setMenuState(MenuState.closed)
     }
@@ -112,7 +113,7 @@ const ContextMenu = () => {
       style={{
         width: [MenuState.upload, MenuState.newDir].includes(menuState)
           ? '300px'
-          : '170px',
+          : '170px'
       }}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
