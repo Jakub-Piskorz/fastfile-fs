@@ -21,7 +21,10 @@ const Header = () => {
   const [inputValue, setInputValue] = useState<string>('')
 
   useEffect(() => {
-    if (isSearchDisabled) setInputValue('')
+    if (isSearchDisabled) {
+      setInputValue('')
+      setSearchedFiles(null)
+    }
   }, [isSearchDisabled])
 
   const onDebouncedSearch = useMemo(

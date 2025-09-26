@@ -22,8 +22,12 @@
   }
 
   .files-container {
-    display: flex;
+    display: inline-flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
     margin-top: 25px;
+    width: 100%;
+    min-height: 80%;
   }
 
   .ui-container {
