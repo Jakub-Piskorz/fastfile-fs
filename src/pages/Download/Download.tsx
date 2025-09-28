@@ -15,7 +15,7 @@ const Download = () => {
     <>
       <Overlay />
       <div className={style.downloadSection}>
-        <FilesHeader title="Shared file" />
+        <FilesHeader title="Shared with me" />
         <div className={style.filesContainer}>
           <File name={data.name} type={data.type} />
         </div>

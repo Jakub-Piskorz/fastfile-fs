@@ -2,6 +2,7 @@ import API from '@/scripts/API'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
+import arrowIcon from '@/images/arrow-top-right-on-square.svg'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -14,6 +15,7 @@ const ContextMenu = () => {
   const location = useLocation()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
+  const [clipboard, setClipboard] = useState<string | null>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     setUploadName('Select file')
@@ -92,18 +94,32 @@ const ContextMenu = () => {
     }
   }
 
-  const onShare = async () => {
-    const link = await API.createPublicLink(clickedItem).then(
-      (res) => res.ok && res.json()
+  const onShare = () => {
+    setMenuState(MenuState.shareChoice)
+  }
+
+  const onPublicShare = async () => {
+    setClipboard(null)
+    const link: { uuid: string } = await API.createPublicLink(clickedItem).then(
+      (res) => {
+        if (!res.ok) {
+          throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
+        }
+        return res.json()
+      }
     )
     if (link.uuid) {
-      setMenuState(MenuState.copiedLink)
-      await navigator.clipboard.writeText(
-        window.location.origin + basename + routes.getLink(link.uuid).slice(1)
-      )
+      setMenuState(MenuState.publicShare)
+      setClipboard(window.location.origin + basename + routes.getLink(link.uuid).slice(1))
+      await navigator.clipboard.writeText(clipboard)
     } else {
       setMenuState(MenuState.closed)
     }
+  }
+
+  const onPrivateShare = async () => {
+    setClipboard(null)
+    setMenuState(MenuState.privateShare)
   }
 
   return (
@@ -183,8 +199,18 @@ const ContextMenu = () => {
                 </button>
               </form>
             )
-          if (menuState === MenuState.copiedLink)
-            return <div className={style.normal}>Link copied!</div>
+          if (menuState === MenuState.shareChoice)
+            return <>
+              <li onMouseUp={onPublicShare}>Create public link</li>
+              <li onMouseUp={onPrivateShare}>Share to someone</li>
+            </>
+          if (menuState === MenuState.publicShare)
+            return <a href={clipboard as string} className={style.normal}>
+              <div>Link copied to clipboard</div>
+              <img src={arrowIcon} alt="Go to link"></img>
+            </a>
+          if (menuState === MenuState.privateShare)
+            return <div className={style.normal}>TODO: Do this</div>
         })()}
       </ul>
     </div>

@@ -7,14 +7,14 @@ import API from '@/scripts/API'
 
 const Shared = () => {
   const files = useLoaderData()
-  
+
   if (!files) return <div className={style.downloadSection}>Nothing</div>
 
   return (
     <>
       <Overlay />
       <div className={style.sharedSection}>
-        <FilesHeader title="Shared file" />
+        <FilesHeader title="Shared files" />
         <div className={style.filesContainer}>
           {!files && 'No shared files yet.'}
           {files && files.map((file: any, i: number) => (

@@ -9,7 +9,9 @@ export enum MenuState {
   upload,
   background,
   newDir,
-  copiedLink,
+  shareChoice,
+  privateShare,
+  publicShare,
 }
 
 export enum OverlayState {

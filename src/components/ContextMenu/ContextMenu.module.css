@@ -12,10 +12,21 @@
   user-select: none;
   overflow: hidden;
   cursor: pointer;
+  font-size: 0.9rem;
 
   .normal {
     color: var(--text);
     padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: auto;
+      height: 26px;
+      object-fit: contain;
+    }
   }
 
   &.hidden {
@@ -68,8 +79,7 @@
 
       input[type='text'] {
         background: var(--bgSecondary);
-        height: 30px;
-        ;
+        height: 30px;;
         font-weight: 500;
         font-style: italic;
         padding: 7px 15px 7px 37px;
@@ -99,7 +109,6 @@
       font-weight: 400;
       color: var(--textSecondary);
       padding: 12px 22px;
-      font-size: 0.9rem;
       transition: 0.1s;
 
       &:hover {
