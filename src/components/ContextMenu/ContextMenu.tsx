@@ -111,7 +111,9 @@ const ContextMenu = () => {
     if (link.uuid) {
       setMenuState(MenuState.publicShare)
       setClipboard(window.location.origin + basename + routes.getLink(link.uuid).slice(1))
-      await navigator.clipboard.writeText(clipboard)
+      if (clipboard != null) {
+        await navigator.clipboard.writeText(clipboard)
+      }
     } else {
       setMenuState(MenuState.closed)
     }
