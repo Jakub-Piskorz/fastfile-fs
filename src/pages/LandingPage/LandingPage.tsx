@@ -4,7 +4,7 @@ import { MouseEventHandler, useState } from 'react'
 import API from '@/scripts/API'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
-import LpHeader from './LpHeader'
+import LpHeader from '../../components/LPHeader/LpHeader'
 
 import appStoreBtn from '@/images/icons/app-store-btn.png'
 import facebookIcon from '@/images/icons/facebook-icon.png'

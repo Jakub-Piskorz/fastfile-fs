@@ -1,10 +1,10 @@
 import HtmlHead from '@/scripts/HtmlHead'
-import style from './LandingPage.module.css'
+import style from '../LandingPage.module.css'
 
 import facebookRoundIcon from '@/images/icons/facebook-round-icon.png'
 import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
 import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
-import LpHeader from './LpHeader'
+import LpHeader from '../../../components/LPHeader/LpHeader'
 import { useEffect, useRef, useState } from 'react'
 import API from '@/scripts/API'
 import { useNavigate } from 'react-router-dom'

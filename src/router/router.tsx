@@ -1,13 +1,13 @@
 import App from '@/pages/App/App'
 import LandingPage from '@/pages/LandingPage/LandingPage'
-import Register from '@/pages/LandingPage/Register'
+import Register from '@/pages/LandingPage/Register/Register'
 import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
-import Download from '@/pages/Download/Download'
-import Files from '@/pages/Files/Files'
+import Download from '@/pages/App/Download/Download'
+import Files from '@/pages/App/Files/Files'
 import API from '@/scripts/API'
 import { basename } from '@/config'
-import Shared from '@/pages/Shared/Shared'
+import Shared from '@/pages/App/Shared/Shared'
 
 export const routes = {
   landingPage: '/lp',

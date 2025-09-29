@@ -1,4 +1,4 @@
-import API from '@/scripts/API'
+import API, { useListFilesApiCall } from '@/scripts/API'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
@@ -12,6 +12,7 @@ import { routes } from '@/router/router'
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
     useStore()
+  const apiCall = useListFilesApiCall()
   const location = useLocation()
   const [uploadName, setUploadName] = useState('Select file')
   const uploadInputRef = useRef<HTMLInputElement>(null)
@@ -40,7 +41,7 @@ const ContextMenu = () => {
   const onDelete = async () => {
     setMenuState(MenuState.closed)
     await API.delete(clickedItem)
-    const files = await API.listFiles().then((res) =>
+    const files = await apiCall().then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     setFiles(files)

@@ -1,12 +1,11 @@
 import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
-import API from '@/scripts/API.js'
-import File from '../../components/File/File'
+import API, { useListFilesApiCall } from '@/scripts/API.js'
+import File from '../../../components/File/File'
 import style from './Files.module.css'
 import { MenuState, OverlayState, useStore } from '@/hooks/store'
-import Overlay from '../../components/Overlay/Overlay'
+import Overlay from '../../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
-import { routes, useCurrentRoute } from '@/router/router'
 
 const Files = () => {
   const {
@@ -18,6 +17,7 @@ const Files = () => {
     setOverlay,
     overlay
   } = useStore()
+  const apiCall = useListFilesApiCall()
   const fileClick = useFileClick()
 
   const currentFiles = useMemo(
@@ -25,20 +25,7 @@ const Files = () => {
     [files?.length, searchedFiles?.length]
   )
 
-  const currentRoute = useCurrentRoute()
-
   const refresh = async () => {
-    let apiCall
-    switch (currentRoute) {
-      case routes.app:
-        apiCall = API.listFiles
-        break
-      case routes.shared:
-        apiCall = API.myLinks
-        break
-      default:
-        apiCall = API.listFiles
-    }
     try {
       const files = await apiCall().then((response) => {
         if (response.ok) return response.json()

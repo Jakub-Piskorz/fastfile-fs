@@ -1,4 +1,4 @@
-import style from './LandingPage.module.css'
+import style from '../../pages/LandingPage/LandingPage.module.css'
 import fastfileReverse from '@/images/logo/FastFile-reverse.png'
 
 const LpHeader = () => {

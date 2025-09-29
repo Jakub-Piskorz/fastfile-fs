@@ -1,14 +1,18 @@
 // Functions for communication with FileSystem backend
 
 import CookieScripts from './cookie-scripts'
+import { routes, useCurrentRoute } from '@/router/router'
+
+const BASE_URL = 'https://jakubpiskorz.dev:8080'
 
 const authHeader = () => ({
   Authorization: `Bearer ${CookieScripts.get('token')}`
 })
 
+
 const API = {
   listFiles: function(slug = ``, controller) {
-    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/list/${slug}`, {
+    return fetch(`${BASE_URL}/api/v1/files/list/${slug}`, {
       headers: {
         ...authHeader()
       },
@@ -19,7 +23,7 @@ const API = {
     const formData = new FormData()
     formData.append('filePath', `/${path}`)
     formData.append('file', file)
-    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/upload`, {
+    return fetch(`${BASE_URL}/api/v1/files/upload`, {
       method: `POST`,
       body: formData,
       headers: {
@@ -28,7 +32,7 @@ const API = {
     })
   },
   login: function(login = ``, password = ``) {
-    return fetch(`https://jakubpiskorz.dev:8080/auth/login`, {
+    return fetch(`${BASE_URL}/auth/login`, {
       method: `POST`,
       body: JSON.stringify({ login, password }),
       headers: {
@@ -37,13 +41,13 @@ const API = {
     })
   },
   logout: async function() {
-    return fetch(`https://jakubpiskorz.dev:8080/auth/logout`, {
+    return fetch(`${BASE_URL}/auth/logout`, {
       method: `GET`,
       headers: authHeader()
     })
   },
   register: function(body) {
-    return fetch(`https://jakubpiskorz.dev:8080/auth/register`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: `POST`,
       body: JSON.stringify(body),
       headers: {
@@ -52,7 +56,7 @@ const API = {
     })
   },
   userInfo: function() {
-    return fetch(`https://jakubpiskorz.dev:8080/auth/user`, {
+    return fetch(`${BASE_URL}/auth/user`, {
       method: `GET`,
       headers: authHeader()
     })
@@ -63,7 +67,7 @@ const API = {
     let fileName
     if (filePaths.length === 1) {
       fetchCall = fetch(
-        `https://jakubpiskorz.dev:8080/api/v1/files/download/${filePaths[0]}`,
+        `${BASE_URL}/api/v1/files/download/${filePaths[0]}`,
         {
           method: `GET`,
           headers: authHeader()
@@ -71,7 +75,7 @@ const API = {
       )
     } else {
       fetchCall = fetch(
-        `https://jakubpiskorz.dev:8080/api/v1/files/download-multiple`,
+        `${BASE_URL}/api/v1/files/download-multiple`,
         {
           method: 'POST',
           body: JSON.stringify({
@@ -106,7 +110,7 @@ const API = {
   },
   delete: function(filePath = '') {
     return fetch(
-      `https://jakubpiskorz.dev:8080/api/v1/files/delete/${filePath}`,
+      `${BASE_URL}/api/v1/files/delete/${filePath}`,
       {
         method: 'DELETE',
         headers: authHeader()
@@ -114,7 +118,7 @@ const API = {
     )
   },
   search: function(fileName = '', directory = '', controller) {
-    return fetch(`https://jakubpiskorz.dev:8080/api/v1/files/search`, {
+    return fetch(`${BASE_URL}/api/v1/files/search`, {
       method: 'POST',
       headers: { ...authHeader(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -126,37 +130,37 @@ const API = {
   },
   createDir: (path = ``) =>
     fetch(
-      `https://jakubpiskorz.dev:8080/api/v1/files/create-directory/${path}`,
+      `${BASE_URL}/api/v1/files/create-directory/${path}`,
       {
         headers: authHeader()
       }
     ),
   createPublicLink: (filePath) =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/create`, {
+    fetch(`${BASE_URL}/api/v1/files/link/create`, {
       headers: authHeader(),
       method: 'POST',
       body: filePath
     }),
   createPrivateLink: (filePath, emails) =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/create-private`, {
+    fetch(`${BASE_URL}/api/v1/files/link/create-private`, {
       headers: authHeader(),
       method: 'POST',
-      body: {
+      body: JSON.stringify({
         filePath,
         emails
-      }
+      })
     }),
   lookupLink: (uuid) =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/lookup/${uuid}`, {
+    fetch(`${BASE_URL}/api/v1/files/link/lookup/${uuid}`, {
       headers: authHeader()
     }),
   myLinks: () =>
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/list`, {
+    fetch(`${BASE_URL}/api/v1/files/link/list`, {
       headers: authHeader()
     }),
   downloadLink: (uuid) => {
     let fileName
-    fetch(`https://jakubpiskorz.dev:8080/api/v1/files/link/${uuid}`, {
+    fetch(`${BASE_URL}/api/v1/files/link/${uuid}`, {
       headers: authHeader()
     })
       .then((response) => {
@@ -181,6 +185,25 @@ const API = {
         a.remove()
       })
   }
+}
+
+export const useListFilesApiCall = () => {
+  let apiCall
+  const currentRoute = useCurrentRoute()
+  switch (currentRoute) {
+    case routes.app:
+      apiCall = API.listFiles
+      break
+    case routes.shared:
+      apiCall = API.myLinks
+      break
+    case routes.link:
+      apiCall = API.lookupLink
+      break
+    default:
+      apiCall = API.listFiles
+  }
+  return apiCall
 }
 
 export default API
