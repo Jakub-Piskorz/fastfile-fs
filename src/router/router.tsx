@@ -3,11 +3,8 @@ import LandingPage from '@/pages/LandingPage/LandingPage'
 import Register from '@/pages/LandingPage/Register/Register'
 import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
-import Download from '@/pages/App/Download/Download'
 import Files from '@/pages/App/Files/Files'
-import API from '@/scripts/API'
 import { basename } from '@/config'
-import Shared from '@/pages/App/Shared/Shared'
 
 export const routes = {
   landingPage: '/lp',
@@ -29,19 +26,11 @@ export const router = createBrowserRouter(
         { path: routes.app, Component: Files },
         {
           path: routes.linkWithVariable,
-          Component: Download,
-          loader: async ({ params }) => {
-            const res = await API.lookupLink(params.uuid)
-            if (res.ok) {
-              return await res.json()
-            }
-            return null
-          }
+          Component: Files
         },
         {
           path: routes.shared,
-          Component: Shared,
-          loader: Shared.loader
+          Component: Files
         }
       ]
     },

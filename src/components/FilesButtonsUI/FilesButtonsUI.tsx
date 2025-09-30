@@ -6,8 +6,11 @@ import deleteIcon from '@/images/trash.svg'
 import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
-import API from '@/scripts/API'
+import API, { useListFilesApiCall } from '@/scripts/API'
 import { MenuState, useStore } from '@/hooks/store'
+import { routes, useCurrentRoute } from '@/router/router'
+import useUuid from '@/hooks/useUuid'
+import { useNavigate } from 'react-router-dom'
 
 const FilesButtonsUI = () => {
   const {
@@ -19,6 +22,12 @@ const FilesButtonsUI = () => {
     iconSize,
     setIconSize
   } = useStore()
+
+
+  const currentRoute = useCurrentRoute()
+  const navigate = useNavigate()
+  const apiCall = useListFilesApiCall()
+  const uuid = useUuid()
 
   useEffect(() => {
     localStorage.setItem('icon-size', String(iconSize))
@@ -55,9 +64,17 @@ const FilesButtonsUI = () => {
       await API.delete(item)
     }
 
-    const files = await API.listFiles().then((res) =>
+    let files = await apiCall(uuid).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
+
+    // If we're on link page, deleting file also deletes the link, therefore return to main page
+    if (currentRoute === routes.link) {
+      navigate(routes.app)
+    }
+    if (!Array.isArray(files)) {
+      files = [files]
+    }
     setFiles(files)
     setSelectedItems([])
   }
@@ -72,16 +89,16 @@ const FilesButtonsUI = () => {
         className={`${selectedItems.length === 0 ? style.hidden : ''}`}
         onClick={onDelete}
       >
-        <img src={deleteIcon} />
+        <img src={deleteIcon} alt="Delete icon" />
       </button>
       <button
         className={`${selectedItems.length === 0 ? style.hidden : ''}`}
         onClick={onDownload}
       >
-        <img src={downloadIcon} />
+        <img src={downloadIcon} alt="Download icon" />
       </button>
       <button onClick={onUpload}>
-        <img src={uploadIcon} />
+        <img src={uploadIcon} alt="Upload icon" />
       </button>
       <button
         className={`mobile-hidden ${iconSize === 5 && style.disabled}`}
@@ -89,7 +106,7 @@ const FilesButtonsUI = () => {
           setIconSize(Math.min(5, iconSize + 1) as typeof iconSize)
         }}
       >
-        <img src={plusIcon} />
+        <img src={plusIcon} alt="Plus icon" />
       </button>
       <button
         className={`mobile-hidden ${iconSize === 1 && style.disabled}`}
@@ -97,9 +114,10 @@ const FilesButtonsUI = () => {
           setIconSize(Math.max(1, iconSize - 1) as typeof iconSize)
         }}
       >
-        <img src={minusIcon} />
+        <img alt="minus icon" src={minusIcon} />
       </button>
     </div>
   )
 }
+
 export default FilesButtonsUI

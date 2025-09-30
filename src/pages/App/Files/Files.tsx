@@ -6,6 +6,8 @@ import { MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
+import { routes, useCurrentRoute } from '@/router/router'
+import useUuid from '@/hooks/useUuid'
 
 const Files = () => {
   const {
@@ -17,19 +19,34 @@ const Files = () => {
     setOverlay,
     overlay
   } = useStore()
+  const currentRoute = useCurrentRoute()
+
+
   const apiCall = useListFilesApiCall()
   const fileClick = useFileClick()
+
+  const uuid = useUuid()
 
   const currentFiles = useMemo(
     () => searchedFiles || files,
     [files?.length, searchedFiles?.length]
   )
 
+  const title = useMemo(() => {
+    if (currentRoute === routes.app) return username
+    if (currentRoute === routes.shared) return 'Shared files'
+    if (currentRoute === routes.link) return 'File for download'
+    return username || ''
+  }, [currentRoute])
+
   const refresh = async () => {
     try {
-      const files = await apiCall().then((response) => {
+      let files = await apiCall(uuid).then((response) => {
         if (response.ok) return response.json()
       })
+      if (!Array.isArray(files)) {
+        files = [files]
+      }
       setFiles(files)
       return
     } catch (e) {
@@ -39,7 +56,7 @@ const Files = () => {
 
   useEffect(() => {
     refresh()
-  }, [])
+  }, [currentRoute])
 
   const dragCounter = useRef(0)
 
@@ -49,6 +66,9 @@ const Files = () => {
   const onDrag = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    if (currentRoute !== routes.app) {
+      return
+    }
 
     dragCounter.current++
 
@@ -60,6 +80,10 @@ const Files = () => {
     e.preventDefault()
     e.stopPropagation()
 
+    if (currentRoute !== routes.app) {
+      return
+    }
+
     dragCounter.current--
     if (dragCounter.current === 0) {
       setOverlay(OverlayState.hidden)
@@ -69,6 +93,10 @@ const Files = () => {
   const upload = (e: DragEvent) => {
     e.stopPropagation()
     e.preventDefault()
+
+    if (currentRoute !== routes.app) {
+      return
+    }
 
     dragCounter.current = 0
     setOverlay(OverlayState.hidden)
@@ -89,7 +117,7 @@ const Files = () => {
         onDragEnter={onDrag}
         onDragLeave={onDragStop}
       >
-        <FilesHeader title={username} />
+        <FilesHeader title={title} />
         <div
           className={`${style.files} ${
             overlay === OverlayState.upload && style.draggingg
