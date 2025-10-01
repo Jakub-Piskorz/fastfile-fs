@@ -3,11 +3,14 @@ import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import arrowIcon from '@/images/arrow-top-right-on-square.svg'
+import plusCircleIcon from '@/images/plus-circle.svg'
+import uploadIcon from '@/images/upload.svg'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { routes } from '@/router/router'
+import BeanOption from '@/components/BeanOption/BeanOption'
 
 const ContextMenu = () => {
   const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
@@ -15,12 +18,28 @@ const ContextMenu = () => {
   const apiCall = useListFilesApiCall()
   const location = useLocation()
   const [uploadName, setUploadName] = useState('Select file')
+
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const [clipboard, setClipboard] = useState<string | null>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
+  const mailRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     setUploadName('Select file')
+    setMailList(new Set([]))
   }, [menuState])
+
+  const contextMenuWidth = useMemo(() => {
+    if ([MenuState.upload, MenuState.newDir].includes(menuState)) {
+      return '300px'
+    }
+    if ([MenuState.privateShare].includes(menuState)) {
+      return '400px'
+    }
+    return '170px'
+  }, [menuState])
+
+  const [mailList, setMailList] = useState<Set<string>>(new Set([]))
 
   const uuid = useMemo(() => {
     if (!/^\/download/.test(location.pathname)) return null
@@ -120,6 +139,10 @@ const ContextMenu = () => {
     }
   }
 
+  useEffect(() => {
+    console.log(mailList)
+  }, [mailList])
+
   const onPrivateShare = async () => {
     setClipboard(null)
     setMenuState(MenuState.privateShare)
@@ -130,9 +153,7 @@ const ContextMenu = () => {
       ref={contextMenuRef}
       onContextMenu={stop}
       style={{
-        width: [MenuState.upload, MenuState.newDir].includes(menuState)
-          ? '300px'
-          : '170px'
+        width: contextMenuWidth
       }}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
@@ -213,11 +234,35 @@ const ContextMenu = () => {
               <img src={arrowIcon} alt="Go to link"></img>
             </a>
           if (menuState === MenuState.privateShare)
-            return <div className={style.normal}>TODO: Do this</div>
+            return <div className={style.privateLinkContainer}>
+              <div className={style.beanContainer}>
+                {Array.from(mailList, (mail) =>
+                  <BeanOption name={mail} key={mail} onDelete={() => {
+                    setMailList(_mailList => {
+                      _mailList.delete(mail)
+                      return new Set(_mailList)
+                    })
+                  }} />)}
+              </div>
+              <div className={style.inputContainer}>
+                <input type="text" placeholder="enter e-mail" ref={mailRef} />
+                <img tabIndex={0} role="button" alt="add e-mail" src={plusCircleIcon} className={style.addButton}
+                     onClick={() => {
+                       if (!mailRef.current) return
+                       const value = mailRef.current.value
+                       setMailList((mails) => new Set([...Array.from(mails), value]))
+                       mailRef.current.value = ''
+                     }} />
+                <img tabIndex={0} role="button" className={style.sendButton} alt="Create link" src={uploadIcon}
+                     onClick={() => {
+                       console.log(mailList)
+                     }} />
+              </div>
+            </div>
         })()}
       </ul>
     </div>
   )
 }
 
-export { ContextMenu }
+export default ContextMenu

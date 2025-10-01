@@ -44,8 +44,6 @@ const FilesButtonsUI = () => {
       contextMenu?.classList.add(style.hidden)
       return
     }
-    const x = e.nativeEvent.clientX
-    const y = e.nativeEvent.clientY
     if (contextMenu === null) {
       console.error(`DOM call for context menu returned null.`)
       return
