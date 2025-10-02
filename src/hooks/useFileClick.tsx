@@ -1,7 +1,14 @@
 import { useStore, MenuState } from './store'
 
 const useFileClick = () => {
-  const { setMenuState, menuState, setClickedItem, contextMenuRef } = useStore()
+  const {
+    setMenuState,
+    menuState,
+    setClickedItem,
+    contextMenuRef,
+    setContextMenuPosition,
+    contextMenuPosition
+  } = useStore()
 
   return (e: React.MouseEvent, type: 'file' | 'background' | 'directory') => {
     e.preventDefault()
@@ -15,9 +22,7 @@ const useFileClick = () => {
     if (e.nativeEvent.button === 2) {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
-      contextMenu.style.top = `${Math.min(posY, window.innerHeight - 70)}px`
-      contextMenu.style.left = `${Math.min(posX, window.innerWidth - 200)}px`
-      contextMenu.style.right = ``
+      setContextMenuPosition({ ...contextMenuPosition, left: posX, top: posY })
       if (type === 'file') {
         setClickedItem(e.currentTarget.children[1].innerHTML)
         setMenuState(MenuState.file)

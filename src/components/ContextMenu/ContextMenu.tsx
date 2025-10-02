@@ -13,7 +13,15 @@ import { routes } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 
 const ContextMenu = () => {
-  const { clickedItem, menuState, setMenuState, setFiles, contextMenuRef } =
+  const {
+    clickedItem,
+    menuState,
+    setMenuState,
+    setFiles,
+    contextMenuRef,
+    contextMenuPosition,
+    setContextMenuPosition
+  } =
     useStore()
   const apiCall = useListFilesApiCall()
   const location = useLocation()
@@ -29,14 +37,14 @@ const ContextMenu = () => {
     setMailList(new Set([]))
   }, [menuState])
 
-  const contextMenuWidth = useMemo(() => {
+  useEffect(() => {
     if ([MenuState.upload, MenuState.newDir].includes(menuState)) {
-      return '300px'
+      setContextMenuPosition({ ...contextMenuPosition, width: 300 })
+    } else if ([MenuState.privateShare].includes(menuState)) {
+      setContextMenuPosition({ ...contextMenuPosition, width: 400 })
+    } else {
+      setContextMenuPosition({ ...contextMenuPosition, width: 170 })
     }
-    if ([MenuState.privateShare].includes(menuState)) {
-      return '400px'
-    }
-    return '170px'
   }, [menuState])
 
   const [mailList, setMailList] = useState<Set<string>>(new Set([]))
@@ -139,10 +147,6 @@ const ContextMenu = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(mailList)
-  }, [mailList])
-
   const onPrivateShare = async () => {
     setClipboard(null)
     setMenuState(MenuState.privateShare)
@@ -153,7 +157,9 @@ const ContextMenu = () => {
       ref={contextMenuRef}
       onContextMenu={stop}
       style={{
-        width: contextMenuWidth
+        width: contextMenuPosition.width + 'px',
+        left: `${Math.min(contextMenuPosition.left, window.innerWidth - contextMenuPosition.width - 20)}px`,
+        top: `${Math.min(contextMenuPosition.top, window.innerHeight - 70)}px`
       }}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
@@ -235,7 +241,8 @@ const ContextMenu = () => {
             </a>
           if (menuState === MenuState.privateShare)
             return <div className={style.privateLinkContainer}>
-              <div className={style.beanContainer}>
+              <div className={style.title}>Share link to e-mails</div>
+              {mailList.size > 0 && <div className={style.beanContainer}>
                 {Array.from(mailList, (mail) =>
                   <BeanOption name={mail} key={mail} onDelete={() => {
                     setMailList(_mailList => {
@@ -243,7 +250,7 @@ const ContextMenu = () => {
                       return new Set(_mailList)
                     })
                   }} />)}
-              </div>
+              </div>}
               <div className={style.inputContainer}>
                 <input type="text" placeholder="enter e-mail" ref={mailRef} />
                 <img tabIndex={0} role="button" alt="add e-mail" src={plusCircleIcon} className={style.addButton}

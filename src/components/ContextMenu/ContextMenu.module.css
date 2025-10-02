@@ -125,17 +125,23 @@
     gap: 15px;
     padding: 15px;
 
+    .title {
+      color: var(--text);
+    }
+
     .beanContainer {
       display: flex;
       flex-direction: row;
       gap: 5px;
       flex-wrap: wrap;
+      /*min-height: 26px;*/
     }
 
     .inputContainer {
       display: flex;
       flex-direction: row;
       gap: 10px;
+      width: 100%;
       align-items: center;
       justify-content: space-between;
     }
@@ -150,6 +156,7 @@
       border-radius: 16px;
       position: relative;
       padding: 0 15px;
+      color: var(--text);
       flex-grow: 1;
       border: none;
     }

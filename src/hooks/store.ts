@@ -56,6 +56,10 @@ export interface StoreI {
 
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
+
+  contextMenuPosition: { top: number; left: number; width: number }
+  setContextMenuPosition: (contextMenuPosition: this['contextMenuPosition']) => void
+
 }
 
 export const useStore = create<StoreI>()((set) => ({
@@ -87,6 +91,9 @@ export const useStore = create<StoreI>()((set) => ({
 
   overlay: OverlayState.hidden,
   setOverlay: (overlay) => set(() => ({ overlay })),
+
+  contextMenuPosition: { top: 0, left: 0, width: 300 },
+  setContextMenuPosition: (contextMenuPosition) => set(() => ({ contextMenuPosition })),
 
   // Refs:
   sidebarRef: createRef(),
