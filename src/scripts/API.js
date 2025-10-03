@@ -8,11 +8,13 @@ const BASE_URL = 'https://jakubpiskorz.dev:8080'
 const authHeader = () => ({
   Authorization: `Bearer ${CookieScripts.get('token')}`
 })
+const typeJson = { 'Content-Type': 'application/json' }
 
+const fetcher = fetch
 
 const API = {
   listFiles: function(slug = ``, controller) {
-    return fetch(`${BASE_URL}/api/v1/files/list/${slug}`, {
+    return fetcher(`${BASE_URL}/api/v1/files/list/${slug}`, {
       headers: {
         ...authHeader()
       },
@@ -23,7 +25,7 @@ const API = {
     const formData = new FormData()
     formData.append('filePath', `/${path}`)
     formData.append('file', file)
-    return fetch(`${BASE_URL}/api/v1/files/upload`, {
+    return fetcher(`${BASE_URL}/api/v1/files/upload`, {
       method: `POST`,
       body: formData,
       headers: {
@@ -32,31 +34,27 @@ const API = {
     })
   },
   login: function(login = ``, password = ``) {
-    return fetch(`${BASE_URL}/auth/login`, {
+    return fetcher(`${BASE_URL}/auth/login`, {
       method: `POST`,
       body: JSON.stringify({ login, password }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: typeJson
     })
   },
   logout: async function() {
-    return fetch(`${BASE_URL}/auth/logout`, {
+    return fetcher(`${BASE_URL}/auth/logout`, {
       method: `GET`,
       headers: authHeader()
     })
   },
   register: function(body) {
-    return fetch(`${BASE_URL}/auth/register`, {
+    return fetcher(`${BASE_URL}/auth/register`, {
       method: `POST`,
       body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: typeJson
     })
   },
   userInfo: function() {
-    return fetch(`${BASE_URL}/auth/user`, {
+    return fetcher(`${BASE_URL}/auth/user`, {
       method: `GET`,
       headers: authHeader()
     })
@@ -66,7 +64,7 @@ const API = {
     let fetchCall
     let fileName
     if (filePaths.length === 1) {
-      fetchCall = fetch(
+      fetchCall = fetcher(
         `${BASE_URL}/api/v1/files/download/${filePaths[0]}`,
         {
           method: `GET`,
@@ -74,14 +72,14 @@ const API = {
         }
       )
     } else {
-      fetchCall = fetch(
+      fetchCall = fetcher(
         `${BASE_URL}/api/v1/files/download-multiple`,
         {
           method: 'POST',
           body: JSON.stringify({
             filePaths
           }),
-          headers: { ...authHeader(), 'Content-Type': 'application/json' }
+          headers: { ...authHeader(), ...typeJson }
         }
       )
     }
@@ -109,7 +107,7 @@ const API = {
       })
   },
   delete: function(filePath = '') {
-    return fetch(
+    return fetcher(
       `${BASE_URL}/api/v1/files/delete/${filePath}`,
       {
         method: 'DELETE',
@@ -118,9 +116,9 @@ const API = {
     )
   },
   search: function(fileName = '', directory = '', controller) {
-    return fetch(`${BASE_URL}/api/v1/files/search`, {
+    return fetcher(`${BASE_URL}/api/v1/files/search`, {
       method: 'POST',
-      headers: { ...authHeader(), 'Content-Type': 'application/json' },
+      headers: { ...authHeader(), ...typeJson },
       body: JSON.stringify({
         fileName,
         directory
@@ -129,21 +127,21 @@ const API = {
     })
   },
   createDir: (path = ``) =>
-    fetch(
+    fetcher(
       `${BASE_URL}/api/v1/files/create-directory/${path}`,
       {
         headers: authHeader()
       }
     ),
   createPublicLink: (filePath) =>
-    fetch(`${BASE_URL}/api/v1/files/link/create`, {
+    fetcher(`${BASE_URL}/api/v1/files/link/create`, {
       headers: authHeader(),
       method: 'POST',
       body: filePath
     }),
   createPrivateLink: (filePath, emails) =>
-    fetch(`${BASE_URL}/api/v1/files/link/create-private`, {
-      headers: authHeader(),
+    fetcher(`${BASE_URL}/api/v1/files/link/create-private`, {
+      headers: { ...authHeader(), ...typeJson },
       method: 'POST',
       body: JSON.stringify({
         filePath,
@@ -151,16 +149,16 @@ const API = {
       })
     }),
   lookupLink: (uuid) =>
-    fetch(`${BASE_URL}/api/v1/files/link/lookup/${uuid}`, {
+    fetcher(`${BASE_URL}/api/v1/files/link/lookup/${uuid}`, {
       headers: authHeader()
     }),
   myLinks: () =>
-    fetch(`${BASE_URL}/api/v1/files/link/list`, {
+    fetcher(`${BASE_URL}/api/v1/files/link/list`, {
       headers: authHeader()
     }),
   downloadLink: (uuid) => {
     let fileName
-    fetch(`${BASE_URL}/api/v1/files/link/${uuid}`, {
+    fetcher(`${BASE_URL}/api/v1/files/link/${uuid}`, {
       headers: authHeader()
     })
       .then((response) => {

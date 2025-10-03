@@ -8,8 +8,8 @@ import uploadIcon from '@/images/upload.svg'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { routes } from '@/router/router'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 
 const ContextMenu = () => {
@@ -25,16 +25,20 @@ const ContextMenu = () => {
     useStore()
   const apiCall = useListFilesApiCall()
   const location = useLocation()
+  const currentRoute = useCurrentRoute()
+  const navigate = useNavigate()
   const [uploadName, setUploadName] = useState('Select file')
 
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const [clipboard, setClipboard] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
   const mailRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setUploadName('Select file')
     setMailList(new Set([]))
+    setError(null)
   }, [menuState])
 
   useEffect(() => {
@@ -68,9 +72,18 @@ const ContextMenu = () => {
   const onDelete = async () => {
     setMenuState(MenuState.closed)
     await API.delete(clickedItem)
-    const files = await apiCall().then((res) =>
+
+    // If we're on link page, deleting file also deletes the link, therefore return to main page
+    if (currentRoute === routes.link) {
+      navigate(routes.app)
+      return
+    }
+    let files = await apiCall().then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
+    if (!Array.isArray(files)) {
+      files = [files]
+    }
     setFiles(files)
   }
 
@@ -126,6 +139,18 @@ const ContextMenu = () => {
     setMenuState(MenuState.shareChoice)
   }
 
+  const createLinkAndCopy = async (uuid?: string) => {
+    if (uuid) {
+      setMenuState(MenuState.publicShare)
+      setClipboard(window.location.origin + basename + routes.getLink(uuid).slice(1))
+      if (clipboard != null) {
+        await navigator.clipboard.writeText(clipboard)
+      }
+    } else {
+      setMenuState(MenuState.closed)
+    }
+  }
+
   const onPublicShare = async () => {
     setClipboard(null)
     const link: { uuid: string } = await API.createPublicLink(clickedItem).then(
@@ -136,20 +161,25 @@ const ContextMenu = () => {
         return res.json()
       }
     )
-    if (link.uuid) {
-      setMenuState(MenuState.publicShare)
-      setClipboard(window.location.origin + basename + routes.getLink(link.uuid).slice(1))
-      if (clipboard != null) {
-        await navigator.clipboard.writeText(clipboard)
-      }
-    } else {
-      setMenuState(MenuState.closed)
-    }
+    await createLinkAndCopy(link.uuid)
   }
 
   const onPrivateShare = async () => {
     setClipboard(null)
     setMenuState(MenuState.privateShare)
+  }
+
+  const onPrivateShareFinish = async () => {
+    setClipboard(null)
+    const link: { uuid: string } = await API.createPrivateLink(clickedItem, Array.from(mailList)).then(
+      (res) => {
+        if (!res.ok) {
+          throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
+        }
+        return res.json()
+      }
+    )
+    await createLinkAndCopy(link.uuid)
   }
 
   return (
@@ -247,6 +277,7 @@ const ContextMenu = () => {
                   <BeanOption name={mail} key={mail} onDelete={() => {
                     setMailList(_mailList => {
                       _mailList.delete(mail)
+                      setError(null)
                       return new Set(_mailList)
                     })
                   }} />)}
@@ -257,14 +288,19 @@ const ContextMenu = () => {
                      onClick={() => {
                        if (!mailRef.current) return
                        const value = mailRef.current.value
+                       const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+                       if (!emailRegex.test(value)) {
+                         setError('Please enter a valid email address')
+                         return
+                       }
+                       setError(null)
                        setMailList((mails) => new Set([...Array.from(mails), value]))
                        mailRef.current.value = ''
                      }} />
                 <img tabIndex={0} role="button" className={style.sendButton} alt="Create link" src={uploadIcon}
-                     onClick={() => {
-                       console.log(mailList)
-                     }} />
+                     onClick={onPrivateShareFinish} />
               </div>
+              {error && <div style={{ color: 'var(--red)', marginTop: '-10px' }}>{error}</div>}
             </div>
         })()}
       </ul>
