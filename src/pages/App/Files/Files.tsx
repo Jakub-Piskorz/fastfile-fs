@@ -12,12 +12,12 @@ import useUuid from '@/hooks/useUuid'
 const Files = () => {
   const {
     setMenuState,
-    username,
     files,
     setFiles,
     searchedFiles,
     setOverlay,
-    overlay
+    overlay,
+    username
   } = useStore()
   const currentRoute = useCurrentRoute()
 
@@ -37,7 +37,8 @@ const Files = () => {
     if (currentRoute === routes.shared) return 'Shared files'
     if (currentRoute === routes.link) return 'File for download'
     return username || ''
-  }, [currentRoute])
+
+  }, [currentRoute, username])
 
   const refresh = async () => {
     try {
@@ -117,7 +118,7 @@ const Files = () => {
         onDragEnter={onDrag}
         onDragLeave={onDragStop}
       >
-        <FilesHeader title={title} />
+        <FilesHeader title={title || ''} />
         <div
           className={`${style.files} ${
             overlay === OverlayState.upload && style.draggingg

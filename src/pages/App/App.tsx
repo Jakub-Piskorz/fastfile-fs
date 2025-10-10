@@ -11,11 +11,11 @@ import { Outlet, useLoaderData } from 'react-router-dom'
 import { IUserInfo } from '@/router/redirect'
 
 const App = (): ReactElement => {
-  const { setUsername, setMenuState, iconSize } = useStore()
+  const { setMenuState, iconSize, setUsername } = useStore()
   const userInfo = useLoaderData<IUserInfo>()
 
   useEffect(() => {
-    setUsername(userInfo.username)
+    if (userInfo) setUsername(userInfo.username)
   }, [userInfo])
 
   return (

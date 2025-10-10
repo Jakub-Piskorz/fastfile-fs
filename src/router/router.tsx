@@ -5,6 +5,7 @@ import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
 import Files from '@/pages/App/Files/Files'
 import { basename } from '@/config'
+import PageNotFound from '@/pages/404/404'
 
 export const routes = {
   landingPage: '/lp',
@@ -22,16 +23,11 @@ export const router = createBrowserRouter(
       path: '/',
       Component: App,
       loader: requireAuthentication,
+      HydrateFallback: () => <div />,
       children: [
-        { path: routes.app, Component: Files },
-        {
-          path: routes.linkWithVariable,
-          Component: Files
-        },
-        {
-          path: routes.shared,
-          Component: Files
-        }
+        { index: true, Component: Files },
+        { path: routes.linkWithVariable, Component: Files },
+        { path: routes.shared, Component: Files }
       ]
     },
     {
@@ -41,7 +37,8 @@ export const router = createBrowserRouter(
     {
       path: routes.register,
       Component: Register
-    }
+    },
+    { path: '*', Component: PageNotFound }
   ], { basename }
 )
 
