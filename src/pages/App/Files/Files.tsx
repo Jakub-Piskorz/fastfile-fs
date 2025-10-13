@@ -2,22 +2,25 @@ import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API, { useListFilesApiCall } from '@/scripts/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
-import { MenuState, OverlayState, useStore } from '@/hooks/store'
+import { FileLinkDTO, MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../../../components/Overlay/Overlay'
 import useFileClick from '@/hooks/useFileClick'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
+import FileLink from '@/components/File/FileLink/FileLink'
 
 const Files = () => {
   const {
     setMenuState,
     files,
+    fileLinks,
+    setFileLinks,
     setFiles,
     searchedFiles,
     setOverlay,
-    overlay,
-    username
+    username,
+    setSearchedFiles
   } = useStore()
   const currentRoute = useCurrentRoute()
 
@@ -28,9 +31,18 @@ const Files = () => {
   const uuid = useUuid()
 
   const currentFiles = useMemo(
-    () => searchedFiles || files,
+    () => {
+      if (searchedFiles && searchedFiles.length > 0) {
+        return searchedFiles
+      }
+      return files
+    },
     [files?.length, searchedFiles?.length]
   )
+
+  useEffect(() => {
+    console.log(currentFiles)
+  }, [currentFiles])
 
   const title = useMemo(() => {
     if (currentRoute === routes.app) return username
@@ -41,7 +53,18 @@ const Files = () => {
   }, [currentRoute, username])
 
   const refresh = async () => {
+    setSearchedFiles([])
+    setFiles([])
+    setFileLinks([])
+
     try {
+      if (currentRoute === routes.shared) {
+        let fileLinks: FileLinkDTO[] = await API.myLinks().then(response => {
+          if (response.ok) return response.json()
+        })
+        setFileLinks(fileLinks)
+        return
+      }
       let files = await apiCall(uuid).then((response) => {
         if (response.ok) return response.json()
       })
@@ -120,17 +143,19 @@ const Files = () => {
       >
         <FilesHeader title={title || ''} />
         <div
-          className={`${style.files} ${
-            overlay === OverlayState.upload && style.draggingg
-          }`}
+          className={style.files}
           onContextMenu={stop}
           onMouseUp={(e) => fileClick(e, 'background')}
         >
-          {currentFiles
-            ? currentFiles.map((file: any, i: number) => {
+          {currentRoute === routes.shared && fileLinks && fileLinks.map((fileLink, i) => {
+            console.log(fileLink)
+            return <FileLink
+              key={i} metadata={fileLink.metadata} fileLink={fileLink.fileLink} />
+          })}
+          {currentRoute !== routes.shared && currentFiles
+            && currentFiles.map((file: any, i: number) => {
               return <File name={file.name} type={file.type} key={i} />
-            })
-            : 'Loading files, please wait...'}
+            })}
         </div>
       </div>
     </>

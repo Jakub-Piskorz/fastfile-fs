@@ -20,6 +20,33 @@ export enum OverlayState {
   upload,
 }
 
+export interface FileLink {
+  uuid: string,
+  ownerId: number,
+  path: string,
+  isPublic: boolean,
+  fileLinkShares: FileLinkShare[]
+}
+
+export interface FileLinkShare {
+  id: number,
+  fileLinkUuid: string,
+  sharedUserEmail: string,
+}
+
+export interface metadataDTO {
+  name: string,
+  size: number,
+  lastModified: number,
+  type: string,
+  path: string,
+}
+
+export interface FileLinkDTO {
+  metadata: metadataDTO,
+  fileLink: FileLink,
+}
+
 export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
@@ -44,6 +71,9 @@ export interface StoreI {
     type: string
   }[]
   setFiles: (files: this['files']) => void
+
+  fileLinks: FileLinkDTO[]
+  setFileLinks: (newFileLinks: this['fileLinks']) => void
 
   searchedFiles: this['files'] | null
   setSearchedFiles: (searchedFiles: this['files'] | null) => void
@@ -81,6 +111,9 @@ export const useStore = create<StoreI>()((set) => ({
 
   files: [],
   setFiles: (files) => set(() => ({ files })),
+
+  fileLinks: [],
+  setFileLinks: (fileLinks) => set(() => ({ fileLinks })),
 
   searchedFiles: null,
   setSearchedFiles: (searchedFiles) => set(() => ({ searchedFiles })),
