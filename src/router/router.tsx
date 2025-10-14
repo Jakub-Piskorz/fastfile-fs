@@ -7,6 +7,7 @@ import Files from '@/pages/App/Files/Files'
 import { basename } from '@/config'
 import PageNotFound from '@/pages/404/404'
 
+export type RouteValue = (typeof routes)[keyof typeof routes]
 export const routes = {
   landingPage: '/lp',
   app: '/',
@@ -15,7 +16,8 @@ export const routes = {
   getLink: (uuid: string) => `/download/${uuid}`,
   register: '/register',
   shared: '/shared'
-}
+} as const
+
 
 export const router = createBrowserRouter(
   [
@@ -43,7 +45,7 @@ export const router = createBrowserRouter(
 )
 
 // Useful hook for checking what web page you're currently in.
-export function useCurrentRoute() {
+export function useCurrentRoute(): RouteValue | null {
   const pathname = useLocation().pathname.split('/')[1]
   switch (pathname) {
     case '':

@@ -4,6 +4,7 @@ import { create } from 'zustand'
 export enum MenuState {
   closed,
   file,
+  fileLink,
   directory,
   profile,
   upload,

@@ -1,4 +1,6 @@
 import { useStore, MenuState } from './store'
+import { useMemo } from 'react'
+import { routes, useCurrentRoute } from '@/router/router'
 
 const useFileClick = () => {
   const {
@@ -10,22 +12,32 @@ const useFileClick = () => {
     contextMenuPosition
   } = useStore()
 
+  const currentRoute = useCurrentRoute()
+  const MenuFileState = useMemo(() => {
+    if (routes.shared === currentRoute || routes.link === currentRoute) {
+      return MenuState.fileLink
+    }
+    return MenuState.file
+  }, [currentRoute])
+
   return (e: React.MouseEvent, type: 'file' | 'background' | 'directory') => {
     e.preventDefault()
     e.stopPropagation()
+
+
     const contextMenu: HTMLElement | null = contextMenuRef?.current || null
     if (!contextMenu) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
       return
     }
-    // Is right click?
+    // on right click:
     if (e.nativeEvent.button === 2) {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
       setContextMenuPosition({ ...contextMenuPosition, left: posX, top: posY })
       if (type === 'file') {
         setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState(MenuState.file)
+        setMenuState(MenuFileState)
       } else if (type === 'background') {
         setMenuState(MenuState.background)
       } else if (type === 'directory') {

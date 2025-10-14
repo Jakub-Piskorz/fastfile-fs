@@ -182,6 +182,11 @@ const ContextMenu = () => {
     await createLinkAndCopy(link.uuid)
   }
 
+  const onRemoveLink = async () => {
+    console.log('TODO: Implement')
+    // TODO implement
+  }
+
   return (
     <div
       ref={contextMenuRef}
@@ -201,8 +206,16 @@ const ContextMenu = () => {
             return (
               <>
                 <li onMouseUp={onDownload}>Download</li>
-                <li onMouseUp={onDelete}>Delete</li>
+                <li onMouseUp={onDelete}>Delete file</li>
                 <li onMouseUp={onShare}>Share</li>
+              </>
+            )
+          if (menuState === MenuState.fileLink)
+            return (
+              <>
+                <li onMouseUp={onDownload}>Download</li>
+                <li onMouseUp={onDelete}>Delete file</li>
+                <li onMouseUp={onRemoveLink}>Remove link</li>
               </>
             )
           if (menuState === MenuState.directory)
