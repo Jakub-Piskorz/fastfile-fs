@@ -38,7 +38,7 @@ export interface metadataDTO {
   name: string,
   size: number,
   lastModified: number,
-  type: string,
+  type: 'directory' | 'file',
   path: string,
 }
 

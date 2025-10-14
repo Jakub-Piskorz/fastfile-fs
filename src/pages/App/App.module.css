@@ -17,7 +17,7 @@ html {
   --bgSecondary: #f1f1f1;
   --text: black;
   --textSecondary: #434343;
-  --textGray: #5b5b5b;
+  --textGray: var(--gray);
   --invertOnDark: invert(0);
   --invertOnLight: invert(1);
   --invertLite: invert(0.7);
@@ -35,7 +35,7 @@ html[theme='dark'] {
   --bgSecondary: #303030;
   --text: #ddd;
   --textSecondary: #bbbbbb;
-  --textGray: #a6a6a6;
+  --textGray: #777;
   --invertOnDark: invert(1);
   --invertOnLight: invert(0);
   --invertLite: invert(0.3);

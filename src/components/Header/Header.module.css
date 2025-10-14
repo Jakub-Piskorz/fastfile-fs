@@ -148,7 +148,7 @@
         }
 
         &.disabled::placeholder {
-          color: var(--gray);
+          color: var(--textGray);
         }
       }
 
