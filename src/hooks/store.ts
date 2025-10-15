@@ -1,4 +1,4 @@
-import { createRef } from 'react'
+import React, { createRef } from 'react'
 import { create } from 'zustand'
 
 export enum MenuState {
@@ -43,9 +43,9 @@ export interface metadataDTO {
   path: string,
 }
 
-export interface FileLinkDTO {
+export type FileDTO = {
   metadata: metadataDTO,
-  fileLink: FileLink,
+  fileLink?: FileLink,
 }
 
 export interface StoreI {
@@ -55,8 +55,8 @@ export interface StoreI {
   selectedItems: string[]
   setSelectedItems: (newSelectedItems: string[]) => void
 
-  clickedItem?: string
-  setClickedItem: (newClickedItem: string) => void
+  clickedItem?: FileDTO
+  setClickedItem: (newClickedItem: this['clickedItem']) => void
 
   menuState: MenuState
   setMenuState: (newMenuState: this['menuState']) => void
@@ -64,17 +64,8 @@ export interface StoreI {
   darkMode: boolean
   setDarkMode: (newDarkMode: boolean) => void
 
-  files: {
-    lastModified: number
-    name: string
-    path: string
-    size: number
-    type: string
-  }[]
+  files: FileDTO[]
   setFiles: (files: this['files']) => void
-
-  fileLinks: FileLinkDTO[]
-  setFileLinks: (newFileLinks: this['fileLinks']) => void
 
   searchedFiles: this['files'] | null
   setSearchedFiles: (searchedFiles: this['files'] | null) => void
@@ -112,9 +103,6 @@ export const useStore = create<StoreI>()((set) => ({
 
   files: [],
   setFiles: (files) => set(() => ({ files })),
-
-  fileLinks: [],
-  setFileLinks: (fileLinks) => set(() => ({ fileLinks })),
 
   searchedFiles: null,
   setSearchedFiles: (searchedFiles) => set(() => ({ searchedFiles })),

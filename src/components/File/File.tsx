@@ -6,23 +6,18 @@ import psdIcon from '@/images/psd.svg'
 import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.css'
 import React, { MouseEvent, useMemo } from 'react'
-import { useStore } from '@/hooks/store'
+import { FileDTO, useStore } from '@/hooks/store'
 import useFileClick from '@/hooks/useFileClick'
 
-interface FileProps {
-  name: string
-  type: 'file' | 'directory'
-}
-
-const File = ({ name = '', type }: FileProps) => {
+const File = ({ metadata, fileLink }: FileDTO) => {
   const { selectedItems, setSelectedItems } = useStore()
   const fileClick = useFileClick()
 
   const icon = useMemo(() => {
-    if (type === 'directory') {
+    if (metadata.type === 'directory') {
       return folderIcon
     }
-    const splitName = name.split('.')
+    const splitName = metadata.name.split('.')
     if (splitName.length < 2) return
     const fileFormat = splitName[splitName.length - 1]
 
@@ -38,7 +33,7 @@ const File = ({ name = '', type }: FileProps) => {
       default:
         return fileIcon
     }
-  }, [name])
+  }, [metadata.name])
 
   const selectFile = (event: React.MouseEvent) => {
     if (!event || setSelectedItems === undefined) return
@@ -54,10 +49,10 @@ const File = ({ name = '', type }: FileProps) => {
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        setSelectedItems(selectedItems.filter((item) => item !== name))
+        setSelectedItems(selectedItems.filter((item) => item !== metadata.name))
       } else {
         // Select file.
-        setSelectedItems([...selectedItems, name])
+        setSelectedItems([...selectedItems, metadata.name])
       }
     }
   }
@@ -70,16 +65,16 @@ const File = ({ name = '', type }: FileProps) => {
   return (
     <div
       className={
-        style.file + (selectedItems.includes(name) ? ` ${style.selected}` : '')
+        style.file + (selectedItems.includes(metadata.name) ? ` ${style.selected}` : '')
       }
       onContextMenu={stop}
       onClick={selectFile}
       onMouseUp={(e: MouseEvent) => {
-        fileClick(e, type)
+        fileClick(e, { metadata, fileLink })
       }}
     >
-      <img src={icon} draggable="false" alt={name + ' icon'} />
-      <p>{name}</p>
+      <img src={icon} draggable="false" alt={metadata.name + ' icon'} />
+      <p>{metadata.name}</p>
       <div className={style.checkmark}>
         <span className={style.mark}>✔</span>
       </div>

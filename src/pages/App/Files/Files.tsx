@@ -2,20 +2,16 @@ import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API, { useListFilesApiCall } from '@/scripts/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
-import { FileLinkDTO, MenuState, OverlayState, useStore } from '@/hooks/store'
+import { FileDTO, MenuState, OverlayState, useStore } from '@/hooks/store'
 import Overlay from '../../../components/Overlay/Overlay'
-import useFileClick from '@/hooks/useFileClick'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
-import FileLink from '@/components/File/FileLink/FileLink'
 
 const Files = () => {
   const {
     setMenuState,
     files,
-    fileLinks,
-    setFileLinks,
     setFiles,
     searchedFiles,
     setOverlay,
@@ -26,7 +22,6 @@ const Files = () => {
 
 
   const apiCall = useListFilesApiCall()
-  const fileClick = useFileClick()
 
   const uuid = useUuid()
 
@@ -40,10 +35,6 @@ const Files = () => {
     [files?.length, searchedFiles?.length]
   )
 
-  useEffect(() => {
-    console.log(currentFiles)
-  }, [currentFiles])
-
   const title = useMemo(() => {
     if (currentRoute === routes.app) return username
     if (currentRoute === routes.shared) return 'Shared files'
@@ -55,29 +46,27 @@ const Files = () => {
   const refresh = async () => {
     setSearchedFiles([])
     setFiles([])
-    setFileLinks([])
 
     try {
-      if (currentRoute === routes.shared) {
-        let fileLinks: FileLinkDTO[] = await API.myLinks().then(response => {
-          if (response.ok) return response.json()
-        })
-        setFileLinks(fileLinks)
-        return
-      }
-      let files = await apiCall(uuid).then((response) => {
+      let files: FileDTO[] = await apiCall(uuid).then((response) => {
         if (response.ok) return response.json()
       })
       if (!Array.isArray(files)) {
         files = [files]
       }
+      // if (currentRoute === routes.app) {
+      //   files = files.map((file) => {
+      //     if ('name' in file && file?.name) {
+      //       file = { metadata: { ...file } }
+      //     }
+      //     return file
+      //   })
+      // }
       setFiles(files)
-      return
     } catch (e) {
       console.error(e)
     }
   }
-
   useEffect(() => {
     refresh()
   }, [currentRoute])
@@ -145,16 +134,10 @@ const Files = () => {
         <div
           className={style.files}
           onContextMenu={stop}
-          onMouseUp={(e) => fileClick(e, 'background')}
         >
-          {currentRoute === routes.shared && fileLinks && fileLinks.map((fileLink, i) => {
-            console.log(fileLink)
-            return <FileLink
-              key={i} metadata={fileLink.metadata} fileLink={fileLink.fileLink} />
-          })}
-          {currentRoute !== routes.shared && currentFiles
-            && currentFiles.map((file: any, i: number) => {
-              return <File name={file.name} type={file.type} key={i} />
+          {currentFiles
+            && currentFiles.map((fileDTO, i: number) => {
+              return <File {...fileDTO} key={i} />
             })}
         </div>
       </div>

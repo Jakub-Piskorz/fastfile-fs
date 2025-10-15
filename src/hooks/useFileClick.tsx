@@ -1,4 +1,4 @@
-import { useStore, MenuState } from './store'
+import { useStore, MenuState, FileDTO } from './store'
 import { useMemo } from 'react'
 import { routes, useCurrentRoute } from '@/router/router'
 
@@ -20,7 +20,7 @@ const useFileClick = () => {
     return MenuState.file
   }, [currentRoute])
 
-  return (e: React.MouseEvent, type: 'file' | 'background' | 'directory') => {
+  return (e: React.MouseEvent, fileDTO?: FileDTO) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -35,13 +35,13 @@ const useFileClick = () => {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
       setContextMenuPosition({ ...contextMenuPosition, left: posX, top: posY })
-      if (type === 'file') {
-        setClickedItem(e.currentTarget.children[1].innerHTML)
-        setMenuState(MenuFileState)
-      } else if (type === 'background') {
+      if (!fileDTO) {
         setMenuState(MenuState.background)
-      } else if (type === 'directory') {
-        setClickedItem(e.currentTarget.children[1].innerHTML)
+      } else if (fileDTO?.metadata.type === 'file') {
+        setClickedItem(fileDTO)
+        setMenuState(MenuFileState)
+      } else if (fileDTO.metadata.type === 'directory') {
+        setClickedItem(fileDTO)
         setMenuState(MenuState.directory)
       }
     } else {

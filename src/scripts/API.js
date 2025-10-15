@@ -148,6 +148,11 @@ const API = {
         emails
       })
     }),
+  removeLink: (uuid) =>
+    fetcher(`${BASE_URL}/api/v1/files/link/${uuid}`, {
+      headers: { ...authHeader() },
+      method: 'DELETE'
+    }),
   lookupLink: (uuid) =>
     fetcher(`${BASE_URL}/api/v1/files/link/lookup/${uuid}`, {
       headers: authHeader()

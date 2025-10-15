@@ -7,7 +7,7 @@ import plusCircleIcon from '@/images/plus-circle.svg'
 import uploadIcon from '@/images/upload.svg'
 import { MenuState, StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
@@ -65,13 +65,13 @@ const ContextMenu = () => {
     if (uuid) {
       API.downloadLink(uuid)
     } else {
-      API.download([clickedItem])
+      API.download([clickedItem!.metadata.name])
     }
   }
 
   const onDelete = async () => {
     setMenuState(MenuState.closed)
-    await API.delete(clickedItem)
+    await API.delete(clickedItem!.metadata.name)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.link) {
@@ -83,6 +83,9 @@ const ContextMenu = () => {
     )
     if (!Array.isArray(files)) {
       files = [files]
+    }
+    if (currentRoute === routes.shared) {
+      navigate(routes.app)
     }
     setFiles(files)
   }
@@ -139,10 +142,12 @@ const ContextMenu = () => {
     setMenuState(MenuState.shareChoice)
   }
 
+  const urlFromUUID = (uuid: string) => window.location.origin + basename + routes.getLink(uuid).slice(1)
+
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
       setMenuState(MenuState.publicShare)
-      setClipboard(window.location.origin + basename + routes.getLink(uuid).slice(1))
+      setClipboard(urlFromUUID(uuid))
       if (clipboard != null) {
         await navigator.clipboard.writeText(clipboard)
       }
@@ -153,7 +158,7 @@ const ContextMenu = () => {
 
   const onPublicShare = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await API.createPublicLink(clickedItem).then(
+    const link: { uuid: string } = await API.createPublicLink(clickedItem!.metadata.path).then(
       (res) => {
         if (!res.ok) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
@@ -171,7 +176,7 @@ const ContextMenu = () => {
 
   const onPrivateShareFinish = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await API.createPrivateLink(clickedItem, Array.from(mailList)).then(
+    const link: { uuid: string } = await API.createPrivateLink(clickedItem?.metadata.path, Array.from(mailList)).then(
       (res) => {
         if (!res.ok) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
@@ -183,8 +188,29 @@ const ContextMenu = () => {
   }
 
   const onRemoveLink = async () => {
-    console.log('TODO: Implement')
-    // TODO implement
+    setMenuState(MenuState.closed)
+    if (!clickedItem) {
+      throw new Error('Something wrong with clicked item.')
+    }
+    const response = await API.removeLink(clickedItem.fileLink!.uuid)
+    if (!response.ok) {
+      throw new Error('Link couldn\'t be removed.')
+    }
+
+    let files = await apiCall().then((res) =>
+      res.ok ? res.json() : console.error('something went wrong')
+    )
+    setFiles(files)
+
+    // If we're on link page, and link is removed, return to main page.
+    if (currentRoute === routes.link) {
+      navigate(routes.app)
+    }
+  }
+
+  const onOpenLink = async (e: React.MouseEvent) => {
+    const linkUrl = urlFromUUID(clickedItem!.fileLink!.uuid)
+    navigate(linkUrl)
   }
 
   return (
@@ -215,6 +241,7 @@ const ContextMenu = () => {
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete file</li>
+                <li onMouseUp={onOpenLink}>Go to link</li>
                 <li onMouseUp={onRemoveLink}>Remove link</li>
               </>
             )
