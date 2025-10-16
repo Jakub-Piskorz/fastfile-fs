@@ -54,14 +54,6 @@ const Files = () => {
       if (!Array.isArray(files)) {
         files = [files]
       }
-      // if (currentRoute === routes.app) {
-      //   files = files.map((file) => {
-      //     if ('name' in file && file?.name) {
-      //       file = { metadata: { ...file } }
-      //     }
-      //     return file
-      //   })
-      // }
       setFiles(files)
     } catch (e) {
       console.error(e)

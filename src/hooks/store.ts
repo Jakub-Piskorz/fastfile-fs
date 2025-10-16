@@ -1,52 +1,8 @@
 import React, { createRef } from 'react'
 import { create } from 'zustand'
-
-export enum MenuState {
-  closed,
-  file,
-  fileLink,
-  directory,
-  profile,
-  upload,
-  background,
-  newDir,
-  shareChoice,
-  privateShare,
-  publicShare,
-}
-
-export enum OverlayState {
-  hidden,
-  sidebar,
-  upload,
-}
-
-export interface FileLink {
-  uuid: string,
-  ownerId: number,
-  path: string,
-  isPublic: boolean,
-  fileLinkShares: FileLinkShare[]
-}
-
-export interface FileLinkShare {
-  id: number,
-  fileLinkUuid: string,
-  sharedUserEmail: string,
-}
-
-export interface metadataDTO {
-  name: string,
-  size: number,
-  lastModified: number,
-  type: 'directory' | 'file',
-  path: string,
-}
-
-export type FileDTO = {
-  metadata: metadataDTO,
-  fileLink?: FileLink,
-}
+import FileDTO from '@/types/FileDTO'
+import MenuState from '@/types/MenuStateEnum'
+import OverlayState from '@/types/OverlayStateEnum'
 
 export interface StoreI {
   username: string
@@ -81,7 +37,6 @@ export interface StoreI {
 
   contextMenuPosition: { top: number; left: number; width: number }
   setContextMenuPosition: (contextMenuPosition: this['contextMenuPosition']) => void
-
 }
 
 export const useStore = create<StoreI>()((set) => ({
