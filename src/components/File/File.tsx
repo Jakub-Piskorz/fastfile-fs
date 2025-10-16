@@ -19,9 +19,8 @@ const File = ({ metadata, fileLink }: FileDTO) => {
       return folderIcon
     }
     const splitName = metadata.name.split('.')
-    if (splitName.length < 2) return
+    if (splitName.length < 2) return fileIcon
     const fileFormat = splitName[splitName.length - 1]
-
     switch (true) {
       case ['jpg', 'jpeg', 'png'].includes(fileFormat):
         return jpgIcon

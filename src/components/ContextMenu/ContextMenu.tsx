@@ -85,9 +85,6 @@ const ContextMenu = () => {
     if (!Array.isArray(files)) {
       files = [files]
     }
-    if (currentRoute === routes.shared) {
-      navigate(routes.app)
-    }
     setFiles(files)
   }
 
@@ -209,7 +206,8 @@ const ContextMenu = () => {
     }
   }
 
-  const onOpenLink = () => {
+  const onGoToLink = () => {
+    setMenuState(MenuState.closed)
     const linkUrl = urlFromUUID(clickedItem!.fileLink!.uuid)
     navigate(linkUrl)
   }
@@ -242,7 +240,7 @@ const ContextMenu = () => {
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete file</li>
-                <li onMouseUp={onOpenLink}>Go to link</li>
+                <li onMouseUp={onGoToLink}>Go to link</li>
                 <li onMouseUp={onRemoveLink}>Remove link</li>
               </>
             )
