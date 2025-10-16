@@ -143,7 +143,7 @@ const ContextMenu = () => {
     setMenuState(MenuState.shareChoice)
   }
 
-  const urlFromUUID = (uuid: string) => window.location.origin + basename + routes.getLink(uuid).slice(1)
+  const urlFromUUID = (uuid: string) => routes.getLink(uuid).slice(1)
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
@@ -209,7 +209,7 @@ const ContextMenu = () => {
     }
   }
 
-  const onOpenLink = async () => {
+  const onOpenLink = () => {
     const linkUrl = urlFromUUID(clickedItem!.fileLink!.uuid)
     navigate(linkUrl)
   }
