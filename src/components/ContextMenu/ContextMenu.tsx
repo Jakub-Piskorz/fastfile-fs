@@ -212,6 +212,22 @@ const ContextMenu = () => {
     navigate(linkUrl)
   }
 
+  const ShareOptions = () => {
+    const { clickedItem } = useStore()
+    console.log(clickedItem)
+    if (!clickedItem) return <></>
+    if (clickedItem.fileLink?.uuid) {
+      return <>
+        <li onMouseUp={onGoToLink}>Go to link</li>
+        <li onMouseUp={onRemoveLink}>Remove link</li>
+      </>
+    } else {
+      return <>
+        <li onMouseUp={onShare}>Share</li>
+      </>
+    }
+  }
+
   return (
     <div
       ref={contextMenuRef}
@@ -232,7 +248,7 @@ const ContextMenu = () => {
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete file</li>
-                <li onMouseUp={onShare}>Share</li>
+                <ShareOptions />
               </>
             )
           if (menuState === MenuState.fileLink)
@@ -240,8 +256,7 @@ const ContextMenu = () => {
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete file</li>
-                <li onMouseUp={onGoToLink}>Go to link</li>
-                <li onMouseUp={onRemoveLink}>Remove link</li>
+                <ShareOptions />
               </>
             )
           if (menuState === MenuState.directory)
