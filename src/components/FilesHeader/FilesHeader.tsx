@@ -1,9 +1,10 @@
 import style from './FilesHeader.module.css'
-import { OverlayState, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 
 import FilesButtonsUI from '../../components/FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
+import OverlayState from '@/types/OverlayStateEnum'
 
 const FilesHeader = ({ title }: { title: string }) => {
 

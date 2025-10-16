@@ -1,6 +1,8 @@
-import { useStore, MenuState, FileDTO } from './store'
+import { useStore } from './store'
 import { useMemo } from 'react'
 import { routes, useCurrentRoute } from '@/router/router'
+import MenuState from '@/types/MenuStateEnum'
+import FileDTO from '@/types/FileDTO'
 
 const useFileClick = () => {
   const {

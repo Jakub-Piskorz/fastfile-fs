@@ -7,10 +7,11 @@ import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
 import API, { useListFilesApiCall } from '@/scripts/API'
-import { MenuState, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
 import { useNavigate } from 'react-router-dom'
+import MenuState from '@/types/MenuStateEnum'
 
 const FilesButtonsUI = () => {
   const {

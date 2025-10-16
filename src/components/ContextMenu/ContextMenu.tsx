@@ -5,12 +5,13 @@ import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import arrowIcon from '@/images/arrow-top-right-on-square.svg'
 import plusCircleIcon from '@/images/plus-circle.svg'
 import uploadIcon from '@/images/upload.svg'
-import { MenuState, StoreI, useStore } from '@/hooks/store'
+import { StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
+import MenuState from '@/types/MenuStateEnum'
 
 const ContextMenu = () => {
   const {
@@ -208,7 +209,7 @@ const ContextMenu = () => {
     }
   }
 
-  const onOpenLink = async (e: React.MouseEvent) => {
+  const onOpenLink = async () => {
     const linkUrl = urlFromUUID(clickedItem!.fileLink!.uuid)
     navigate(linkUrl)
   }

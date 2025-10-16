@@ -6,9 +6,10 @@ import { ReactElement, useEffect } from 'react'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import ContextMenu from '@/components/ContextMenu/ContextMenu'
-import { MenuState, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import { Outlet, useLoaderData } from 'react-router-dom'
 import { IUserInfo } from '@/router/redirect'
+import MenuState from '@/types/MenuStateEnum'
 
 const App = (): ReactElement => {
   const { setMenuState, iconSize, setUsername } = useStore()

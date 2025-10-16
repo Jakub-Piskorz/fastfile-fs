@@ -5,10 +5,11 @@ import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
 import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
-import { MenuState, useStore } from '@/hooks/store'
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { useStore } from '@/hooks/store'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import API from '@/scripts/API'
 import { routes, useCurrentRoute } from '@/router/router'
+import MenuState from '@/types/MenuStateEnum'
 
 const Header = () => {
   const { darkMode, menuState, setMenuState, setSearchedFiles } =
@@ -62,8 +63,6 @@ const Header = () => {
       return
     }
     setMenuState(MenuState.profile)
-    const x = e.nativeEvent.clientX
-    const y = e.nativeEvent.clientY
     const contextMenu: HTMLElement | null = document.querySelector(
       `.${contextMenuStyle.contextMenu}`
     )

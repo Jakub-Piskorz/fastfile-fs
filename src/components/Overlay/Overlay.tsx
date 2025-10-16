@@ -1,8 +1,10 @@
-import { MenuState, OverlayState, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import style from './Overlay.module.css'
 import { useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 import cloudIcon from '@/images/cloud-arrow-up.svg'
+import MenuState from '@/types/MenuStateEnum'
+import OverlayState from '@/types/OverlayStateEnum'
 
 const Overlay = () => {
   const { overlay, setMenuState } = useStore()

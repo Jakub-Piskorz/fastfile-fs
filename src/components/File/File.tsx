@@ -6,8 +6,9 @@ import psdIcon from '@/images/psd.svg'
 import folderIcon from '@/images/folder-black.svg'
 import style from './File.module.css'
 import React, { MouseEvent, useMemo } from 'react'
-import { FileDTO, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import useFileClick from '@/hooks/useFileClick'
+import FileDTO from '@/types/FileDTO'
 
 const File = ({ metadata, fileLink }: FileDTO) => {
   const { selectedItems, setSelectedItems } = useStore()

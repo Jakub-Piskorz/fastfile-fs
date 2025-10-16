@@ -2,11 +2,14 @@ import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
 import API, { useListFilesApiCall } from '@/scripts/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
-import { FileDTO, MenuState, OverlayState, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import Overlay from '../../../components/Overlay/Overlay'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
+import FileDTO from '@/types/FileDTO'
+import OverlayState from '@/types/OverlayStateEnum'
+import MenuState from '@/types/MenuStateEnum'
 
 const Files = () => {
   const {
