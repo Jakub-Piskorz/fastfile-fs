@@ -144,6 +144,13 @@ const ContextMenu = () => {
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
+      const response: Response = await apiCall()
+      if (!response.ok) {
+        setMenuState(MenuState.closed)
+        throw new Error(response.statusText)
+      }
+      const files = await response.json() as StoreI['files']
+      setFiles(files)
       setMenuState(MenuState.publicShare)
       setClipboard(urlFromUUID(uuid))
       if (clipboard != null) {
@@ -214,7 +221,6 @@ const ContextMenu = () => {
 
   const ShareOptions = () => {
     const { clickedItem } = useStore()
-    console.log(clickedItem)
     if (!clickedItem) return <></>
     if (clickedItem.fileLink?.uuid) {
       return <>

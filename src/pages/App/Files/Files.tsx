@@ -35,7 +35,7 @@ const Files = () => {
       }
       return files
     },
-    [files?.length, searchedFiles?.length]
+    [files, searchedFiles]
   )
 
   const title = useMemo(() => {

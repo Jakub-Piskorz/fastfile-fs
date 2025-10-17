@@ -26,7 +26,6 @@ const useFileClick = () => {
     e.preventDefault()
     e.stopPropagation()
 
-
     const contextMenu: HTMLElement | null = contextMenuRef?.current || null
     if (!contextMenu) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
