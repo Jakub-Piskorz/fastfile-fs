@@ -15,7 +15,8 @@ export const routes = {
   linkWithVariable: '/download/:uuid',
   getLink: (uuid: string) => `/download/${uuid}`,
   register: '/register',
-  shared: '/shared'
+  shared: '/shared',
+  sharedToMe: '/shared-to-me'
 } as const
 
 
@@ -29,7 +30,8 @@ export const router = createBrowserRouter(
       children: [
         { index: true, Component: Files },
         { path: routes.linkWithVariable, Component: Files },
-        { path: routes.shared, Component: Files }
+        { path: routes.shared, Component: Files },
+        { path: routes.sharedToMe, Component: Files }
       ]
     },
     {
@@ -54,6 +56,8 @@ export function useCurrentRoute(): RouteValue | null {
       return routes.link
     case 'shared':
       return routes.shared
+    case 'shared-to-me':
+      return routes.sharedToMe
     default:
       return null
   }

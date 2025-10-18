@@ -161,6 +161,10 @@ const API = {
     fetcher(`${BASE_URL}/api/v1/files/link/list`, {
       headers: authHeader()
     }),
+  sharedToMe: () =>
+    fetcher(`${BASE_URL}/api/v1/files/link/shared-to-me`, {
+      headers: authHeader()
+    }),
   downloadLink: (uuid) => {
     let fileName
     fetcher(`${BASE_URL}/api/v1/files/link/${uuid}`, {
@@ -199,6 +203,9 @@ export const useListFilesApiCall = () => {
       break
     case routes.shared:
       apiCall = API.myLinks
+      break
+    case routes.sharedToMe:
+      apiCall = API.sharedToMe
       break
     case routes.link:
       apiCall = API.lookupLink

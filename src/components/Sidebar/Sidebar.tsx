@@ -1,6 +1,5 @@
 import folder from '@/images/folder.svg'
 import share from '@/images/share.svg'
-import plusCircle from '@/images/plus-circle.svg'
 import camera from '@/images/camera.svg'
 import code from '@/images/code.svg'
 import style from './Sidebar.module.css'
@@ -21,11 +20,11 @@ const Sidebar = () => {
         </Link>
         <Link to={routes.shared} className={currentRoute === routes.shared ? style.red : undefined}>
           <img src={share} alt="share" />
-          Shared
+          Shared by me
         </Link>
-        <Link to={routes.app}>
-          <img src={plusCircle} alt="plusCircle" />
-          Latest files
+        <Link to={routes.sharedToMe} className={currentRoute === routes.sharedToMe ? style.red : undefined}>
+          <img src={share} alt="share" />
+          Shared to me
         </Link>
         <Link to={routes.app}>
           <img src={camera} alt="camera" />
