@@ -1,4 +1,4 @@
-import { DragEvent, useEffect, MouseEvent, useMemo, useRef } from 'react'
+import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
 import API, { useListFilesApiCall } from '@/scripts/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
@@ -9,11 +9,10 @@ import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
 import FileDTO from '@/types/FileDTO'
 import OverlayState from '@/types/OverlayStateEnum'
-import MenuState from '@/types/MenuStateEnum'
+import useFileClick from '@/hooks/useFileClick'
 
 const Files = () => {
   const {
-    setMenuState,
     files,
     setFiles,
     searchedFiles,
@@ -23,6 +22,7 @@ const Files = () => {
   } = useStore()
   const currentRoute = useCurrentRoute()
 
+  const fileClick = useFileClick()
 
   const apiCall = useListFilesApiCall()
 
@@ -114,12 +114,17 @@ const Files = () => {
       )
   }
 
+  const onContextMenu = (e: MouseEvent) => {
+    e.stopPropagation()
+    fileClick(e)
+  }
+
   return (
     <>
       <Overlay />
       <div
         className={style.filesWindow}
-        onMouseUp={() => setMenuState(MenuState.closed)}
+        onMouseUp={onContextMenu}
         onDragOver={stop}
         onDrop={upload}
         onDragEnter={onDrag}

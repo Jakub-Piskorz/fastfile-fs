@@ -25,7 +25,6 @@ const useFileClick = () => {
   return (e: React.MouseEvent, fileDTO?: FileDTO) => {
     e.preventDefault()
     e.stopPropagation()
-
     const contextMenu: HTMLElement | null = contextMenuRef?.current || null
     if (!contextMenu) {
       console.error(`contextMenu HTML Element returns null in Files.tsx`)
@@ -36,6 +35,7 @@ const useFileClick = () => {
       const posX = e.nativeEvent.clientX
       const posY = e.nativeEvent.clientY
       setContextMenuPosition({ ...contextMenuPosition, left: posX, top: posY })
+
       if (!fileDTO) {
         setMenuState(MenuState.background)
       } else if (fileDTO?.metadata.type === 'file') {
