@@ -72,7 +72,7 @@ const Header = () => {
     }
     setContextMenuPosition({
       top: 75,
-      right: 20,
+      right: 0,
       width: 300
     })
   }

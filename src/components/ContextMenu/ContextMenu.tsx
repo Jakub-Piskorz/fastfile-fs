@@ -57,9 +57,17 @@ const ContextMenu = () => {
     let key: keyof typeof contextMenuPosition // TypeScript made me do this
 
     for (key in contextMenuPosition) {
-      style[key] = contextMenuPosition[key]
-    }
+      let value = contextMenuPosition[key]!
 
+      // Position should be at least 70px vertically and 20px horizontally away the browser's edges.
+      if (key === 'left' || key === 'right') {
+        value = Math.max(value, 20)
+      } else if (key === 'top' || key === 'bottom') {
+        value = Math.min(value, window.innerHeight - 70)
+      }
+
+      style[key] = value
+    }
     return style
   }, [contextMenuPosition])
 

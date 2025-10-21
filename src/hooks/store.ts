@@ -35,7 +35,7 @@ export interface StoreI {
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
 
-  contextMenuPosition: { top?: number; left?: number; width?: number, right?: number }
+  contextMenuPosition: { top?: number; bottom?: number; left?: number; width: number, right?: number }
   setContextMenuPosition: (contextMenuPosition: this['contextMenuPosition']) => void
 }
 
