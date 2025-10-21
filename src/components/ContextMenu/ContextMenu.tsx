@@ -54,22 +54,34 @@ const ContextMenu = () => {
 
   const contextMenuStyle: CSSProperties = useMemo(() => {
     const style: CSSProperties = {}
-    let key: keyof typeof contextMenuPosition // TypeScript made me do this
+    const paddingH = 20
+    const paddingV = 70
+    const menuWidth = contextMenuPosition.width!
+    const menuHeight = contextMenuRef?.current?.getBoundingClientRect().height ?? 0
+
+    let key: keyof typeof contextMenuPosition
 
     for (key in contextMenuPosition) {
       let value = contextMenuPosition[key]!
 
-      // Position should be at least 70px vertically and 20px horizontally away the browser's edges.
-      if (key === 'left' || key === 'right') {
-        value = Math.max(value, 20)
-      } else if (key === 'top' || key === 'bottom') {
-        value = Math.min(value, window.innerHeight - 70)
+      switch (key) {
+        case 'left':
+        case 'right':
+          value = Math.min(value, window.innerWidth - menuWidth - paddingH)
+          value = Math.max(value, paddingH)
+          break
+        case 'top':
+        case 'bottom':
+          value = Math.min(value, window.innerHeight - menuHeight - paddingV)
+          value = Math.max(value, paddingV)
+          break
       }
 
       style[key] = value
     }
+
     return style
-  }, [contextMenuPosition])
+  }, [contextMenuPosition, contextMenuRef?.current])
 
   const [mailList, setMailList] = useState<Set<string>>(new Set([]))
 
