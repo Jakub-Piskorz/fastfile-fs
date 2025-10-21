@@ -1,5 +1,5 @@
 import { useStore } from './store'
-import { useMemo } from 'react'
+import { useMemo, MouseEvent } from 'react'
 import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 import FileDTO from '@/types/FileDTO'
@@ -22,7 +22,7 @@ const useFileClick = () => {
     return MenuState.file
   }, [currentRoute])
 
-  return (e: React.MouseEvent, fileDTO?: FileDTO) => {
+  return (e: MouseEvent, fileDTO?: FileDTO) => {
     e.preventDefault()
     e.stopPropagation()
     const contextMenu: HTMLElement | null = contextMenuRef?.current || null

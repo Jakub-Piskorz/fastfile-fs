@@ -7,7 +7,7 @@ import plusCircleIcon from '@/images/plus-circle.svg'
 import uploadIcon from '@/images/upload.svg'
 import { StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
@@ -51,6 +51,17 @@ const ContextMenu = () => {
       setContextMenuPosition({ ...contextMenuPosition, width: 170 })
     }
   }, [menuState])
+
+  const contextMenuStyle: CSSProperties = useMemo(() => {
+    const style: CSSProperties = {}
+    let key: keyof typeof contextMenuPosition // TypeScript made me do this
+
+    for (key in contextMenuPosition) {
+      style[key] = contextMenuPosition[key]
+    }
+
+    return style
+  }, [contextMenuPosition])
 
   const [mailList, setMailList] = useState<Set<string>>(new Set([]))
 
@@ -234,15 +245,12 @@ const ContextMenu = () => {
     }
   }
 
+
   return (
     <div
       ref={contextMenuRef}
       onContextMenu={stop}
-      style={{
-        width: contextMenuPosition.width + 'px',
-        left: `${Math.min(contextMenuPosition.left, window.innerWidth - contextMenuPosition.width - 20)}px`,
-        top: `${Math.min(contextMenuPosition.top, window.innerHeight - 70)}px`
-      }}
+      style={contextMenuStyle}
       className={`${style.contextMenu} ${
         menuState === MenuState.closed ? style.hidden : ''
       }`}

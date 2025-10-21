@@ -12,7 +12,7 @@ import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setSearchedFiles } =
+  const { darkMode, menuState, setMenuState, setSearchedFiles, setContextMenuPosition } =
     useStore()
   const toggleNav = useToggleNav()
   const location = useLocation()
@@ -70,9 +70,11 @@ const Header = () => {
       console.error(`DOM call for context menu returned null.`)
       return
     }
-    contextMenu.style.top = `75px`
-    contextMenu.style.left = ``
-    contextMenu.style.right = `36px`
+    setContextMenuPosition({
+      top: 75,
+      right: 20,
+      width: 300
+    })
   }
 
   return (
