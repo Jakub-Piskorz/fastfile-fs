@@ -204,10 +204,10 @@ export const useListFilesApiCall = () => {
     case routes.shared:
       apiCall = API.myLinks
       break
-    case routes.sharedToMe:
+    case routes.sharedWithMe:
       apiCall = API.sharedToMe
       break
-    case routes.link:
+    case routes.download:
       apiCall = API.lookupLink
       break
     default:

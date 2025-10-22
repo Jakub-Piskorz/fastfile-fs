@@ -10,6 +10,7 @@ import useUuid from '@/hooks/useUuid'
 import FileDTO from '@/types/FileDTO'
 import OverlayState from '@/types/OverlayStateEnum'
 import useFileClick from '@/hooks/useFileClick'
+import { useLocation } from 'react-router-dom'
 
 const Files = () => {
   const {
@@ -21,6 +22,8 @@ const Files = () => {
     setSearchedFiles
   } = useStore()
   const currentRoute = useCurrentRoute()
+
+  const location = useLocation()
 
   const fileClick = useFileClick()
 
@@ -39,10 +42,12 @@ const Files = () => {
   )
 
   const title = useMemo(() => {
-    if (currentRoute === routes.app) return username
+    const currentDirectory = location.pathname
+    if (currentRoute === routes.app) return (username + currentDirectory)
     if (currentRoute === routes.shared) return 'Shared files'
-    if (currentRoute === routes.link) return 'File for download'
-    return username || ''
+    if (currentRoute === routes.download) return 'File for download'
+    if (currentRoute === routes.sharedWithMe) return 'Shared with me'
+    return (currentDirectory) || ''
 
   }, [currentRoute, username])
 

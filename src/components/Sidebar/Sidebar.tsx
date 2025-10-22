@@ -20,11 +20,11 @@ const Sidebar = () => {
         </Link>
         <Link to={routes.shared} className={currentRoute === routes.shared ? style.red : undefined}>
           <img src={share} alt="share" />
-          Shared by me
+          Files I share
         </Link>
-        <Link to={routes.sharedToMe} className={currentRoute === routes.sharedToMe ? style.red : undefined}>
+        <Link to={routes.sharedWithMe} className={currentRoute === routes.sharedWithMe ? style.red : undefined}>
           <img src={share} alt="share" />
-          Shared to me
+          Shared with me
         </Link>
         <Link to={routes.app}>
           <img src={camera} alt="camera" />

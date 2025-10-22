@@ -55,6 +55,13 @@ const File = ({ metadata, fileLink }: FileDTO) => {
     }
   }
 
+  const onDoubleClick = (e: MouseEvent) => {
+    const path = metadata.path.split(/([\\/])+/).slice(4).join('/')
+
+    console.log(path)
+    console.log(location)
+  }
+
   const stop = (e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
@@ -70,6 +77,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
       onMouseUp={(e: MouseEvent) => {
         fileClick(e, { metadata, fileLink })
       }}
+      onDoubleClick={onDoubleClick}
     >
       <img src={icon} draggable="false" alt={metadata.name + ' icon'} />
       <p>{metadata.name}</p>

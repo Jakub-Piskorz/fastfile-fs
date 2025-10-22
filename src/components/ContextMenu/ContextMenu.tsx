@@ -106,7 +106,7 @@ const ContextMenu = () => {
     await API.delete(clickedItem!.metadata.name)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
-    if (currentRoute === routes.link) {
+    if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
@@ -239,7 +239,7 @@ const ContextMenu = () => {
     setFiles(files)
 
     // If we're on link page, and link is removed, return to main page.
-    if (currentRoute === routes.link) {
+    if (currentRoute === routes.download) {
       navigate(routes.app)
     }
   }

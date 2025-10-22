@@ -71,7 +71,7 @@ const FilesButtonsUI = () => {
     )
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
-    if (currentRoute === routes.link) {
+    if (currentRoute === routes.download) {
       navigate(routes.app)
     }
     if (!Array.isArray(files)) {

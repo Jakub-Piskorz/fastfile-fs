@@ -11,12 +11,12 @@ export type RouteValue = (typeof routes)[keyof typeof routes]
 export const routes = {
   landingPage: '/lp',
   app: '/',
-  link: '/download',
+  download: '/download',
   linkWithVariable: '/download/:uuid',
   getLink: (uuid: string) => `/download/${uuid}`,
   register: '/register',
   shared: '/shared',
-  sharedToMe: '/shared-to-me'
+  sharedWithMe: '/shared-with-me'
 } as const
 
 
@@ -28,10 +28,11 @@ export const router = createBrowserRouter(
       loader: requireAuthentication,
       HydrateFallback: () => <div />,
       children: [
-        { index: true, Component: Files },
+        { path: '/', Component: Files },
+        { path: '/*', Component: Files },
         { path: routes.linkWithVariable, Component: Files },
         { path: routes.shared, Component: Files },
-        { path: routes.sharedToMe, Component: Files }
+        { path: routes.sharedWithMe, Component: Files }
       ]
     },
     {
@@ -53,11 +54,11 @@ export function useCurrentRoute(): RouteValue | null {
     case '':
       return routes.app
     case 'download':
-      return routes.link
+      return routes.download
     case 'shared':
       return routes.shared
-    case 'shared-to-me':
-      return routes.sharedToMe
+    case 'shared-with-me':
+      return routes.sharedWithMe
     default:
       return null
   }
