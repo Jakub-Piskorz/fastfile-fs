@@ -21,6 +21,15 @@
     transition: 0.2s;
     font-size: 1em;
 
+    &.disabled {
+      filter: contrast(0.2) brightness(1.61);
+      cursor: default;
+    }
+
+    &.hidden {
+      display: none;
+    }
+
     img {
       height: 25px;
       filter: var(--invertOnDark);
@@ -37,11 +46,6 @@
       &.disabled {
         background-color: var(--bg);
       }
-    }
-
-    &.disabled {
-      filter: contrast(0.2) brightness(1.61);
-      cursor: initial;
     }
   }
 }

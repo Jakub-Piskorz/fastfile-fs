@@ -34,6 +34,9 @@ const FilesButtonsUI = () => {
     localStorage.setItem('icon-size', String(iconSize))
   }, [iconSize])
 
+  useEffect(() => {
+  }, [selectedItems.length])
+
   const onUpload = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
