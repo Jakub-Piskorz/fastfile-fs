@@ -3,7 +3,7 @@ import jpgIcon from '@/images/jpg.svg'
 import mp3Icon from '@/images/mp3.svg'
 import fileIcon from '@/images/file.svg'
 import psdIcon from '@/images/psd.svg'
-import folderIcon from '@/images/folder-black.svg'
+import folderFileIcon from '@/images/folder-file.svg'
 import style from './File.module.css'
 import React, { MouseEvent, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
@@ -15,9 +15,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   const fileClick = useFileClick()
 
   const icon = useMemo(() => {
-    if (metadata.type === 'directory') {
-      return folderIcon
-    }
+    if (metadata.type === 'directory') return folderFileIcon
     const splitName = metadata.name.split('.')
     if (splitName.length < 2) return fileIcon
     const fileFormat = splitName[splitName.length - 1]
