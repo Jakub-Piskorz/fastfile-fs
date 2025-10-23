@@ -42,6 +42,7 @@ const ContextMenu = () => {
     setError(null)
   }, [menuState])
 
+  // Setting menu width depending on menu type
   useEffect(() => {
     if ([MenuState.upload, MenuState.newDir].includes(menuState)) {
       setContextMenuPosition({ ...contextMenuPosition, width: 300 })
@@ -126,10 +127,11 @@ const ContextMenu = () => {
 
   const onUpload = (e: React.FormEvent) => {
     e.preventDefault()
+
     const input = uploadInputRef.current
     try {
       if (input && input.files && input.files[0]) {
-        API.upload('', input.files[0] as FileList[0]).then(async () => {
+        API.upload(location.pathname.slice(1), input.files[0] as FileList[0]).then(async () => {
           const files: StoreI['files'] = await API.listFiles().then(
             (res) => res.ok && res.json()
           )
@@ -156,9 +158,9 @@ const ContextMenu = () => {
       setMenuState(MenuState.closed)
       return
     }
-    const success = await API.createDir(dirName).then((res) => res.ok && true)
+    const success = await API.createDir(location.pathname.slice(1) + '/' + dirName).then((res) => res.ok && true)
     if (success) {
-      API.listFiles()
+      API.listFiles(location.pathname.slice(1))
         .then((res) => res.ok && res.json())
         .then((files) => {
           setFiles(files)

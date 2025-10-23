@@ -9,9 +9,12 @@ import React, { MouseEvent, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
 import useFileClick from '@/hooks/useFileClick'
 import FileDTO from '@/types/FileDTO'
+import { useNavigate } from 'react-router-dom'
+import { routes } from '@/router/router'
 
 const File = ({ metadata, fileLink }: FileDTO) => {
   const { selectedItems, setSelectedItems } = useStore()
+  const navigate = useNavigate()
   const fileClick = useFileClick()
 
   const icon = useMemo(() => {
@@ -55,11 +58,9 @@ const File = ({ metadata, fileLink }: FileDTO) => {
     }
   }
 
-  const onDoubleClick = (e: MouseEvent) => {
-    const path = metadata.path.split(/([\\/])+/).slice(4).join('/')
-
-    console.log(path)
-    console.log(location)
+  const onDoubleClick = () => {
+    const path = metadata.path.split(/([\\/])+/).slice(4).join('')
+    navigate(routes.app + path)
   }
 
   const stop = (e: React.MouseEvent) => {

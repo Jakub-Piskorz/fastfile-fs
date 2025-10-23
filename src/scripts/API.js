@@ -13,8 +13,8 @@ const typeJson = { 'Content-Type': 'application/json' }
 const fetcher = fetch
 
 const API = {
-  listFiles: function(slug = ``, controller) {
-    return fetcher(`${BASE_URL}/api/v1/files/list/${slug}`, {
+  listFiles: function(path = ``, controller) {
+    return fetcher(`${BASE_URL}/api/v1/files/list/${path}`, {
       headers: {
         ...authHeader()
       },

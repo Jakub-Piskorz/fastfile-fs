@@ -50,16 +50,17 @@ export const router = createBrowserRouter(
 // Useful hook for checking what web page you're currently in.
 export function useCurrentRoute(): RouteValue | null {
   const pathname = useLocation().pathname.split('/')[1]
-  switch (pathname) {
-    case '':
+
+  switch (true) {
+    case pathname === '':
       return routes.app
-    case 'download':
+    case pathname === 'download':
       return routes.download
-    case 'shared':
+    case pathname === 'shared':
       return routes.shared
-    case 'shared-with-me':
+    case pathname === 'shared-with-me':
       return routes.sharedWithMe
     default:
-      return null
+      return routes.app
   }
 }
