@@ -138,6 +138,7 @@ const Files = () => {
   }
 
   const isNestedDirectory = useMemo(() => {
+    if (currentRoute !== routes.app) return false
     const splitDir = location.pathname.split('/')
     if (splitDir.length < 2) return false
     return splitDir[splitDir.length - 1] !== ''
