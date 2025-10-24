@@ -59,6 +59,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   }
 
   const onDoubleClick = () => {
+    if (metadata.type !== 'directory') return
     const path = metadata.path.split(/([\\/])+/).slice(4).join('')
     navigate(routes.app + path)
   }

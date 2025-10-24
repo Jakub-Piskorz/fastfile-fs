@@ -43,7 +43,7 @@ const Header = () => {
           controller = new AbortController()
           timeout = setTimeout(() => {
             if (input.value) {
-              API.search(input.value, '', controller)
+              API.search(input.value, location.pathname, controller)
                 .then((res) => res.json())
                 .then((searchedFiles) => setSearchedFiles(searchedFiles))
             } else {

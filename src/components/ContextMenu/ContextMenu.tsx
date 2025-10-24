@@ -104,14 +104,14 @@ const ContextMenu = () => {
 
   const onDelete = async () => {
     setMenuState(MenuState.closed)
-    await API.delete(clickedItem!.metadata.name)
+    await API.delete(location.pathname.slice(1) + '/' + clickedItem!.metadata.name)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
-    let files = await apiCall().then((res) =>
+    let files = await apiCall(location.pathname.slice(1)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     if (!Array.isArray(files)) {
@@ -177,7 +177,7 @@ const ContextMenu = () => {
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
-      const response: Response = await apiCall()
+      const response: Response = await apiCall(location.pathname.slice(1))
       if (!response.ok) {
         setMenuState(MenuState.closed)
         throw new Error(response.statusText)

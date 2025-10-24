@@ -30,7 +30,7 @@ const Files = () => {
 
   const currentFiles = useMemo(
     () => {
-      if (searchedFiles && searchedFiles.length > 0) {
+      if (searchedFiles !== null) {
         return searchedFiles
       }
       return files
@@ -64,7 +64,7 @@ const Files = () => {
   }, [location.pathname, username])
 
   const refresh = async () => {
-    setSearchedFiles([])
+    setSearchedFiles(null)
     setFiles([])
 
     try {

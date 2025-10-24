@@ -10,7 +10,7 @@ import API, { useListFilesApiCall } from '@/scripts/API'
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
 
 const FilesButtonsUI = () => {
@@ -27,6 +27,7 @@ const FilesButtonsUI = () => {
 
   const currentRoute = useCurrentRoute()
   const navigate = useNavigate()
+  const location = useLocation()
   const apiCall = useListFilesApiCall()
   const uuid = useUuid()
 
@@ -63,10 +64,10 @@ const FilesButtonsUI = () => {
 
   const onDelete = async () => {
     for (const item of selectedItems) {
-      await API.delete(item)
+      await API.delete(location.pathname.slice(1) + '/' + item)
     }
 
-    let files = await apiCall(uuid).then((res) =>
+    let files = await apiCall(uuid || location.pathname.slice(1)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
 
