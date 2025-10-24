@@ -11,6 +11,7 @@ import FileDTO from '@/types/FileDTO'
 import OverlayState from '@/types/OverlayStateEnum'
 import useFileClick from '@/hooks/useFileClick'
 import { useLocation } from 'react-router-dom'
+import GoBackFile from '@/components/File/GoBackFile'
 
 const Files = () => {
   const {
@@ -38,18 +39,10 @@ const Files = () => {
     [files, searchedFiles]
   )
 
-  const goBackDTO: FileDTO = useMemo(() => {
+  const parentDir = useMemo(() => {
     const splitPath = location.pathname.split('/')
     splitPath.pop()
-    const parentDirectory = splitPath.join('/')
-    const dto: FileDTO = {
-      metadata: {
-        name: '..',
-        path: '/files' + parentDirectory,
-        type: 'directory'
-      }
-    }
-    return dto
+    return splitPath.join('/')
   }, [location.pathname])
 
   const title = useMemo(() => {
@@ -161,7 +154,7 @@ const Files = () => {
           className={style.files}
           onContextMenu={stop}
         >
-          {isNestedDirectory && <File {...goBackDTO} />}
+          {isNestedDirectory && <GoBackFile path={parentDir} />}
           {currentFiles
             && currentFiles.map((fileDTO, i: number) => {
               return <File {...fileDTO} key={i} />
