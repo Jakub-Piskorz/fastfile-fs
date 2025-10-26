@@ -64,7 +64,7 @@ const FilesButtonsUI = () => {
 
   const onDelete = async () => {
     for (const item of selectedItems) {
-      await API.delete(location.pathname.slice(1) + '/' + item)
+      await API.delete(location.pathname.slice(1) + item)
     }
 
     let files = await apiCall(uuid || location.pathname.slice(1)).then((res) =>

@@ -4,4 +4,5 @@ export default interface MetadataDTO {
   lastModified?: number,
   type: 'directory' | 'file',
   path: string,
+  hasFiles: boolean,
 }

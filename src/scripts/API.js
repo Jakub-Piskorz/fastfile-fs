@@ -106,14 +106,20 @@ const API = {
         a.remove()
       })
   },
-  delete: function(filePath = '') {
+  delete: function(path = '') {
     return fetcher(
-      `${BASE_URL}/api/v1/files/delete/${filePath}`,
+      `${BASE_URL}/api/v1/files/delete/${path}`,
       {
         method: 'DELETE',
         headers: authHeader()
       }
     )
+  },
+  deleteRecursively: function(path = '') {
+    return fetcher(`${BASE_URL}/api/v1/files/delete-recursively/${path}`, {
+      method: 'DELETE',
+      headers: authHeader()
+    })
   },
   search: function(fileName = '', directory = '', controller) {
     return fetcher(`${BASE_URL}/api/v1/files/search`, {

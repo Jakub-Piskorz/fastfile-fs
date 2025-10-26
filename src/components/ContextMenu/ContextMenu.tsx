@@ -103,8 +103,32 @@ const ContextMenu = () => {
   }
 
   const onDelete = async () => {
+    // Show warning, if folder contains files
+    if (clickedItem?.metadata.hasFiles) {
+      setMenuState(MenuState.directoryWarning)
+      return
+    }
+
     setMenuState(MenuState.closed)
-    await API.delete(location.pathname.slice(1) + '/' + clickedItem!.metadata.name)
+    await API.delete(location.pathname.slice(1) + clickedItem!.metadata.name)
+
+    // If we're on link page, deleting file also deletes the link, therefore return to main page
+    if (currentRoute === routes.download) {
+      navigate(routes.app)
+      return
+    }
+    let files = await apiCall(location.pathname.slice(1)).then((res) =>
+      res.ok ? res.json() : console.error('something went wrong')
+    )
+    if (!Array.isArray(files)) {
+      files = [files]
+    }
+    setFiles(files)
+  }
+
+  const onDeleteRecursively = async () => {
+    setMenuState(MenuState.closed)
+    await API.deleteRecursively(location.pathname.slice(1) + '/' + clickedItem!.metadata.name)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
@@ -298,7 +322,16 @@ const ContextMenu = () => {
           if (menuState === MenuState.directory)
             return (
               <>
-                <li onMouseUp={onDelete}>Delete</li>
+                <li
+                  onMouseUp={onDelete}>{clickedItem?.metadata.hasFiles ? 'Delete folder and files inside' : 'Delete folder'}</li>
+              </>
+            )
+          if (menuState === MenuState.directoryWarning)
+            return (
+              <>
+                <li
+                  onMouseUp={onDeleteRecursively}>Are you sure? Everythin will be removed
+                </li>
               </>
             )
           if (menuState === MenuState.profile)

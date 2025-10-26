@@ -3,6 +3,7 @@ enum MenuState {
   file,
   fileLink,
   directory,
+  directoryWarning,
   profile,
   upload,
   background,
