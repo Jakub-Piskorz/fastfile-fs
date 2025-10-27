@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
+import { joinPaths } from '@/scripts/utils'
 
 const ContextMenu = () => {
   const {
@@ -98,7 +99,7 @@ const ContextMenu = () => {
     if (uuid) {
       API.downloadLink(uuid)
     } else {
-      API.download([clickedItem!.metadata.name])
+      API.download([joinPaths(location.pathname, clickedItem?.metadata.name)])
     }
   }
 
@@ -110,14 +111,14 @@ const ContextMenu = () => {
     }
 
     setMenuState(MenuState.closed)
-    await API.delete(location.pathname.slice(1) + clickedItem!.metadata.name)
+    await API.delete(joinPaths(location.pathname, clickedItem!.metadata.name))
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
-    let files = await apiCall(location.pathname.slice(1)).then((res) =>
+    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     if (!Array.isArray(files)) {
@@ -128,14 +129,14 @@ const ContextMenu = () => {
 
   const onDeleteRecursively = async () => {
     setMenuState(MenuState.closed)
-    await API.deleteRecursively(location.pathname.slice(1) + '/' + clickedItem!.metadata.name)
+    await API.deleteRecursively(joinPaths(location.pathname, clickedItem!.metadata.name))
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
-    let files = await apiCall(location.pathname.slice(1)).then((res) =>
+    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     if (!Array.isArray(files)) {
@@ -155,8 +156,8 @@ const ContextMenu = () => {
     const input = uploadInputRef.current
     try {
       if (input && input.files && input.files[0]) {
-        API.upload(location.pathname.slice(1), input.files[0] as FileList[0]).then(async () => {
-          const files: StoreI['files'] = await API.listFiles().then(
+        API.upload(joinPaths(location.pathname), input.files[0] as FileList[0]).then(async () => {
+          const files: StoreI['files'] = await API.listFiles(joinPaths(location.pathname)).then(
             (res) => res.ok && res.json()
           )
           setFiles(files)
@@ -182,9 +183,10 @@ const ContextMenu = () => {
       setMenuState(MenuState.closed)
       return
     }
-    const success = await API.createDir(location.pathname.slice(1) + '/' + dirName).then((res) => res.ok && true)
+
+    const success = await API.createDir(joinPaths(location.pathname, dirName)).then((res) => res.ok && true)
     if (success) {
-      API.listFiles(location.pathname.slice(1))
+      API.listFiles(joinPaths(location.pathname))
         .then((res) => res.ok && res.json())
         .then((files) => {
           setFiles(files)
@@ -201,7 +203,7 @@ const ContextMenu = () => {
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
-      const response: Response = await apiCall(location.pathname.slice(1))
+      const response: Response = await apiCall(joinPaths(location.pathname))
       if (!response.ok) {
         setMenuState(MenuState.closed)
         throw new Error(response.statusText)
@@ -259,7 +261,7 @@ const ContextMenu = () => {
       throw new Error('Link couldn\'t be removed.')
     }
 
-    let files = await apiCall().then((res) =>
+    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     setFiles(files)

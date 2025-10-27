@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '@/router/router'
 
 const File = ({ metadata, fileLink }: FileDTO) => {
-  const { selectedItems, setSelectedItems } = useStore()
+  const { selectedFiles, setSelectedFiles } = useStore()
   const navigate = useNavigate()
   const fileClick = useFileClick()
 
@@ -37,7 +37,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   }, [metadata.name])
 
   const selectFile = (event: React.MouseEvent) => {
-    if (!event || setSelectedItems === undefined) return
+    if (!event || setSelectedFiles === undefined) return
     event.stopPropagation()
     event.preventDefault()
     const target = event.target as HTMLElement
@@ -50,10 +50,10 @@ const File = ({ metadata, fileLink }: FileDTO) => {
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        setSelectedItems(selectedItems.filter((item) => item !== metadata.name))
+        setSelectedFiles(selectedFiles.filter((item) => item.metadata.name !== metadata.name))
       } else {
         // Select file.
-        setSelectedItems([...selectedItems, metadata.name])
+        setSelectedFiles([...selectedFiles, { metadata, fileLink }])
       }
     }
   }
@@ -72,7 +72,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   return (
     <div
       className={
-        style.file + (selectedItems.includes(metadata.name) ? ` ${style.selected}` : '')
+        style.file + (selectedFiles.some(file => file.metadata.name === metadata.name) ? ` ${style.selected}` : '')
       }
       onContextMenu={stop}
       onClick={selectFile}

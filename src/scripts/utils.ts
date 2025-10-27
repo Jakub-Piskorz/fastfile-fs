@@ -17,3 +17,10 @@ export function debounce(fn: Function, delay: number = 1000) {
 
   return debounced
 }
+
+export function joinPaths(...segments: (string | undefined | null)[]) {
+  return segments
+    .map(s => (s || '').replace(/^\/|\/$/g, '')) // remove leading/trailing slashes
+    .filter(Boolean) // remove empty segments
+    .join('/')
+}

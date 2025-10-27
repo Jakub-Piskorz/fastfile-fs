@@ -12,11 +12,12 @@ import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
+import { joinPaths } from '@/scripts/utils'
 
 const FilesButtonsUI = () => {
   const {
-    selectedItems,
-    setSelectedItems,
+    selectedFiles,
+    setSelectedFiles,
     menuState,
     setMenuState,
     setFiles,
@@ -36,7 +37,7 @@ const FilesButtonsUI = () => {
   }, [iconSize])
 
   useEffect(() => {
-  }, [selectedItems.length])
+  }, [selectedFiles.length])
 
   const onUpload = (e: MouseEvent) => {
     e.preventDefault()
@@ -63,11 +64,11 @@ const FilesButtonsUI = () => {
   }
 
   const onDelete = async () => {
-    for (const item of selectedItems) {
-      await API.delete(location.pathname.slice(1) + item)
+    for (const item of selectedFiles) {
+      await API.delete(joinPaths(location.pathname, item.metadata.name))
     }
 
-    let files = await apiCall(uuid || location.pathname.slice(1)).then((res) =>
+    let files = await apiCall(joinPaths(uuid || location.pathname)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
 
@@ -79,23 +80,23 @@ const FilesButtonsUI = () => {
       files = [files]
     }
     setFiles(files)
-    setSelectedItems([])
+    setSelectedFiles([])
   }
   const onDownload = async () => {
-    await API.download(selectedItems)
-    setSelectedItems([])
+    await API.download(selectedFiles.map(file => joinPaths(location.pathname, file.metadata.name)))
+    setSelectedFiles([])
   }
 
   return (
     <div className={style.ui}>
       <button
-        className={`${selectedItems.length === 0 ? style.hidden : ''}`}
+        className={`${selectedFiles.length === 0 ? style.hidden : ''}`}
         onClick={onDelete}
       >
         <img src={deleteIcon} alt="Delete icon" />
       </button>
       <button
-        className={`${selectedItems.length === 0 ? style.hidden : ''}`}
+        className={`${selectedFiles.length === 0 ? style.hidden : ''}`}
         onClick={onDownload}
       >
         <img src={downloadIcon} alt="Download icon" />

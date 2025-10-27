@@ -18,6 +18,7 @@ const Files = () => {
     files,
     setFiles,
     searchedFiles,
+    setSelectedFiles,
     setOverlay,
     username,
     setSearchedFiles
@@ -59,6 +60,7 @@ const Files = () => {
   const refresh = async () => {
     setSearchedFiles(null)
     setFiles([])
+    setSelectedFiles([])
 
     try {
       const parameter = uuid || location.pathname.slice(1)

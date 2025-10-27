@@ -8,8 +8,8 @@ export interface StoreI {
   username: string
   setUsername: (newUsername: string) => void
 
-  selectedItems: string[]
-  setSelectedItems: (newSelectedItems: string[]) => void
+  selectedFiles: FileDTO[]
+  setSelectedFiles: (newSelectedFiles: FileDTO[]) => void
 
   clickedItem?: FileDTO
   setClickedItem: (newClickedItem: this['clickedItem']) => void
@@ -44,8 +44,8 @@ export const useStore = create<StoreI>()((set) => ({
   username: 'Loading',
   setUsername: (username) => set(() => ({ username })),
 
-  selectedItems: [],
-  setSelectedItems: (selectedItems) => set(() => ({ selectedItems })),
+  selectedFiles: [],
+  setSelectedFiles: (selectedFiles) => set(() => ({ selectedFiles })),
 
   clickedItem: undefined,
   setClickedItem: (clickedItem) => set(() => ({ clickedItem })),
