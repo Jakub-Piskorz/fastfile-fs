@@ -5,7 +5,7 @@
   padding: 52px 45px 45px 30px;
   overflow-x: hidden;
   color: black;
-  @media screen and (max-width: var(--mobile)) {
+  @media screen and (max-width: 800px) {
     padding: 45px 30px;
   }
 
@@ -20,7 +20,7 @@
     /* TODO: zrobić porządnego grida */
     min-height: 80%;
 
-    @media screen and (max-width: var(--mobile)) {
+    @media screen and (max-width: 800px) {
       display: inline-grid;
       grid-template-columns: repeat(3, 1fr);
       width: 100%;

@@ -11,7 +11,7 @@
   transition: 0.2s;
   z-index: 3;
   background-color: rgba(0, 0, 0, 0.2);
-  @media screen and (max-width: var(--mobile)) {
+  @media screen and (max-width: 800px) {
     z-index: 2;
     pointer-events: initial;
     height: calc(100vh - 110px);

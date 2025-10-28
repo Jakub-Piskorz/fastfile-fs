@@ -63,7 +63,7 @@ body {
   width: 100%;
   height: calc(100vh - 90px);
   overflow: hidden;
-  @media screen and (max-width: var(--mobile)) {
+  @media screen and (max-width: 800px) {
     display: block;
     height: calc(100vh - 120px);
     position: relative;
@@ -76,7 +76,7 @@ h1 {
   height: initial;
 }
 
-@media screen and (max-width: var(--mobile)) {
+@media screen and (max-width: 800px) {
   :global(.mobile-hidden) {
     display: none !important;
   }
