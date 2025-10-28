@@ -65,10 +65,14 @@ const FilesButtonsUI = () => {
 
   const onDelete = async () => {
     for (const item of selectedFiles) {
-      await API.delete(joinPaths(location.pathname, item.metadata.name))
+      if (item.metadata.hasFiles) {
+        await API.deleteRecursively(joinPaths(location.pathname, item.metadata.name))
+      } else {
+        await API.delete(joinPaths(location.pathname, item.metadata.name))
+      }
     }
 
-    let files = await apiCall(joinPaths(uuid || location.pathname)).then((res) =>
+    let files = await apiCall(joinPaths(uuid || joinPaths(location.pathname))).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
 
