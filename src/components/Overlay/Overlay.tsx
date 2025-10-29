@@ -1,13 +1,14 @@
 import { useStore } from '@/hooks/store'
 import style from './Overlay.module.css'
-import { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 import cloudIcon from '@/images/cloud-arrow-up.svg'
 import MenuState from '@/types/MenuStateEnum'
 import OverlayState from '@/types/OverlayStateEnum'
+import Button from '@/components/Button/Button'
 
 const Overlay = () => {
-  const { overlay, setMenuState } = useStore()
+  const { overlay, setOverlay, setMenuState } = useStore()
 
   const toggleNav = useToggleNav()
 
@@ -30,19 +31,44 @@ const Overlay = () => {
       case OverlayState.upload: {
         return style.upload
       }
+      case OverlayState.deleteWarning: {
+        return style.clickable
+      }
+      default: {
+        return ''
+      }
     }
+  }, [overlay])
+
+  const onConfirmDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log('close')
+    setOverlay(OverlayState.hidden)
+  }
+
+  const isHidden = useMemo(() => {
+    return [OverlayState.hidden, OverlayState.sidebar].includes(overlay)
+
   }, [overlay])
 
   return (
     <span className={`${style.overlay} ${overlayCssClass}`} onClick={toggleNav}>
       <div
         className={style.uploadWrapper}
-        style={{ display: overlay === OverlayState.upload ? 'flex' : 'none' }}
+        style={{ display: isHidden ? 'none' : 'flex' }}
+        onClick={e => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       >
-        <div className={style.uploadBox}>
+        {overlay === OverlayState.upload && <div className={style.uploadBox}>
           <img src={cloudIcon} alt="Upload file icon" />
           <div>Drop your file to upload</div>
-        </div>
+        </div>}
+        {overlay === OverlayState.deleteWarning && <div className={style.uploadBox}>
+          <div>Are you sure you want to delete folder with its content?</div>
+          <Button onClick={onConfirmDelete}>Yes</Button>
+        </div>}
+
       </div>
     </span>
   )

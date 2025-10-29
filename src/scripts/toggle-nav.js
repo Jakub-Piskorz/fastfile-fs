@@ -8,6 +8,7 @@ const useToggleNav = () => {
 
   return () => {
     const sidebarEl = sidebarRef.current
+    console.log('toggle nav')
 
     setOverlay(
       overlay === OverlayState.hidden

@@ -13,6 +13,7 @@ import useUuid from '@/hooks/useUuid'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
+import OverlayState from '@/types/OverlayStateEnum'
 
 const FilesButtonsUI = () => {
   const {
@@ -22,7 +23,8 @@ const FilesButtonsUI = () => {
     setMenuState,
     setFiles,
     iconSize,
-    setIconSize
+    setIconSize,
+    setOverlay
   } = useStore()
 
 
@@ -66,7 +68,8 @@ const FilesButtonsUI = () => {
   const onDelete = async () => {
     for (const item of selectedFiles) {
       if (item.metadata.hasFiles) {
-        await API.deleteRecursively(joinPaths(location.pathname, item.metadata.name))
+        setOverlay(OverlayState.deleteWarning)
+        // await API.deleteRecursively(joinPaths(location.pathname, item.metadata.name))
       } else {
         await API.delete(joinPaths(location.pathname, item.metadata.name))
       }

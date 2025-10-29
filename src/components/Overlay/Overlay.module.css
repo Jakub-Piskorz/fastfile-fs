@@ -28,6 +28,12 @@
     pointer-events: none;
   }
 
+  &.clickable {
+    background-color: rgb(0, 0, 0, 0.2);
+    z-index: 3;
+    pointer-events: initial;
+  }
+
   .uploadWrapper {
     max-width: 80%;
     max-height: 80%;

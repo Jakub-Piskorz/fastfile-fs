@@ -1,0 +1,9 @@
+.button {
+  border: none;
+  padding: 10px;
+  font-size: 15px;
+  background: var(--button-red);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--background-color);
+}
