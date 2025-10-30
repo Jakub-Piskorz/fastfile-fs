@@ -7,7 +7,7 @@ import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import API from '@/scripts/API'
+import API from '@/actions/API'
 import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 

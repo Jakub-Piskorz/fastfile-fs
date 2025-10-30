@@ -1,6 +1,6 @@
 import CookieScripts from '@/scripts/cookie-scripts'
 import { redirect } from 'react-router-dom'
-import API from '@/scripts/API'
+import API from '@/actions/API'
 import { routes } from '@/router/router'
 
 export interface IUserInfo {

@@ -1,6 +1,6 @@
 // Functions for communication with FileSystem backend
 
-import CookieScripts from './cookie-scripts'
+import CookieScripts from '../scripts/cookie-scripts'
 import { routes, useCurrentRoute } from '@/router/router'
 
 const BASE_URL = 'https://jakubpiskorz.dev:8080'

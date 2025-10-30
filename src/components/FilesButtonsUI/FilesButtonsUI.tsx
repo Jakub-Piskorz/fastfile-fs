@@ -6,7 +6,7 @@ import deleteIcon from '@/images/trash.svg'
 import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
-import API, { useListFilesApiCall } from '@/scripts/API'
+import API, { useListFilesApiCall } from '@/actions/API'
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
@@ -69,7 +69,6 @@ const FilesButtonsUI = () => {
     for (const item of selectedFiles) {
       if (item.metadata.hasFiles) {
         setOverlay(OverlayState.deleteWarning)
-        // await API.deleteRecursively(joinPaths(location.pathname, item.metadata.name))
       } else {
         await API.delete(joinPaths(location.pathname, item.metadata.name))
       }

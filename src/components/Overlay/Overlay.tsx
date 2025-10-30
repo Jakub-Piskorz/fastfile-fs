@@ -1,16 +1,18 @@
 import { useStore } from '@/hooks/store'
 import style from './Overlay.module.css'
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 import cloudIcon from '@/images/cloud-arrow-up.svg'
 import MenuState from '@/types/MenuStateEnum'
 import OverlayState from '@/types/OverlayStateEnum'
 import Button from '@/components/Button/Button'
+import { useDeleteRecursively } from '@/actions/apiHooks'
 
 const Overlay = () => {
-  const { overlay, setOverlay, setMenuState } = useStore()
+  const { overlay, setMenuState, clickedItem, setOverlay, setClickedItem } = useStore()
 
   const toggleNav = useToggleNav()
+  const deleteRecursively = useDeleteRecursively()
 
   useEffect(() => {
     return setMenuState(MenuState.closed)
@@ -40,18 +42,33 @@ const Overlay = () => {
     }
   }, [overlay])
 
-  const onConfirmDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log('close')
-    setOverlay(OverlayState.hidden)
-  }
-
   const isHidden = useMemo(() => {
     return [OverlayState.hidden, OverlayState.sidebar].includes(overlay)
 
   }, [overlay])
 
+  const onBackgroundClick = useCallback(() => {
+    toggleNav(true)
+  }, [toggleNav])
+
+  const onRecursiveDelete = useCallback(async () => {
+    await deleteRecursively(clickedItem!)
+    setOverlay(OverlayState.hidden)
+    setClickedItem(undefined)
+  }, [deleteRecursively, clickedItem])
+
+  const windowClass = useMemo(() => {
+    if (overlay === OverlayState.upload) {
+      return style.uploadBox
+    }
+    if (overlay === OverlayState.deleteWarning) {
+      return style.box
+    }
+    return ''
+  }, [overlay])
+
   return (
-    <span className={`${style.overlay} ${overlayCssClass}`} onClick={toggleNav}>
+    <span className={`${style.overlay} ${overlayCssClass}`} onClick={onBackgroundClick}>
       <div
         className={style.uploadWrapper}
         style={{ display: isHidden ? 'none' : 'flex' }}
@@ -60,13 +77,16 @@ const Overlay = () => {
           e.stopPropagation()
         }}
       >
-        {overlay === OverlayState.upload && <div className={style.uploadBox}>
+        {overlay === OverlayState.upload && <div className={windowClass}>
           <img src={cloudIcon} alt="Upload file icon" />
           <div>Drop your file to upload</div>
         </div>}
-        {overlay === OverlayState.deleteWarning && <div className={style.uploadBox}>
+        {overlay === OverlayState.deleteWarning && <div className={windowClass}>
           <div>Are you sure you want to delete folder with its content?</div>
-          <Button onClick={onConfirmDelete}>Yes</Button>
+          <div className={style.buttons}>
+            <Button onClick={onRecursiveDelete}>Yes, delete</Button>
+            <Button onClick={() => toggleNav(true)}>No</Button>
+          </div>
         </div>}
 
       </div>

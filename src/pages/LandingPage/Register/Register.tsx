@@ -6,7 +6,7 @@ import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
 import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
 import LpHeader from '../../../components/LPHeader/LpHeader'
 import { useEffect, useRef, useState } from 'react'
-import API from '@/scripts/API'
+import API from '@/actions/API'
 import { useNavigate } from 'react-router-dom'
 
 const Register = () => {

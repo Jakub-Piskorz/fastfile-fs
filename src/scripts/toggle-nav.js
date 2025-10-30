@@ -6,19 +6,23 @@ import OverlayState from '@/types/OverlayStateEnum'
 const useToggleNav = () => {
   const { overlay, setOverlay, sidebarRef } = useStore()
 
-  return () => {
+  return (close = false) => {
     const sidebarEl = sidebarRef.current
-    console.log('toggle nav')
+    const navBtnEl = document.querySelector('.' + headerStyle['nav-button'])
 
-    setOverlay(
-      overlay === OverlayState.hidden
-        ? OverlayState.sidebar
-        : OverlayState.hidden
-    )
-    document
-      .querySelector('.' + headerStyle['nav-button'])
-      .classList.toggle(headerStyle.open)
-    sidebarEl.classList.toggle(sidebarStyle.show)
+    if (close === true) {
+      setOverlay(OverlayState.hidden)
+      navBtnEl.classList.remove(headerStyle.open)
+      sidebarEl.classList.remove(sidebarStyle.show)
+    } else {
+      setOverlay(
+        overlay === OverlayState.hidden
+          ? OverlayState.sidebar
+          : OverlayState.hidden
+      )
+      navBtnEl.classList.toggle(headerStyle.open)
+      sidebarEl.classList.toggle(sidebarStyle.show)
+    }
   }
 }
 

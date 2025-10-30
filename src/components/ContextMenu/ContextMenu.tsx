@@ -1,4 +1,4 @@
-import API, { useListFilesApiCall } from '@/scripts/API'
+import API, { useListFilesApiCall } from '@/actions/API'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
@@ -13,6 +13,7 @@ import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
+import OverlayState from '@/types/OverlayStateEnum'
 
 const ContextMenu = () => {
   const {
@@ -22,7 +23,8 @@ const ContextMenu = () => {
     setFiles,
     contextMenuRef,
     contextMenuPosition,
-    setContextMenuPosition
+    setContextMenuPosition,
+    setOverlay
   } =
     useStore()
   const apiCall = useListFilesApiCall()
@@ -49,6 +51,8 @@ const ContextMenu = () => {
       setContextMenuPosition({ ...contextMenuPosition, width: 300 })
     } else if ([MenuState.privateShare].includes(menuState)) {
       setContextMenuPosition({ ...contextMenuPosition, width: 400 })
+    } else if ([MenuState.directory].includes(menuState)) {
+      setContextMenuPosition({ ...contextMenuPosition, width: 240 })
     } else {
       setContextMenuPosition({ ...contextMenuPosition, width: 170 })
     }
@@ -106,30 +110,12 @@ const ContextMenu = () => {
   const onDelete = async () => {
     // Show warning, if folder contains files
     if (clickedItem?.metadata.hasFiles) {
-      setMenuState(MenuState.directoryWarning)
+      setOverlay(OverlayState.deleteWarning)
       return
     }
 
     setMenuState(MenuState.closed)
     await API.delete(joinPaths(location.pathname, clickedItem!.metadata.name))
-
-    // If we're on link page, deleting file also deletes the link, therefore return to main page
-    if (currentRoute === routes.download) {
-      navigate(routes.app)
-      return
-    }
-    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.ok ? res.json() : console.error('something went wrong')
-    )
-    if (!Array.isArray(files)) {
-      files = [files]
-    }
-    setFiles(files)
-  }
-
-  const onDeleteRecursively = async () => {
-    setMenuState(MenuState.closed)
-    await API.deleteRecursively(joinPaths(location.pathname, clickedItem!.metadata.name))
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
@@ -326,14 +312,6 @@ const ContextMenu = () => {
               <>
                 <li
                   onMouseUp={onDelete}>{clickedItem?.metadata.hasFiles ? 'Delete folder and files inside' : 'Delete folder'}</li>
-              </>
-            )
-          if (menuState === MenuState.directoryWarning)
-            return (
-              <>
-                <li
-                  onMouseUp={onDeleteRecursively}>Are you sure? Everythin will be removed
-                </li>
               </>
             )
           if (menuState === MenuState.profile)

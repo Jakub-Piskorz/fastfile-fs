@@ -6,23 +6,28 @@ import style from './Sidebar.module.css'
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import { Link } from 'react-router-dom'
+import useToggleNav from '@/scripts/toggle-nav'
 
 const Sidebar = () => {
   const { username, sidebarRef } = useStore()
+  const toggleNav = useToggleNav()
   const currentRoute = useCurrentRoute()
 
   return (
     <main className={style.sidebar} ref={sidebarRef}>
       <div className={style.menu}>
-        <Link to={routes.app} className={currentRoute === routes.app ? style.red : undefined}>
+        <Link to={routes.app} onClick={() => toggleNav(true)}
+              className={currentRoute === routes.app ? style.red : undefined}>
           <img src={folder} alt="folder" />
           {username}
         </Link>
-        <Link to={routes.shared} className={currentRoute === routes.shared ? style.red : undefined}>
+        <Link to={routes.shared} onClick={() => toggleNav(true)}
+              className={currentRoute === routes.shared ? style.red : undefined}>
           <img src={share} alt="share" />
           Files I share
         </Link>
-        <Link to={routes.sharedWithMe} className={currentRoute === routes.sharedWithMe ? style.red : undefined}>
+        <Link to={routes.sharedWithMe} onClick={() => toggleNav(true)}
+              className={currentRoute === routes.sharedWithMe ? style.red : undefined}>
           <img src={share} alt="share" />
           Shared with me
         </Link>

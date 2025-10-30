@@ -1,5 +1,5 @@
 import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
-import API, { useListFilesApiCall } from '@/scripts/API.js'
+import API, { useListFilesApiCall } from '@/actions/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
 import { useStore } from '@/hooks/store'
