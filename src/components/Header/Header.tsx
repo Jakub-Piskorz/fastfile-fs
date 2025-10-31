@@ -12,7 +12,7 @@ import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 
 const Header = () => {
-  const { darkMode, menuState, setMenuState, setSearchedFiles, setContextMenuPosition } =
+  const { darkMode, setDarkMode, menuState, setMenuState, setSearchedFiles, setContextMenuPosition } =
     useStore()
   const toggleNav = useToggleNav()
   const location = useLocation()
@@ -27,6 +27,12 @@ const Header = () => {
       setSearchedFiles(null)
     }
   }, [isSearchDisabled])
+
+  useEffect(() => {
+    const html = document.querySelector('html')
+    const isDark = html!.getAttribute('theme') === 'dark'
+    setDarkMode(isDark)
+  }, [])
 
   const onDebouncedSearch = useMemo(
     () =>
@@ -96,7 +102,7 @@ const Header = () => {
         </Link>
       </div>
       <div id={style.mid}>
-        <div className={style.navButton} onClick={toggleNav}>
+        <div className={style.navButton} onClick={() => toggleNav()}>
           <i className={style.navIcon}></i>
         </div>
         <div id={style.searchbar}>
