@@ -4,12 +4,14 @@ import React, { useCallback, useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'
 import cloudIcon from '@/images/cloud-arrow-up.svg'
 import MenuState from '@/types/MenuStateEnum'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import Button from '@/components/Button/Button'
 import { useDeleteRecursively } from '@/actions/apiHooks'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const Overlay = () => {
-  const { overlay, setMenuState, clickedItem, setOverlay, setClickedItem } = useStore()
+  const { setMenuState, clickedItem, setClickedItem } = useStore()
+  const { overlay, setOverlay, resolve, setResolve } = useOverlayStore()
 
   const toggleNav = useToggleNav()
   const deleteRecursively = useDeleteRecursively()
@@ -55,6 +57,12 @@ const Overlay = () => {
     await deleteRecursively(clickedItem!)
     setOverlay(OverlayState.hidden)
     setClickedItem(undefined)
+
+    // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
+    if (resolve) {
+      resolve(true)
+      setResolve(undefined)
+    }
   }, [deleteRecursively, clickedItem])
 
   const windowClass = useMemo(() => {
@@ -66,6 +74,14 @@ const Overlay = () => {
     }
     return ''
   }, [overlay])
+
+  const onCancel = () => {
+    toggleNav(true)
+    // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
+    if (resolve) {
+      resolve(false)
+    }
+  }
 
   return (
     <span className={`${style.overlay} ${overlayCssClass}`} onClick={onBackgroundClick}>
@@ -85,7 +101,7 @@ const Overlay = () => {
           <div>Are you sure you want to delete folder with its content?</div>
           <div className={style.buttons}>
             <Button onClick={onRecursiveDelete}>Yes, delete</Button>
-            <Button onClick={() => toggleNav(true)}>No</Button>
+            <Button onClick={onCancel}>No</Button>
           </div>
         </div>}
 

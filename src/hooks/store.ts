@@ -2,7 +2,6 @@ import React, { createRef } from 'react'
 import { create } from 'zustand'
 import FileDTO from '@/types/FileDTO'
 import MenuState from '@/types/MenuStateEnum'
-import OverlayState from '@/types/OverlayStateEnum'
 
 export interface StoreI {
   username: string
@@ -29,9 +28,6 @@ export interface StoreI {
   iconSize: 1 | 2 | 3 | 4 | 5
   setIconSize: (iconSize: this['iconSize']) => void
 
-  overlay: OverlayState
-  setOverlay: (overlay: this['overlay']) => void
-
   sidebarRef: React.RefObject<HTMLDivElement | null> | null
   contextMenuRef: React.RefObject<HTMLDivElement | null> | null
 
@@ -39,7 +35,7 @@ export interface StoreI {
   setContextMenuPosition: (contextMenuPosition: this['contextMenuPosition']) => void
 }
 
-export const useStore = create<StoreI>()((set) => ({
+export const useStore = create<StoreI>((set) => ({
   // Global states as setter/getter pairs:
   username: 'Loading',
   setUsername: (username) => set(() => ({ username })),
@@ -65,9 +61,6 @@ export const useStore = create<StoreI>()((set) => ({
   iconSize:
     (Number(localStorage.getItem('icon-size')) as StoreI['iconSize']) || 3,
   setIconSize: (iconSize) => set(() => ({ iconSize })),
-
-  overlay: OverlayState.hidden,
-  setOverlay: (overlay) => set(() => ({ overlay })),
 
   contextMenuPosition: { top: 0, left: 0, width: 300 },
   setContextMenuPosition: (contextMenuPosition) => set(() => ({ contextMenuPosition })),

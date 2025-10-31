@@ -8,10 +8,11 @@ import FilesHeader from '@/components/FilesHeader/FilesHeader'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
 import FileDTO from '@/types/FileDTO'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import useFileClick from '@/hooks/useFileClick'
 import { useLocation } from 'react-router-dom'
 import GoBackFile from '@/components/File/GoBackFile'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const Files = () => {
   const {
@@ -19,10 +20,10 @@ const Files = () => {
     setFiles,
     searchedFiles,
     setSelectedFiles,
-    setOverlay,
     username,
     setSearchedFiles
   } = useStore()
+  const { setOverlay } = useOverlayStore()
 
   const currentRoute = useCurrentRoute()
   const location = useLocation()

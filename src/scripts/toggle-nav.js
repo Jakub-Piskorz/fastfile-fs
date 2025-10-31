@@ -1,10 +1,13 @@
 import sidebarStyle from '@/components/Sidebar/Sidebar.module.css'
 import headerStyle from '@/components/Header/Header.module.css'
 import { useStore } from '@/hooks/store'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const useToggleNav = () => {
-  const { overlay, setOverlay, sidebarRef } = useStore()
+  const { sidebarRef } = useStore()
+  const { overlay, setOverlay } = useOverlayStore()
+
 
   return (close = false) => {
     const sidebarEl = sidebarRef.current

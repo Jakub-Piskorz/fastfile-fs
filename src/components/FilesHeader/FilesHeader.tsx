@@ -4,14 +4,15 @@ import { useStore } from '@/hooks/store'
 import FilesButtonsUI from '../../components/FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'
 import searchIcon from '@/images/search-black.svg'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const FilesHeader = ({ title }: { title: string }) => {
 
   const {
-    searchedFiles,
-    overlay
+    searchedFiles
   } = useStore()
+  const { overlay } = useOverlayStore()
   return <div
     className={`${style.uiContainer} ${
       overlay === OverlayState.upload && style.dragging

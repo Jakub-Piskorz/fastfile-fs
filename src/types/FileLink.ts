@@ -1,4 +1,4 @@
-import { FileLinkShare } from '@/hooks/store'
+import FileLinkShare from '@/types/FileLinkShare'
 
 export default interface FileLink {
   uuid: string,

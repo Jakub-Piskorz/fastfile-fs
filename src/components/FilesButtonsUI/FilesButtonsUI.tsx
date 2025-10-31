@@ -13,7 +13,8 @@ import useUuid from '@/hooks/useUuid'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const FilesButtonsUI = () => {
   const {
@@ -23,9 +24,9 @@ const FilesButtonsUI = () => {
     setMenuState,
     setFiles,
     iconSize,
-    setIconSize,
-    setOverlay
+    setIconSize
   } = useStore()
+  const { setOverlay } = useOverlayStore()
 
 
   const currentRoute = useCurrentRoute()

@@ -13,7 +13,8 @@ import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
-import OverlayState from '@/types/OverlayStateEnum'
+import OverlayState from '@/components/Overlay/OverlayStateEnum'
+import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const ContextMenu = () => {
   const {
@@ -23,10 +24,9 @@ const ContextMenu = () => {
     setFiles,
     contextMenuRef,
     contextMenuPosition,
-    setContextMenuPosition,
-    setOverlay
-  } =
-    useStore()
+    setContextMenuPosition
+  } = useStore()
+  const { setOverlay } = useOverlayStore()
   const apiCall = useListFilesApiCall()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
