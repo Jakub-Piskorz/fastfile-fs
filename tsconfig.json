@@ -3,7 +3,7 @@
     "target": "es5",
     "module": "es6",
     "lib": [
-      "es2016",
+      "es2018",
       "dom"
     ],
     "allowJs": true,
@@ -17,7 +17,7 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
+      ]
     },
     "typeRoots": [
       "src/types"
@@ -25,7 +25,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": false,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "src"

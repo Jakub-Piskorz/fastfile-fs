@@ -11,7 +11,7 @@ import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const Overlay = () => {
   const { setMenuState, clickedItem, setClickedItem } = useStore()
-  const { overlay, setOverlay, resolve, setResolve } = useOverlayStore()
+  const { overlay, setOverlay, resolve } = useOverlayStore()
 
   const toggleNav = useToggleNav()
   const deleteRecursively = useDeleteRecursively()
@@ -61,7 +61,6 @@ const Overlay = () => {
     // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
     if (resolve) {
       resolve(true)
-      setResolve(undefined)
     }
   }, [deleteRecursively, clickedItem])
 

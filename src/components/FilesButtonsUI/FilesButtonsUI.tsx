@@ -67,11 +67,11 @@ const FilesButtonsUI = () => {
   }
 
   const onDelete = async () => {
-    for (const item of selectedFiles) {
-      if (item.metadata.hasFiles) {
+    for (const selectedFile of selectedFiles) {
+      if (selectedFile.metadata.hasFiles) {
         setOverlay(OverlayState.deleteWarning)
       } else {
-        await API.delete(joinPaths(location.pathname, item.metadata.name))
+        await API.delete(joinPaths(location.pathname, selectedFile.metadata.name))
       }
     }
 
