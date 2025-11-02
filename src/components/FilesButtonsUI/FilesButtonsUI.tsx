@@ -26,7 +26,7 @@ const FilesButtonsUI = () => {
     iconSize,
     setIconSize
   } = useStore()
-  const { setOverlay } = useOverlayStore()
+  const { askOverlay } = useOverlayStore()
 
 
   const currentRoute = useCurrentRoute()
@@ -69,7 +69,7 @@ const FilesButtonsUI = () => {
   const onDelete = async () => {
     for (const selectedFile of selectedFiles) {
       if (selectedFile.metadata.hasFiles) {
-        setOverlay(OverlayState.deleteWarning)
+        await askOverlay(OverlayState.deleteWarning, selectedFile)
       } else {
         await API.delete(joinPaths(location.pathname, selectedFile.metadata.name))
       }

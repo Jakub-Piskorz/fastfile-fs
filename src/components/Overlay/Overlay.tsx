@@ -11,7 +11,7 @@ import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const Overlay = () => {
   const { setMenuState, clickedItem, setClickedItem } = useStore()
-  const { overlay, setOverlay, resolve } = useOverlayStore()
+  const { overlay, setOverlay, resolve, data } = useOverlayStore()
 
   const toggleNav = useToggleNav()
   const deleteRecursively = useDeleteRecursively()
@@ -54,7 +54,7 @@ const Overlay = () => {
   }, [toggleNav])
 
   const onRecursiveDelete = useCallback(async () => {
-    await deleteRecursively(clickedItem!)
+    await deleteRecursively(data || clickedItem)
     setOverlay(OverlayState.hidden)
     setClickedItem(undefined)
 
@@ -97,7 +97,9 @@ const Overlay = () => {
           <div>Drop your file to upload</div>
         </div>}
         {overlay === OverlayState.deleteWarning && <div className={windowClass}>
-          <div>Are you sure you want to delete folder with its content?</div>
+          <div>Are you sure you want to delete the folder {data?.metadata.name || clickedItem?.metadata.name} with its
+            content?
+          </div>
           <div className={style.buttons}>
             <Button onClick={onRecursiveDelete}>Yes, delete</Button>
             <Button onClick={onCancel}>No</Button>
