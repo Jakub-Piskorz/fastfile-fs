@@ -13,6 +13,7 @@ import useFileClick from '@/hooks/useFileClick'
 import { useLocation } from 'react-router-dom'
 import GoBackFile from '@/components/File/GoBackFile'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
+import { joinPaths } from '@/scripts/utils'
 
 const Files = () => {
   const {
@@ -123,7 +124,7 @@ const Files = () => {
     dragCounter.current = 0
     setOverlay(OverlayState.hidden)
     if (e.dataTransfer.files[0])
-      API.upload(location.pathname.slice(1), e.dataTransfer?.files[0] as FileList[0]).then(() =>
+      API.upload(joinPaths(location.pathname.slice(1)), e.dataTransfer?.files[0] as FileList[0]).then(() =>
         refresh()
       )
   }
