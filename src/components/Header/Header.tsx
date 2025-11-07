@@ -28,6 +28,7 @@ const Header = () => {
     }
   }, [isSearchDisabled])
 
+
   useEffect(() => {
     const html = document.querySelector('html')
     const isDark = html!.getAttribute('theme') === 'dark'
@@ -49,6 +50,7 @@ const Header = () => {
           controller = new AbortController()
           timeout = setTimeout(() => {
             if (input.value) {
+              console.log(location.pathname)
               API.search(input.value, location.pathname, controller)
                 .then((res) => res.json())
                 .then((searchedFiles) => setSearchedFiles(searchedFiles))
@@ -58,7 +60,7 @@ const Header = () => {
           }, 300)
         }
       })(),
-    []
+    [location.pathname]
   )
 
   const clickHandler = (e: React.MouseEvent) => {
