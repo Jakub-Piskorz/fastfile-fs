@@ -3,6 +3,7 @@ enum OverlayState {
   sidebar,
   upload,
   deleteWarning,
+  deleteAccountWarning
 }
 
 export default OverlayState

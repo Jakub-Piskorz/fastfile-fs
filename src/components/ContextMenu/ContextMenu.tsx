@@ -31,6 +31,7 @@ const ContextMenu = () => {
   const location = useLocation()
   const currentRoute = useCurrentRoute()
   const navigate = useNavigate()
+  const { askOverlay } = useOverlayStore()
   const [uploadName, setUploadName] = useState('Select file')
 
   const uploadInputRef = useRef<HTMLInputElement>(null)
@@ -134,6 +135,16 @@ const ContextMenu = () => {
   const logout = () => {
     CookieScripts.add('token', '')
     window.location.href = basename
+  }
+
+  const deleteAccount = async () => {
+    const wantsToDelete = await askOverlay(OverlayState.deleteAccountWarning)
+    if (!wantsToDelete) return
+    const accountDeleted = await API.deleteAccount()
+    if (accountDeleted) {
+      CookieScripts.add('token', '')
+      window.location.href = basename
+    }
   }
 
   const onUpload = (e: React.FormEvent) => {
@@ -322,6 +333,7 @@ const ContextMenu = () => {
                 </li>
                 <li onClick={() => MenuState.closed}>Profile settings</li>
                 <li onClick={logout}>Log Out</li>
+                <li style={{ color: 'var(--red)' }} onClick={deleteAccount}>Delete account</li>
               </>
             )
           if (menuState === MenuState.background)

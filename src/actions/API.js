@@ -197,7 +197,11 @@ const API = {
         a.click()
         a.remove()
       })
-  }
+  },
+  deleteAccount: () => fetcher(`${BASE_URL}/auth/delete-me`, {
+    method: 'DELETE',
+    headers: authHeader()
+  })
 }
 
 export const useListFilesApiCall = () => {

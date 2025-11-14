@@ -20,6 +20,7 @@ const Overlay = () => {
     return setMenuState(MenuState.closed)
   }, [])
   const overlayCssClass = useMemo(() => {
+
     // We want to close the context menu, when any overlay change is triggered
     // below "if" is unnecessary, but console errors "bad setState() call" on page redirect, if removed. Works fine despite that, but I hate console errors.
     if (overlay !== OverlayState.hidden) {
@@ -36,6 +37,9 @@ const Overlay = () => {
         return style.upload
       }
       case OverlayState.deleteWarning: {
+        return style.clickable
+      }
+      case OverlayState.deleteAccountWarning: {
         return style.clickable
       }
       default: {
@@ -68,7 +72,7 @@ const Overlay = () => {
     if (overlay === OverlayState.upload) {
       return style.uploadBox
     }
-    if (overlay === OverlayState.deleteWarning) {
+    if ([OverlayState.deleteWarning, OverlayState.deleteAccountWarning].includes(overlay)) {
       return style.box
     }
     return ''
@@ -79,6 +83,13 @@ const Overlay = () => {
     // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
     if (resolve) {
       resolve(false)
+    }
+  }
+
+  const onDeleteAccount = () => {
+    toggleNav(true)
+    if (resolve) {
+      resolve(true)
     }
   }
 
@@ -103,6 +114,14 @@ const Overlay = () => {
           <div className={style.buttons}>
             <Button onClick={onRecursiveDelete}>Yes, delete</Button>
             <Button onClick={onCancel}>No</Button>
+          </div>
+        </div>}
+        {overlay === OverlayState.deleteAccountWarning && <div className={windowClass}>
+          <div>Are you sure you want to delete your account and all your files?</div>
+          <div><strong>Once done, it cannot be reverted!</strong></div>
+          <div className={style.buttons}>
+            <Button onClick={onDeleteAccount}>DELETE ACCOUNT</Button>
+            <Button onClick={onCancel}>Cancel</Button>
           </div>
         </div>}
 
