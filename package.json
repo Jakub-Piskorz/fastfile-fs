@@ -31,6 +31,7 @@
     "@types/webpack-env": "^1.16.0",
     "copy-webpack-plugin": "^13.0.0",
     "source-map-loader": "^3.0.0",
+    "swagger-typescript-api": "^13.2.16",
     "ts-loader": "^9.2.2",
     "typescript": "^4.3.2",
     "url-loader": "^4.1.1",
