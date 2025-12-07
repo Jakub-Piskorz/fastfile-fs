@@ -1,8 +1,6 @@
 import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
 import API, {
-  authHeader,
-  BASE_URL,
-  useListFilesApiCall,
+  useListFilesApiCall
 } from '@/actions/API.js'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
@@ -18,8 +16,6 @@ import { useLocation } from 'react-router-dom'
 import GoBackFile from '@/components/File/GoBackFile'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 import { joinPaths } from '@/scripts/utils'
-import { Api } from '@/../Api'
-import CookieScripts from '@/scripts/cookie-scripts'
 
 const Files = () => {
   const {
@@ -28,7 +24,7 @@ const Files = () => {
     searchedFiles,
     setSelectedFiles,
     username,
-    setSearchedFiles,
+    setSearchedFiles
   } = useStore()
   const { setOverlay } = useOverlayStore()
 
@@ -69,18 +65,20 @@ const Files = () => {
     try {
       const parameter = uuid || location.pathname.slice(1)
 
+      console.log('PARAMETER:' + parameter)
+
       // TODO: testing swagger-typescript-api
-      const myApi = new Api({
-        baseUrl: BASE_URL,
-        baseApiParams: {
-          headers: {
-            Authorization: `Bearer ${CookieScripts.get('token')}`,
-          },
-        },
-      })
-      const res = await myApi.auth.getCurrentUser()
-      const body = await res.json()
-      console.log(body)
+      // const myApi = new Api({
+      //   baseUrl: BASE_URL,
+      //   baseApiParams: {
+      //     headers: {
+      //       Authorization: `Bearer ${CookieScripts.get('token')}`
+      //     }
+      //   }
+      // })
+      // const res = await myApi.api.filesInDirectory('')
+      // const body = await res.json()
+      // console.log(body)
       // End of testing
 
       let files: FileDTO[] = await apiCall(parameter).then((response) => {

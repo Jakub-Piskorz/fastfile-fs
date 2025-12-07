@@ -2,26 +2,27 @@
 
 import CookieScripts from '../scripts/cookie-scripts'
 import { routes, useCurrentRoute } from '@/router/router'
+import { Api } from '@/generated-api/Api'
 
 export const BASE_URL = 'https://jakubpiskorz.dev:8080'
 
 export const authHeader = () => ({
-  Authorization: `Bearer ${CookieScripts.get('token')}`,
+  Authorization: `Bearer ${CookieScripts.get('token')}`
 })
 const typeJson = { 'Content-Type': 'application/json' }
 
 const fetcher = fetch
 
 const API = {
-  listFiles: function (path = ``, controller) {
+  listFiles: function(path = ``, controller) {
     return fetcher(`${BASE_URL}/api/v1/files/list/${path}`, {
       headers: {
-        ...authHeader(),
+        ...authHeader()
       },
-      signal: controller?.signal,
+      signal: controller?.signal
     })
   },
-  upload: function (path = ``, file) {
+  upload: function(path = ``, file) {
     const formData = new FormData()
     formData.append('filePath', `/${path}`)
     formData.append('file', file)
@@ -29,34 +30,34 @@ const API = {
       method: `POST`,
       body: formData,
       headers: {
-        ...authHeader(),
-      },
+        ...authHeader()
+      }
     })
   },
-  login: function (login = ``, password = ``) {
+  login: function(login = ``, password = ``) {
     return fetcher(`${BASE_URL}/auth/login`, {
       method: `POST`,
       body: JSON.stringify({ login, password }),
-      headers: typeJson,
+      headers: typeJson
     })
   },
-  logout: async function () {
+  logout: async function() {
     return fetcher(`${BASE_URL}/auth/logout`, {
       method: `GET`,
-      headers: authHeader(),
+      headers: authHeader()
     })
   },
-  register: function (body) {
+  register: function(body) {
     return fetcher(`${BASE_URL}/auth/register`, {
       method: `POST`,
       body: JSON.stringify(body),
-      headers: typeJson,
+      headers: typeJson
     })
   },
-  userInfo: function () {
+  userInfo: function() {
     return fetcher(`${BASE_URL}/auth/user`, {
       method: `GET`,
-      headers: authHeader(),
+      headers: authHeader()
     })
   },
   download: (filePaths = []) => {
@@ -66,15 +67,15 @@ const API = {
     if (filePaths.length === 1) {
       fetchCall = fetcher(`${BASE_URL}/api/v1/files/download/${filePaths[0]}`, {
         method: `GET`,
-        headers: authHeader(),
+        headers: authHeader()
       })
     } else {
       fetchCall = fetcher(`${BASE_URL}/api/v1/files/download-multiple`, {
         method: 'POST',
         body: JSON.stringify({
-          filePaths,
+          filePaths
         }),
-        headers: { ...authHeader(), ...typeJson },
+        headers: { ...authHeader(), ...typeJson }
       })
     }
     return fetchCall
@@ -100,38 +101,38 @@ const API = {
         a.remove()
       })
   },
-  delete: function (path = '') {
+  delete: function(path = '') {
     return fetcher(`${BASE_URL}/api/v1/files/delete/${path}`, {
       method: 'DELETE',
-      headers: authHeader(),
+      headers: authHeader()
     })
   },
-  deleteRecursively: function (path = '') {
+  deleteRecursively: function(path = '') {
     return fetcher(`${BASE_URL}/api/v1/files/delete-recursively/${path}`, {
       method: 'DELETE',
-      headers: authHeader(),
+      headers: authHeader()
     })
   },
-  search: function (fileName = '', directory = '', controller) {
+  search: function(fileName = '', directory = '', controller) {
     return fetcher(`${BASE_URL}/api/v1/files/search`, {
       method: 'POST',
       headers: { ...authHeader(), ...typeJson },
       body: JSON.stringify({
         fileName,
-        directory,
+        directory
       }),
-      signal: controller?.signal,
+      signal: controller?.signal
     })
   },
   createDir: (path = ``) =>
     fetcher(`${BASE_URL}/api/v1/files/create-directory/${path}`, {
-      headers: authHeader(),
+      headers: authHeader()
     }),
   createPublicLink: (filePath) =>
     fetcher(`${BASE_URL}/api/v1/files/link/create`, {
       headers: authHeader(),
       method: 'POST',
-      body: filePath,
+      body: filePath
     }),
   createPrivateLink: (filePath, emails) =>
     fetcher(`${BASE_URL}/api/v1/files/link/create-private`, {
@@ -139,30 +140,30 @@ const API = {
       method: 'POST',
       body: JSON.stringify({
         filePath,
-        emails,
-      }),
+        emails
+      })
     }),
   removeLink: (uuid) =>
     fetcher(`${BASE_URL}/api/v1/files/link/${uuid}`, {
       headers: { ...authHeader() },
-      method: 'DELETE',
+      method: 'DELETE'
     }),
   lookupLink: (uuid) =>
     fetcher(`${BASE_URL}/api/v1/files/link/lookup/${uuid}`, {
-      headers: authHeader(),
+      headers: authHeader()
     }),
   myLinks: () =>
     fetcher(`${BASE_URL}/api/v1/files/link/list`, {
-      headers: authHeader(),
+      headers: authHeader()
     }),
   sharedToMe: () =>
     fetcher(`${BASE_URL}/api/v1/files/link/shared-to-me`, {
-      headers: authHeader(),
+      headers: authHeader()
     }),
   downloadLink: (uuid) => {
     let fileName
     fetcher(`${BASE_URL}/api/v1/files/link/${uuid}`, {
-      headers: authHeader(),
+      headers: authHeader()
     })
       .then((response) => {
         if (response === null || !response.ok)
@@ -189,28 +190,36 @@ const API = {
   deleteAccount: () =>
     fetcher(`${BASE_URL}/auth/delete-me`, {
       method: 'DELETE',
-      headers: authHeader(),
-    }),
+      headers: authHeader()
+    })
 }
 
 export const useListFilesApiCall = () => {
+  const swaggerAPI = new Api({
+    baseUrl: BASE_URL,
+    baseApiParams: {
+      headers: {
+        Authorization: `Bearer ${CookieScripts.get('token')}`
+      }
+    }
+  })
   let apiCall
   const currentRoute = useCurrentRoute()
   switch (currentRoute) {
     case routes.app:
-      apiCall = API.listFiles
+      apiCall = swaggerAPI.api.filesInDirectory
       break
     case routes.shared:
-      apiCall = API.myLinks
+      apiCall = swaggerAPI.api.getMyLinks
       break
     case routes.sharedWithMe:
-      apiCall = API.sharedToMe
+      apiCall = swaggerAPI.api.linksSharedToMe
       break
     case routes.download:
-      apiCall = API.lookupLink
+      apiCall = swaggerAPI.api.lookupLinkFile
       break
     default:
-      apiCall = API.listFiles
+      apiCall = swaggerAPI.api.filesInDirectory
   }
   return apiCall
 }

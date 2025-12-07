@@ -42,7 +42,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "generate-api": "swagger-typescript-api generate -p https://jakubpiskorz.dev:8080/v3/api-docs -o src/generated-api --fetch"
   },
   "author": "Jakub Piskorz, Mateusz Szczykutowicz",
   "license": "ISC"

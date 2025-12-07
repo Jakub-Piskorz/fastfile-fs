@@ -574,20 +574,6 @@ export class Api<
     /**
      * No description
      *
-     * @tags file-controller
-     * @name FilesInDirectory
-     * @request GET:/api/v1/files/list/**
-     */
-    filesInDirectory: (params: RequestParams = {}) =>
-      this.request<FileDTO[], any>({
-        path: `/api/v1/files/list/**`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
      * @tags file-share-controller
      * @name LinksSharedToMe
      * @request GET:/api/v1/files/link/shared-to-me
@@ -631,12 +617,26 @@ export class Api<
      * No description
      *
      * @tags file-controller
-     * @name DownloadFile1
-     * @request GET:/api/v1/files/download/**
+     * @name FilesInDirectory
+     * @request GET:/api/v1/files/list/{path}
      */
-    downloadFile1: (params: RequestParams = {}) =>
+    filesInDirectory: (path: string, params: RequestParams = {}) =>
+      this.request<FileDTO[], any>({
+        path: `/api/v1/files/list/${path}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags file-controller
+     * @name DownloadFile1
+     * @request GET:/api/v1/files/download/{path}
+     */
+    downloadFile1: (path: string, params: RequestParams = {}) =>
       this.request<StreamingResponseBody, any>({
-        path: `/api/v1/files/download/**`,
+        path: `/api/v1/files/download/${path}`,
         method: "GET",
         ...params,
       }),
@@ -646,11 +646,11 @@ export class Api<
      *
      * @tags file-controller
      * @name CreateDirectory
-     * @request GET:/api/v1/files/create-directory/**
+     * @request GET:/api/v1/files/create-directory/{path}
      */
-    createDirectory: (params: RequestParams = {}) =>
+    createDirectory: (path: string, params: RequestParams = {}) =>
       this.request<string, any>({
-        path: `/api/v1/files/create-directory/**`,
+        path: `/api/v1/files/create-directory/${path}`,
         method: "GET",
         ...params,
       }),
@@ -660,11 +660,11 @@ export class Api<
      *
      * @tags file-controller
      * @name RemoveFile
-     * @request DELETE:/api/v1/files/delete/**
+     * @request DELETE:/api/v1/files/delete/{path}
      */
-    removeFile: (params: RequestParams = {}) =>
+    removeFile: (path: string, params: RequestParams = {}) =>
       this.request<string, any>({
-        path: `/api/v1/files/delete/**`,
+        path: `/api/v1/files/delete/${path}`,
         method: "DELETE",
         ...params,
       }),
@@ -674,11 +674,11 @@ export class Api<
      *
      * @tags file-controller
      * @name DeleteRecursively
-     * @request DELETE:/api/v1/files/delete-recursively/**
+     * @request DELETE:/api/v1/files/delete-recursively/{path}
      */
-    deleteRecursively: (params: RequestParams = {}) =>
+    deleteRecursively: (path: string, params: RequestParams = {}) =>
       this.request<string, any>({
-        path: `/api/v1/files/delete-recursively/**`,
+        path: `/api/v1/files/delete-recursively/${path}`,
         method: "DELETE",
         ...params,
       }),
