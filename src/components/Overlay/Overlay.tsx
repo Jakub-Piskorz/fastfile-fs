@@ -6,7 +6,7 @@ import cloudIcon from '@/images/cloud-arrow-up.svg'
 import MenuState from '@/types/MenuStateEnum'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import Button from '@/components/Button/Button'
-import { useDeleteRecursively } from '@/actions/apiHooks'
+import { useDeleteRecursively } from '@/api'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
 const Overlay = () => {

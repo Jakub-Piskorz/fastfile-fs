@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import { create } from 'zustand'
-import FileDTO from '@/types/FileDTO'
+import { FileDTO } from '@/api/Api'
 import MenuState from '@/types/MenuStateEnum'
 
 export interface StoreI {

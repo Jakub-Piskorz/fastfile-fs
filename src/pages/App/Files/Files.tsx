@@ -1,7 +1,7 @@
 import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
-import API, {
+import Api, {
   useListFilesApiCall
-} from '@/actions/API.js'
+} from '@/api'
 import File from '../../../components/File/File'
 import style from './Files.module.css'
 import { useStore } from '@/hooks/store'
@@ -9,7 +9,7 @@ import Overlay from '../../../components/Overlay/Overlay'
 import FilesHeader from '@/components/FilesHeader/FilesHeader'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
-import FileDTO from '@/types/FileDTO'
+import { FileDTO } from '@/api/Api'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import useFileClick from '@/hooks/useFileClick'
 import { useLocation } from 'react-router-dom'
@@ -64,22 +64,6 @@ const Files = () => {
 
     try {
       const parameter = uuid || location.pathname.slice(1)
-
-      console.log('PARAMETER:' + parameter)
-
-      // TODO: testing swagger-typescript-api
-      // const myApi = new Api({
-      //   baseUrl: BASE_URL,
-      //   baseApiParams: {
-      //     headers: {
-      //       Authorization: `Bearer ${CookieScripts.get('token')}`
-      //     }
-      //   }
-      // })
-      // const res = await myApi.api.filesInDirectory('')
-      // const body = await res.json()
-      // console.log(body)
-      // End of testing
 
       let files: FileDTO[] = await apiCall(parameter).then((response) => {
         if (response.ok) return response.json()
@@ -139,9 +123,10 @@ const Files = () => {
     dragCounter.current = 0
     setOverlay(OverlayState.hidden)
     if (e.dataTransfer.files[0])
-      API.upload(
-        joinPaths(location.pathname.slice(1)),
-        e.dataTransfer?.files[0] as FileList[0]
+      Api.api.uploadFile({
+          filePath: joinPaths(location.pathname.slice(1)),
+          file: e.dataTransfer.files[0]
+        }
       ).then(() => refresh())
   }
 

@@ -1,7 +1,7 @@
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './LandingPage.module.css'
 import { MouseEventHandler, useState } from 'react'
-import API from '@/actions/API'
+import API from '@/api/oldApi'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import LpHeader from '../../components/LPHeader/LpHeader'

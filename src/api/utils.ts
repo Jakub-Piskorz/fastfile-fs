@@ -1,10 +1,9 @@
-import MenuState from '@/types/MenuStateEnum'
-import API, { useListFilesApiCall } from '@/actions/API'
-import { joinPaths } from '@/scripts/utils'
-import { routes, useCurrentRoute } from '@/router/router'
 import { useStore } from '@/hooks/store'
+import { routes, useCurrentRoute } from '@/router/router'
 import { useLocation, useNavigate } from 'react-router-dom'
-import FileDTO from '@/types/FileDTO'
+import Api, { FileDTO, useListFilesApiCall } from '@/api'
+import MenuState from '@/types/MenuStateEnum'
+import { joinPaths } from '@/scripts/utils'
 
 export const useDeleteRecursively = () => {
 
@@ -16,7 +15,7 @@ export const useDeleteRecursively = () => {
 
   return async function deleteRecursively(file: FileDTO) {
     setMenuState(MenuState.closed)
-    await API.deleteRecursively(joinPaths(location.pathname, file.metadata.name))
+    await Api.api.deleteRecursively(joinPaths(location.pathname, file.metadata?.name))
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {

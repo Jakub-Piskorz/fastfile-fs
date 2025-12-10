@@ -2,7 +2,7 @@ import { useStore } from './store'
 import { useMemo, MouseEvent } from 'react'
 import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
-import FileDTO from '@/types/FileDTO'
+import { FileDTO } from '@/api/Api'
 
 const useFileClick = () => {
   const {

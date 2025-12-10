@@ -8,7 +8,7 @@ import style from './File.module.css'
 import React, { MouseEvent, useMemo } from 'react'
 import { useStore } from '@/hooks/store'
 import useFileClick from '@/hooks/useFileClick'
-import FileDTO from '@/types/FileDTO'
+import { FileDTO } from '@/api/Api'
 import { useNavigate } from 'react-router-dom'
 import { routes } from '@/router/router'
 
@@ -18,8 +18,8 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   const fileClick = useFileClick()
 
   const icon = useMemo(() => {
-    if (metadata.type === 'directory') return folderFileIcon
-    const splitName = metadata.name.split('.')
+    if (metadata!.type === 'directory') return folderFileIcon
+    const splitName = metadata!.name!.split('.')
     if (splitName.length < 2) return fileIcon
     const fileFormat = splitName[splitName.length - 1]
     switch (true) {
@@ -34,7 +34,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
       default:
         return fileIcon
     }
-  }, [metadata.name])
+  }, [metadata!.name])
 
   const selectFile = (event: React.MouseEvent) => {
     if (!event || setSelectedFiles === undefined) return
@@ -50,7 +50,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
       // Is file selected?
       if (currentTarget.classList.contains(style.selected)) {
         // Unselect file.
-        setSelectedFiles(selectedFiles.filter((item) => item.metadata.name !== metadata.name))
+        setSelectedFiles(selectedFiles.filter((item) => item.metadata!.name !== metadata!.name))
       } else {
         // Select file.
         setSelectedFiles([...selectedFiles, { metadata, fileLink }])
@@ -59,8 +59,8 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   }
 
   const onDoubleClick = () => {
-    if (metadata.type !== 'directory') return
-    const path = metadata.path.split(/([\\/])+/).slice(4).join('')
+    if (metadata!.type !== 'directory') return
+    const path = metadata.path!.split(/([\\/])+/).slice(4).join('')
     navigate(routes.app + path)
   }
 

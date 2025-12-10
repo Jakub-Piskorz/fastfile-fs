@@ -2,9 +2,7 @@
 
 import CookieScripts from '../scripts/cookie-scripts'
 import { routes, useCurrentRoute } from '@/router/router'
-import { Api } from '@/generated-api/Api'
-
-export const BASE_URL = 'https://jakubpiskorz.dev:8080'
+import { Api, HttpClient } from './Api.ts'
 
 export const authHeader = () => ({
   Authorization: `Bearer ${CookieScripts.get('token')}`
@@ -13,7 +11,12 @@ const typeJson = { 'Content-Type': 'application/json' }
 
 const fetcher = fetch
 
-const API = {
+const httpClient = new HttpClient
+const BASE_URL = httpClient.baseUrl
+
+
+const OldApi = {
+
   listFiles: function(path = ``, controller) {
     return fetcher(`${BASE_URL}/api/v1/files/list/${path}`, {
       headers: {
@@ -224,4 +227,4 @@ export const useListFilesApiCall = () => {
   return apiCall
 }
 
-export default API
+export default OldApi

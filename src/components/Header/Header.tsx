@@ -7,7 +7,7 @@ import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import API from '@/actions/API'
+import Api from '@/api'
 import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 
@@ -20,6 +20,7 @@ const Header = () => {
   const isSearchDisabled = useMemo(() =>
     location.pathname.includes('/download/') || currentRoute !== routes.app, [location.pathname, currentRoute])
   const [inputValue, setInputValue] = useState<string>('')
+
 
   useEffect(() => {
     if (isSearchDisabled) {
@@ -51,7 +52,10 @@ const Header = () => {
           timeout = setTimeout(() => {
             if (input.value) {
               console.log(location.pathname)
-              API.search(input.value, location.pathname, controller)
+              Api.api.searchFiles({
+                fileName: input.value,
+                directory: location.pathname
+              }, { signal: controller.signal })
                 .then((res) => res.json())
                 .then((searchedFiles) => setSearchedFiles(searchedFiles))
             } else {

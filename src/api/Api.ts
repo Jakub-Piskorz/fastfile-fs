@@ -50,7 +50,7 @@ export interface SearchFileDTO {
 }
 
 export interface FileDTO {
-  metadata?: FileMetadata;
+  metadata: FileMetadata;
   fileLink?: FileLink;
 }
 

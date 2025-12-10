@@ -1,4 +1,4 @@
-import API, { useListFilesApiCall } from '@/actions/API'
+import Api, { FileDTO, useListFilesApiCall } from '@/api'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
@@ -15,6 +15,7 @@ import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
+import oldApi from '@/api/oldApi'
 
 const ContextMenu = () => {
   const {
@@ -102,21 +103,21 @@ const ContextMenu = () => {
   const onDownload = () => {
     setMenuState(MenuState.closed)
     if (uuid) {
-      API.downloadLink(uuid)
+      Api.api.downloadFileFromLink(uuid)
     } else {
-      API.download([joinPaths(location.pathname, clickedItem?.metadata.name)])
+      Api.api.downloadFile1({ filePaths: [joinPaths(location.pathname, clickedItem?.metadata?.name)] })
     }
   }
 
   const onDelete = async () => {
     // Show warning, if folder contains files
-    if (clickedItem?.metadata.hasFiles) {
+    if (clickedItem?.metadata?.hasFiles) {
       setOverlay(OverlayState.deleteWarning)
       return
     }
 
     setMenuState(MenuState.closed)
-    await API.delete(joinPaths(location.pathname, clickedItem!.metadata.name))
+    await Api.api.removeFile(joinPaths(location.pathname, clickedItem!.metadata!.name))
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
@@ -140,7 +141,7 @@ const ContextMenu = () => {
   const deleteAccount = async () => {
     const wantsToDelete = await askOverlay(OverlayState.deleteAccountWarning)
     if (!wantsToDelete) return
-    const accountDeleted = await API.deleteAccount()
+    const accountDeleted = await Api.auth.deleteMe()
     if (accountDeleted) {
       CookieScripts.add('token', '')
       window.location.href = basename
@@ -153,9 +154,11 @@ const ContextMenu = () => {
     const input = uploadInputRef.current
     try {
       if (input && input.files && input.files[0]) {
-        API.upload(joinPaths(location.pathname), input.files[0] as FileList[0]).then(async () => {
-          const files: StoreI['files'] = await API.listFiles(joinPaths(location.pathname)).then(
-            (res) => res.ok && res.json()
+        Api.api.uploadFile({
+          filePath: joinPaths(location.pathname), file: input.files[0]
+        }).then(async () => {
+          const files: StoreI['files'] = await Api.api.filesInDirectory(joinPaths(location.pathname)).then(
+            (res: any) => res.ok && res.json()
           )
           setFiles(files)
         })
@@ -181,11 +184,11 @@ const ContextMenu = () => {
       return
     }
 
-    const success = await API.createDir(joinPaths(location.pathname, dirName)).then((res) => res.ok && true)
+    const success = await Api.api.createDirectory(joinPaths(location.pathname, dirName)).then((res: Response) => res.ok && true)
     if (success) {
-      API.listFiles(joinPaths(location.pathname))
-        .then((res) => res.ok && res.json())
-        .then((files) => {
+      Api.api.filesInDirectory(joinPaths(location.pathname))
+        .then((res: Response) => res.ok && res.json())
+        .then((files: FileDTO[]) => {
           setFiles(files)
           setMenuState(MenuState.closed)
         })
@@ -196,7 +199,12 @@ const ContextMenu = () => {
     setMenuState(MenuState.shareChoice)
   }
 
-  const urlFromUUID = (uuid: string) => routes.getLink(uuid).slice(1)
+  const urlFromUUID = (uuid?: string) => {
+    if (!uuid) {
+      throw new Error('UUID is required')
+    }
+    return routes.getLink(uuid).slice(1)
+  }
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
@@ -219,8 +227,8 @@ const ContextMenu = () => {
 
   const onPublicShare = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await API.createPublicLink(clickedItem!.metadata.path).then(
-      (res) => {
+    const link: { uuid: string } = await Api.api.shareFileLink(clickedItem!.metadata.path!).then(
+      (res: Response) => {
         if (!res.ok) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
         }
@@ -237,8 +245,11 @@ const ContextMenu = () => {
 
   const onPrivateShareFinish = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await API.createPrivateLink(clickedItem?.metadata.path, Array.from(mailList)).then(
-      (res) => {
+    const link: { uuid: string } = await Api.api.sharePrivateFileLink({
+      filePath: clickedItem?.metadata.path,
+      emails: Array.from(mailList)
+    }).then(
+      (res: Response) => {
         if (!res.ok) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
         }
@@ -253,20 +264,21 @@ const ContextMenu = () => {
     if (!clickedItem) {
       throw new Error('Something wrong with clicked item.')
     }
-    const response = await API.removeLink(clickedItem.fileLink!.uuid)
+    const response = await Api.api.removeFileLink(clickedItem.fileLink?.uuid!)
     if (!response.ok) {
       throw new Error('Link couldn\'t be removed.')
+    }
+
+    // If we're on link page, and link is removed, return to main page.
+    if (currentRoute === routes.download) {
+      navigate(routes.app)
+      return
     }
 
     let files = await apiCall(joinPaths(location.pathname)).then((res) =>
       res.ok ? res.json() : console.error('something went wrong')
     )
     setFiles(files)
-
-    // If we're on link page, and link is removed, return to main page.
-    if (currentRoute === routes.download) {
-      navigate(routes.app)
-    }
   }
 
   const onGoToLink = () => {
@@ -322,7 +334,7 @@ const ContextMenu = () => {
             return (
               <>
                 <li
-                  onMouseUp={onDelete}>{clickedItem?.metadata.hasFiles ? 'Delete folder and files inside' : 'Delete folder'}</li>
+                  onMouseUp={onDelete}>{clickedItem?.metadata?.hasFiles ? 'Delete folder and files inside' : 'Delete folder'}</li>
               </>
             )
           if (menuState === MenuState.profile)
