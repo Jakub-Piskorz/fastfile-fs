@@ -511,10 +511,10 @@ export class Api<
      * No description
      *
      * @tags file-controller
-     * @name DownloadFile
+     * @name DownloadMultiple
      * @request POST:/api/v1/files/download-multiple
      */
-    downloadFile: (data: FilePathsDTO, params: RequestParams = {}) =>
+    downloadMultiple: (data: FilePathsDTO, params: RequestParams = {}) =>
       this.request<StreamingResponseBody, any>({
         path: `/api/v1/files/download-multiple`,
         method: "POST",
@@ -631,10 +631,10 @@ export class Api<
      * No description
      *
      * @tags file-controller
-     * @name DownloadFile1
+     * @name DownloadFile
      * @request GET:/api/v1/files/download/{path}
      */
-    downloadFile1: (path: string, params: RequestParams = {}) =>
+    downloadFile: (path: string, params: RequestParams = {}) =>
       this.request<StreamingResponseBody, any>({
         path: `/api/v1/files/download/${path}`,
         method: "GET",

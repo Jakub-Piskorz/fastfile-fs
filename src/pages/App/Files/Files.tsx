@@ -124,7 +124,7 @@ const Files = () => {
     setOverlay(OverlayState.hidden)
     if (e.dataTransfer.files[0])
       Api.api.uploadFile({
-          filePath: joinPaths(location.pathname.slice(1)),
+          filePath: '/' + joinPaths(location.pathname.slice(1)),
           file: e.dataTransfer.files[0]
         }
       ).then(() => refresh())

@@ -6,7 +6,7 @@ import deleteIcon from '@/images/trash.svg'
 import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
-import API, { useListFilesApiCall } from '@/api/oldApi'
+import Api, { download, useListFilesApiCall } from '@/api'
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
@@ -71,7 +71,7 @@ const FilesButtonsUI = () => {
       if (selectedFile.metadata.hasFiles) {
         await askOverlay(OverlayState.deleteWarning, selectedFile)
       } else {
-        await API.delete(joinPaths(location.pathname, selectedFile.metadata.name))
+        await Api.api.removeFile(joinPaths(location.pathname, selectedFile.metadata.name))
       }
     }
 
@@ -90,7 +90,9 @@ const FilesButtonsUI = () => {
     setSelectedFiles([])
   }
   const onDownload = async () => {
-    await API.download(selectedFiles.map(file => joinPaths(location.pathname, file.metadata.name)))
+    if (selectedFiles.length === 0) return
+    const filePaths = selectedFiles.map(file => joinPaths(location.pathname, file.metadata.name))
+    await download(filePaths)
     setSelectedFiles([])
   }
 

@@ -6,8 +6,8 @@ import githubRoundedIcon from '@/images/icons/github-rounded-icon.png'
 import googleRoundedIcon from '@/images/icons/google-rounded-icon.png'
 import LpHeader from '../../../components/LPHeader/LpHeader'
 import { useEffect, useRef, useState } from 'react'
-import API from '@/api/oldApi'
 import { useNavigate } from 'react-router-dom'
+import Api, { User } from '@/api'
 
 const Register = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -26,14 +26,14 @@ const Register = () => {
         setErrorMsg('Passwords are not identical')
         return
       }
-      const data = {
-        username: formData.get('username'),
-        email: formData.get('email'),
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        password: formData.get('password')
+      const data: User = {
+        username: formData.get('username') as string,
+        email: formData.get('email') as string,
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        password: formData.get('password') as string
       }
-      API.register(data)
+      Api.auth.register(data)
         .then((res) => {
           if (res.ok) {
             navigate('/')

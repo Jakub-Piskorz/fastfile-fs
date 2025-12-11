@@ -15,7 +15,6 @@ import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
-import oldApi from '@/api/oldApi'
 
 const ContextMenu = () => {
   const {
@@ -105,7 +104,7 @@ const ContextMenu = () => {
     if (uuid) {
       Api.api.downloadFileFromLink(uuid)
     } else {
-      Api.api.downloadFile1({ filePaths: [joinPaths(location.pathname, clickedItem?.metadata?.name)] })
+      Api.api.downloadFile(joinPaths(location.pathname, clickedItem?.metadata?.name))
     }
   }
 
@@ -150,18 +149,22 @@ const ContextMenu = () => {
 
   const onUpload = (e: React.FormEvent) => {
     e.preventDefault()
+    console.log(location.pathname)
+    console.log(joinPaths(location.pathname))
 
     const input = uploadInputRef.current
     try {
-      if (input && input.files && input.files[0]) {
+      if (input?.files && input.files[0]) {
         Api.api.uploadFile({
-          filePath: joinPaths(location.pathname), file: input.files[0]
-        }).then(async () => {
-          const files: StoreI['files'] = await Api.api.filesInDirectory(joinPaths(location.pathname)).then(
-            (res: any) => res.ok && res.json()
-          )
-          setFiles(files)
+          filePath: '/' + joinPaths(location.pathname.slice(1)),
+          file: input.files[0]
         })
+          .then(async () => {
+            const files = await Api.api.filesInDirectory(joinPaths(location.pathname)).then(
+              (res: any) => res.ok && res.json()
+            )
+            setFiles(files)
+          })
       } else {
         new Error('No file on input')
       }

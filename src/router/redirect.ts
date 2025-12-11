@@ -1,7 +1,6 @@
-import CookieScripts from '@/scripts/cookie-scripts'
 import { redirect } from 'react-router-dom'
-import API from '@/api/oldApi'
 import { routes } from '@/router/router'
+import Api, { getToken } from '@/api'
 
 export interface IUserInfo {
   id: number
@@ -14,11 +13,10 @@ export interface IUserInfo {
 }
 
 export async function requireAuthentication(): Promise<IUserInfo> {
-  const token = CookieScripts.get('token') as string | null
-  if (!token) {
+  if (!getToken()) {
     throw redirect(routes.landingPage)
   }
-  const response = await API.userInfo()
+  const response = await Api.auth.getCurrentUser()
   if (!response.ok) throw redirect(routes.landingPage)
   return await response.json()
 }

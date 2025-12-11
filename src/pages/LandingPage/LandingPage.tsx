@@ -1,7 +1,7 @@
 import HtmlHead from '@/scripts/HtmlHead'
 import style from './LandingPage.module.css'
 import { MouseEventHandler, useState } from 'react'
-import API from '@/api/oldApi'
+import Api, { UserLoginDTO } from '@/api'
 import CookieScripts from '@/scripts/cookie-scripts'
 import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import LpHeader from '../../components/LPHeader/LpHeader'
@@ -33,8 +33,13 @@ const LandingPage = () => {
     const password: HTMLInputElement | null = document.querySelector(
       '#' + style.password
     )
+    if (!username || !password) {
+      return
+    }
+
+    const userLoginDTO: UserLoginDTO = { login: username.value, password: password.value }
     try {
-      API.login(username?.value, password?.value)
+      Api.auth.login(userLoginDTO)
         .then((result) => {
           if (result.ok) {
             return result.text()
@@ -44,6 +49,9 @@ const LandingPage = () => {
         .then((token) => {
           CookieScripts.add('token', token)
           if (CookieScripts.get('token')) window.location.href = basename
+        })
+        .catch(() => {
+          setErrorMsg('Wrong login or password.')
         })
     } catch (error) {
       console.error(error)
@@ -89,12 +97,14 @@ const LandingPage = () => {
                     name="username"
                     id={style.username}
                     placeholder="Username"
+                    required
                   />
                   <input
                     type="password"
                     name="password"
                     id={style.password}
                     placeholder="Password"
+                    required
                   />
                   {errorMsg ? <div>{errorMsg}</div> : ''}
                   <label className={style.form__wrapper}>
