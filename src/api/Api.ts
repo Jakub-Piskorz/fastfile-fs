@@ -484,7 +484,7 @@ export class Api<
         path: `/api/v1/files/link/create`,
         method: "POST",
         body: data,
-        type: ContentType.Json,
+        type: ContentType.Text,
         ...params,
       }),
 
