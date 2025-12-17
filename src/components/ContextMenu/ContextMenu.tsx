@@ -8,7 +8,7 @@ import uploadIcon from '@/images/upload.svg'
 import { StoreI, useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import React, { CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
@@ -27,6 +27,7 @@ const ContextMenu = () => {
     setContextMenuPosition
   } = useStore()
   const { setOverlay } = useOverlayStore()
+  const user = useLoaderData()
   const apiCall = useListFilesApiCall()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
@@ -421,6 +422,10 @@ const ContextMenu = () => {
                        const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
                        if (!emailRegex.test(value)) {
                          setError('Please enter a valid email address')
+                         return
+                       }
+                       if (value === user.email) {
+                         setError('You can\'t enter your own email address')
                          return
                        }
                        setError(null)
