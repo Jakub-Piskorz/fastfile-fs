@@ -318,7 +318,7 @@ const ContextMenu = () => {
     >
       <ul>
         {(() => {
-          if (menuState === MenuState.file)
+          if (menuState === MenuState.file || menuState === MenuState.fileLink)
             return (
               <>
                 <li onMouseUp={onDownload}>Download</li>
@@ -326,12 +326,12 @@ const ContextMenu = () => {
                 <ShareOptions />
               </>
             )
-          if (menuState === MenuState.fileLink)
+          if (menuState === MenuState.fileLinkGuest)
             return (
               <>
                 <li onMouseUp={onDownload}>Download</li>
                 <li onMouseUp={onDelete}>Delete file</li>
-                <ShareOptions />
+                <li onMouseUp={onGoToLink}>Go to link</li>
               </>
             )
           if (menuState === MenuState.directory)

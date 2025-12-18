@@ -2,6 +2,7 @@ enum MenuState {
   closed,
   file,
   fileLink,
+  fileLinkGuest,
   directory,
   directoryWarning,
   profile,
