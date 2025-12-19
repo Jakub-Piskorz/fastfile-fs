@@ -60,6 +60,8 @@ export interface FileLink {
   path?: string;
   isPublic?: boolean;
   fileLinkShares?: FileLinkShare[];
+  /** @format int64 */
+  ownerId?: number;
 }
 
 export interface FileLinkShare {

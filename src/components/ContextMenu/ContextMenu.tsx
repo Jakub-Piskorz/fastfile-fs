@@ -297,7 +297,8 @@ const ContextMenu = () => {
     if (clickedItem.fileLink?.uuid) {
       return <>
         <li onMouseUp={onGoToLink}>Go to link</li>
-        <li onMouseUp={onRemoveLink}>Remove link</li>
+        {clickedItem.fileLink.ownerId === user.id &&
+          <li onMouseUp={onRemoveLink}>Remove link</li>}
       </>
     } else {
       return <>
