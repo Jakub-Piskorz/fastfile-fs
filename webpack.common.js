@@ -51,7 +51,8 @@ module.exports = {
               sourceMap: true,
               modules: {
                 localIdentName: '[local]--[hash:base64:6]',
-                exportLocalsConvention: 'camelCase'
+                exportLocalsConvention: 'camelCase',
+                namedExport: false
               }
             }
           }
@@ -66,8 +67,15 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff|woff2|eot|ttf|svg|otf)$/,
-        loader: 'url-loader'
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name].[hash:8][ext]'
+        }
+      },
+      {
+        test: /\.svg$/i,
+        type: 'asset/inline'
       }
     ]
   },

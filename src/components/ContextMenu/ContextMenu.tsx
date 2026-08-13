@@ -150,8 +150,6 @@ const ContextMenu = () => {
 
   const onUpload = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(location.pathname)
-    console.log(joinPaths(location.pathname))
 
     const input = uploadInputRef.current
     try {

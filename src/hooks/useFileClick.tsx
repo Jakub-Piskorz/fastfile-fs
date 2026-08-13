@@ -16,7 +16,6 @@ const useFileClick = () => {
 
   const currentRoute = useCurrentRoute()
   const MenuFileState = useMemo(() => {
-    console.log(currentRoute)
     if (routes.shared === currentRoute || routes.download === currentRoute) {
       return MenuState.fileLink
     }

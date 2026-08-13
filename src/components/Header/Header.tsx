@@ -51,7 +51,6 @@ const Header = () => {
           controller = new AbortController()
           timeout = setTimeout(() => {
             if (input.value) {
-              console.log(location.pathname)
               Api.api.searchFiles({
                 fileName: input.value,
                 directory: location.pathname
