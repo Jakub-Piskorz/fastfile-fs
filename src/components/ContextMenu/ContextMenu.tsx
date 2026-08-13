@@ -125,8 +125,9 @@ const ContextMenu = () => {
       return
     }
     let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.ok ? res.json() : console.error('something went wrong')
+      res.status === 200 ? res.data : console.error('something went wrong')
     )
+    if (!files) files = []
     if (!Array.isArray(files)) {
       files = [files]
     }
@@ -186,12 +187,12 @@ const ContextMenu = () => {
       return
     }
 
-    const success = await Api.api.createDirectory(joinPaths(location.pathname, dirName)).then((res: Response) => res.ok && true)
+    const success = await Api.api.createDirectory(joinPaths(location.pathname, dirName)).then((res) => res.status === 200 && true)
     if (success) {
       Api.api.filesInDirectory(joinPaths(location.pathname))
-        .then((res: Response) => res.ok && res.json())
-        .then((files: FileDTO[]) => {
-          setFiles(files)
+        .then((res) => res.status === 200 && res.data)
+        .then((files) => {
+          if (files) setFiles(files)
           setMenuState(MenuState.closed)
         })
     }

@@ -1,10 +1,11 @@
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Api, { HttpResponse, StreamingResponseBody } from '.'
+import Api, { StreamingResponseBody } from '.'
 import { FileDTO } from './Api'
 import MenuState from '@/types/MenuStateEnum'
 import { joinPaths } from '@/scripts/utils'
+import { AxiosResponse } from 'axios'
 
 export const useDeleteRecursively = () => {
 
@@ -24,7 +25,7 @@ export const useDeleteRecursively = () => {
       return
     }
     let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.ok ? res.json() : console.error('something went wrong')
+      res.data
     )
     if (!Array.isArray(files)) {
       files = [files]
@@ -35,7 +36,7 @@ export const useDeleteRecursively = () => {
 
 export const download = (filePaths: string[] = []) => {
   if (filePaths.length === 0) return
-  let fetchCall: Promise<HttpResponse<StreamingResponseBody, any>>
+  let fetchCall: Promise<AxiosResponse<StreamingResponseBody, any>>
   let fileName: string
   if (filePaths.length === 1) {
     fetchCall = Api.api.downloadFile(filePaths[0])
@@ -44,8 +45,8 @@ export const download = (filePaths: string[] = []) => {
   }
 
   return fetchCall
-    .then((response) => {
-      if (response === null || !response.ok) {
+    .then((response: AxiosResponse<object>) => {
+      if (!response || response.status !== 200) {
         throw new Error(
           `Error code: ${response?.status}. File cannot be downloaded.`
         )

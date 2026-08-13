@@ -41,8 +41,8 @@ const LandingPage = () => {
     try {
       Api.auth.login(userLoginDTO)
         .then((result) => {
-          if (result.ok) {
-            return result.text()
+          if (result.status === 200) {
+            return result.data
           } else setErrorMsg('Wrong login or password.')
           return
         })

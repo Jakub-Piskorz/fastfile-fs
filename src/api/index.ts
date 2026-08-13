@@ -7,10 +7,8 @@ export * from '@/api/utils'
 export const getToken = (): string | undefined => CookieScripts.get('token')
 
 export const swaggerApi = new SwaggerApi({
-  baseApiParams: {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
+  headers: {
+    Authorization: `Bearer ${getToken()}`
   }
 })
 export default swaggerApi

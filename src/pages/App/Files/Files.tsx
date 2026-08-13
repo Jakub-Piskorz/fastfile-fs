@@ -65,11 +65,14 @@ const Files = () => {
     try {
       const parameter = uuid || location.pathname.slice(1)
 
-      let files: FileDTO[] = await apiCall(parameter).then((response) => {
-        if (response.ok) return response.json()
+      let files: FileDTO | FileDTO[] | undefined = await apiCall(parameter).then((response) => {
+        if (response.status === 200 || typeof response.data !== 'undefined') return response.data
       })
-      if (!Array.isArray(files)) {
+      if (files && !Array.isArray(files)) {
         files = [files]
+      }
+      if (files === undefined) {
+        files = []
       }
       setFiles(files)
     } catch (e) {
