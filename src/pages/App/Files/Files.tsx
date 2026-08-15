@@ -1,4 +1,4 @@
-import { DragEvent, MouseEvent, useCallback, useEffect, useMemo, useRef } from 'react'
+import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
 import Api, {
   useListFilesApiCall
 } from '@/api'
@@ -40,7 +40,7 @@ const Files = () => {
 
   const apiCallParam = useMemo(() => uuid || path, [uuid, path])
 
-  const getFiles = useCallback(async () => {
+  const getFiles = async () => {
     const response = await apiCall(apiCallParam)
     let resFiles: FileDTO[] = []
     if (response.status === 200) {
@@ -48,7 +48,7 @@ const Files = () => {
       setFiles(resFiles)
     }
     return resFiles
-  }, [apiCallParam])
+  }
 
   const currentFiles = searchedFiles || files
 

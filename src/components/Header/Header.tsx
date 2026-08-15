@@ -6,29 +6,24 @@ import profilePic from '@/images/user.svg'
 import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
 import { useStore } from '@/hooks/store'
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Api from '@/api'
 import { routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
+import { useDebounce } from '@/scripts/utils'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const Header = () => {
   const { darkMode, setDarkMode, menuState, setMenuState, setSearchedFiles, setContextMenuPosition } =
     useStore()
   const toggleNav = useToggleNav()
+  const queryClient = useQueryClient()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
   const isSearchDisabled = useMemo(() =>
     location.pathname.includes('/download/') || currentRoute !== routes.app, [location.pathname, currentRoute])
   const [inputValue, setInputValue] = useState<string>('')
-
-
-  useEffect(() => {
-    if (isSearchDisabled) {
-      setInputValue('')
-      setSearchedFiles(null)
-    }
-  }, [isSearchDisabled])
-
+  const debouncedInputValue = useDebounce(inputValue)
 
   useEffect(() => {
     const html = document.querySelector('html')
@@ -36,35 +31,45 @@ const Header = () => {
     setDarkMode(isDark)
   }, [])
 
-  const onDebouncedSearch = useMemo(
-    () =>
-      (() => {
-        let timeout: number
-        let controller: AbortController
-        return (e: ChangeEvent) => {
-          const input = e.target as HTMLInputElement
-          setInputValue(input.value)
-          if (timeout) {
-            clearTimeout(timeout)
-            controller.abort()
-          }
-          controller = new AbortController()
-          timeout = setTimeout(() => {
-            if (input.value) {
-              Api.api.searchFiles({
-                fileName: input.value,
-                directory: location.pathname
-              }, { signal: controller.signal })
-                .then((res) => res.data)
-                .then((searchedFiles) => setSearchedFiles(searchedFiles))
-            } else {
-              setSearchedFiles(null)
-            }
-          }, 300)
-        }
-      })(),
-    [location.pathname]
-  )
+  // Automatic search files query
+  useEffect(() => {
+
+    if (!inputValue || (!isSearchDisabled && inputValue === debouncedInputValue)) {
+      queryClient.invalidateQueries({ queryKey: ['files', 'search'] })
+    }
+  }, [isSearchDisabled, inputValue, debouncedInputValue])
+
+  const getSearchedFiles = async (searchQuery: string, signal?: AbortSignal) => {
+    if (searchQuery.length === 0) return null
+    const response = await Api.api.searchFiles({
+      fileName: searchQuery,
+      directory: location.pathname
+    }, { signal })
+    if (response.status !== 200) {
+      throw new Error('Couldn\'t search file!')
+    }
+    return response.data
+  }
+
+  const searchFiles = async (signal?: AbortSignal) => {
+
+    // Clear search if input empty
+    if (!inputValue || isSearchDisabled) {
+      setSearchedFiles(null)
+      return null
+    }
+
+    // POST search and update files
+
+    const searchedFiles = await getSearchedFiles(inputValue, signal)
+    if (searchedFiles) setSearchedFiles(searchedFiles)
+    return searchedFiles
+  }
+
+  useQuery({
+    queryKey: ['files', 'search'],
+    queryFn: ({ signal }) => searchFiles(signal)
+  })
 
   const clickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -115,7 +120,7 @@ const Header = () => {
             type="text"
             placeholder="Search something..."
             value={inputValue}
-            onChange={onDebouncedSearch}
+            onChange={e => setInputValue(e.target.value)}
             disabled={isSearchDisabled}
             className={isSearchDisabled ? style.disabled : ''}
           />

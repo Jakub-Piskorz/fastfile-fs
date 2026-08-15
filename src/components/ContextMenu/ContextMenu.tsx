@@ -1,4 +1,4 @@
-import Api, { useListFilesApiCall } from '@/api'
+import Api, { download, useListFilesApiCall } from '@/api'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
@@ -15,6 +15,7 @@ import MenuState from '@/types/MenuStateEnum'
 import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
+import { useQueryClient } from '@tanstack/react-query'
 
 const ContextMenu = () => {
   const {
@@ -29,6 +30,7 @@ const ContextMenu = () => {
   const { setOverlay } = useOverlayStore()
   const user = useLoaderData()
   const apiCall = useListFilesApiCall()
+  const queryClient = useQueryClient()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
   const navigate = useNavigate()
@@ -102,11 +104,10 @@ const ContextMenu = () => {
 
   const onDownload = () => {
     setMenuState(MenuState.closed)
-    if (uuid) {
-      Api.api.downloadFileFromLink(uuid)
-    } else {
-      Api.api.downloadFile(joinPaths(location.pathname, clickedItem?.metadata?.name))
-    }
+    const filePath = joinPaths(location.pathname, clickedItem?.metadata?.name)
+
+    if (uuid) download(undefined, uuid)
+    else download([filePath])
   }
 
   const onDelete = async () => {
@@ -117,21 +118,17 @@ const ContextMenu = () => {
     }
 
     setMenuState(MenuState.closed)
-    await Api.api.removeFile(joinPaths(location.pathname, clickedItem!.metadata!.name))
+    const filePath = encodeURIComponent(joinPaths(location.pathname, clickedItem?.metadata?.name))
+    await Api.api.removeFile(filePath)
+
+    // Reload files query
+    await queryClient.invalidateQueries({ queryKey: ['files'] })
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
-    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.status === 200 ? res.data : console.error('something went wrong')
-    )
-    if (!files) files = []
-    if (!Array.isArray(files)) {
-      files = [files]
-    }
-    setFiles(files)
   }
 
   const logout = () => {

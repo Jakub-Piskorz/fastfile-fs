@@ -4,37 +4,43 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Api from '.'
 import { FileDTO } from './Api'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths, normalizeFiles } from '@/scripts/utils'
+import { joinPaths } from '@/scripts/utils'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const useDeleteRecursively = () => {
 
-  const { setMenuState, setFiles } = useStore()
+  const queryClient = useQueryClient()
+  const { setMenuState } = useStore()
   const currentRoute = useCurrentRoute()
   const navigate = useNavigate()
   const location = useLocation()
-  const apiCall = useListFilesApiCall()
 
   return async function deleteRecursively(file: FileDTO) {
     setMenuState(MenuState.closed)
-    await Api.api.deleteRecursively(joinPaths(location.pathname, file.metadata?.name))
+    const filePath = encodeURIComponent(joinPaths(location.pathname, file.metadata?.name))
+    await Api.api.deleteRecursively(filePath)
+
+    // Reload files
+    await queryClient.invalidateQueries({ queryKey: ['files'] })
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
       return
     }
-    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.data
-    )
-    setFiles(normalizeFiles(files))
   }
 }
 
-export const download = async (filePaths: string[] = []) => {
-  if (filePaths.length === 0) return
-  const response = filePaths.length === 1 ?
-    await Api.api.downloadFile(filePaths[0], { format: 'blob' }) :
-    await Api.api.downloadMultiple({ filePaths }, { format: 'blob' })
+export const download = async (filePaths: string[] = [], uuid?: string) => {
+  if (filePaths.length === 0 && !uuid) return
+
+  filePaths = filePaths.map(path => encodeURIComponent(path))
+
+  const response = uuid ?
+    await Api.api.downloadFileFromLink(uuid, { format: 'blob' }) :
+    filePaths.length === 1 ?
+      await Api.api.downloadFile(filePaths[0], { format: 'blob' }) :
+      await Api.api.downloadMultiple({ filePaths }, { format: 'blob' })
 
   if (response.status !== 200) {
     throw new Error(

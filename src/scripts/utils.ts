@@ -1,4 +1,5 @@
 import { FileDTO } from '@/api'
+import { useEffect, useState } from 'react'
 
 export function debounce(fn: Function, delay: number = 1000) {
   let timeout: null | ReturnType<typeof setTimeout> = null
@@ -31,4 +32,18 @@ export function normalizeFiles(probablyFiles: FileDTO | FileDTO[] | null): FileD
   if (probablyFiles === null) return []
   if (!Array.isArray(probablyFiles)) return [probablyFiles]
   return probablyFiles
+}
+
+export const useDebounce = <T, >(value: T, delay = 400) => {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => clearTimeout(timeout)
+  }, [value, delay])
+
+  return debouncedValue
 }

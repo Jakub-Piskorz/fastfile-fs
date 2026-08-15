@@ -12,10 +12,11 @@ import MenuState from '@/types/MenuStateEnum'
 import { UserDTO } from '@/api'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+const queryClient = new QueryClient()
+
 const App = (): ReactElement => {
   const { setMenuState, iconSize, setUsername } = useStore()
   const userInfo: UserDTO = useLoaderData()
-  const queryClient = new QueryClient()
 
   useEffect(() => {
     if (userInfo?.username) setUsername(userInfo.username)
