@@ -35,7 +35,7 @@ const Register = () => {
       }
       Api.auth.register(data)
         .then((res) => {
-          if (res.ok) {
+          if (res.status === 200) {
             navigate('/')
           } else {
             setErrorMsg('Inputs not correct.')

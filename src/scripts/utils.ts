@@ -1,3 +1,5 @@
+import { FileDTO } from '@/api'
+
 export function debounce(fn: Function, delay: number = 1000) {
   let timeout: null | ReturnType<typeof setTimeout> = null
 
@@ -23,4 +25,10 @@ export function joinPaths(...segments: (string | undefined | null)[]) {
     .map(s => (s || '').replace(/^\/|\/$/g, '')) // remove leading/trailing slashes
     .filter(Boolean) // remove empty segments
     .join('/')
+}
+
+export function normalizeFiles(probablyFiles: FileDTO | FileDTO[] | null): FileDTO[] {
+  if (probablyFiles === null) return []
+  if (!Array.isArray(probablyFiles)) return [probablyFiles]
+  return probablyFiles
 }

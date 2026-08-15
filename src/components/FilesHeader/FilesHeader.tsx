@@ -21,7 +21,7 @@ const FilesHeader = ({ title }: { title: string }) => {
     <h1>
       <img
         className={style.folderBlack}
-        src={searchedFiles && searchedFiles.length > 0 ? searchIcon : folderBlackIcon}
+        src={searchedFiles !== null ? searchIcon : folderBlackIcon}
         alt="shared file icon"
       />
       <div>{title}</div>

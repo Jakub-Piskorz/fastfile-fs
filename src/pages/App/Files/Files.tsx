@@ -1,4 +1,4 @@
-import { DragEvent, MouseEvent, useEffect, useMemo, useRef } from 'react'
+import { DragEvent, MouseEvent, useCallback, useEffect, useMemo, useRef } from 'react'
 import Api, {
   useListFilesApiCall
 } from '@/api'
@@ -15,7 +15,9 @@ import useFileClick from '@/hooks/useFileClick'
 import { useLocation } from 'react-router-dom'
 import GoBackFile from '@/components/File/GoBackFile'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
-import { joinPaths } from '@/scripts/utils'
+import { joinPaths, normalizeFiles } from '@/scripts/utils'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+
 
 const Files = () => {
   const {
@@ -28,18 +30,27 @@ const Files = () => {
   } = useStore()
   const { setOverlay } = useOverlayStore()
 
+  const queryClient = useQueryClient()
   const currentRoute = useCurrentRoute()
   const location = useLocation()
+  const path = location.pathname.slice(1)
   const fileClick = useFileClick()
   const apiCall = useListFilesApiCall()
   const uuid = useUuid()
 
-  const currentFiles = useMemo(() => {
-    if (searchedFiles !== null) {
-      return searchedFiles
+  const apiCallParam = useMemo(() => uuid || path, [uuid, path])
+
+  const getFiles = useCallback(async () => {
+    const response = await apiCall(apiCallParam)
+    let resFiles: FileDTO[] = []
+    if (response.status === 200) {
+      resFiles = normalizeFiles(response.data)
+      setFiles(resFiles)
     }
-    return files
-  }, [files, searchedFiles])
+    return resFiles
+  }, [apiCallParam])
+
+  const currentFiles = searchedFiles || files
 
   const parentDir = useMemo(() => {
     const splitPath = location.pathname.split('/')
@@ -61,27 +72,15 @@ const Files = () => {
     setSearchedFiles(null)
     setFiles([])
     setSelectedFiles([])
-
-    try {
-      const parameter = uuid || location.pathname.slice(1)
-
-      let files: FileDTO | FileDTO[] | undefined = await apiCall(parameter).then((response) => {
-        if (response.status === 200 || typeof response.data !== 'undefined') return response.data
-      })
-      if (files && !Array.isArray(files)) {
-        files = [files]
-      }
-      if (files === undefined) {
-        files = []
-      }
-      setFiles(files)
-    } catch (e) {
-      console.error(e)
-    }
+    await queryClient.invalidateQueries({ queryKey: ['files'] })
   }
+
+  useQuery({ queryKey: ['files'], queryFn: getFiles })
+
   useEffect(() => {
     refresh()
   }, [location.pathname])
+
 
   const dragCounter = useRef(0)
 

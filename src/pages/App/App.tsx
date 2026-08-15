@@ -8,15 +8,17 @@ import CookieWarning from '@/components/cookie-popup/CookiePopup'
 import ContextMenu from '@/components/ContextMenu/ContextMenu'
 import { useStore } from '@/hooks/store'
 import { Outlet, useLoaderData } from 'react-router-dom'
-import { IUserInfo } from '@/router/redirect'
 import MenuState from '@/types/MenuStateEnum'
+import { UserDTO } from '@/api'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const App = (): ReactElement => {
   const { setMenuState, iconSize, setUsername } = useStore()
-  const userInfo = useLoaderData<IUserInfo>()
+  const userInfo: UserDTO = useLoaderData()
+  const queryClient = new QueryClient()
 
   useEffect(() => {
-    if (userInfo) setUsername(userInfo.username)
+    if (userInfo?.username) setUsername(userInfo.username)
   }, [userInfo])
 
   return (
@@ -29,17 +31,20 @@ const App = (): ReactElement => {
             : 'light'
         }}
       />
-      <CookieWarning />
-      <Header />
-      <main
-        className={style.fs}
-        onClick={() => setMenuState(MenuState.closed)}
-        icon-size={String(iconSize)}
-      >
-        <Sidebar />
-        <Outlet />
-      </main>
-      <ContextMenu />
+      <QueryClientProvider client={queryClient}>
+        <CookieWarning />
+        <Header />
+
+        <main
+          className={style.fs}
+          onClick={() => setMenuState(MenuState.closed)}
+          icon-size={String(iconSize)}
+        >
+          <Sidebar />
+          <Outlet />
+        </main>
+        <ContextMenu />
+      </QueryClientProvider>
     </div>
   )
 }

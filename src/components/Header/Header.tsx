@@ -55,7 +55,7 @@ const Header = () => {
                 fileName: input.value,
                 directory: location.pathname
               }, { signal: controller.signal })
-                .then((res) => res.json())
+                .then((res) => res.data)
                 .then((searchedFiles) => setSearchedFiles(searchedFiles))
             } else {
               setSearchedFiles(null)

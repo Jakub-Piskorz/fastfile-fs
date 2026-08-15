@@ -1,11 +1,10 @@
 import { useStore } from '@/hooks/store'
 import { routes, useCurrentRoute } from '@/router/router'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Api, { StreamingResponseBody } from '.'
+import Api from '.'
 import { FileDTO } from './Api'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths } from '@/scripts/utils'
-import { AxiosResponse } from 'axios'
+import { joinPaths, normalizeFiles } from '@/scripts/utils'
 
 export const useDeleteRecursively = () => {
 
@@ -27,46 +26,33 @@ export const useDeleteRecursively = () => {
     let files = await apiCall(joinPaths(location.pathname)).then((res) =>
       res.data
     )
-    if (!Array.isArray(files)) {
-      files = [files]
-    }
-    setFiles(files)
+    setFiles(normalizeFiles(files))
   }
 }
 
-export const download = (filePaths: string[] = []) => {
+export const download = async (filePaths: string[] = []) => {
   if (filePaths.length === 0) return
-  let fetchCall: Promise<AxiosResponse<StreamingResponseBody, any>>
-  let fileName: string
-  if (filePaths.length === 1) {
-    fetchCall = Api.api.downloadFile(filePaths[0])
-  } else {
-    fetchCall = Api.api.downloadMultiple({ filePaths })
+  const response = filePaths.length === 1 ?
+    await Api.api.downloadFile(filePaths[0], { format: 'blob' }) :
+    await Api.api.downloadMultiple({ filePaths }, { format: 'blob' })
+
+  if (response.status !== 200) {
+    throw new Error(
+      `Error code: ${response?.status}. File cannot be downloaded.`
+    )
   }
 
-  return fetchCall
-    .then((response: AxiosResponse<object>) => {
-      if (!response || response.status !== 200) {
-        throw new Error(
-          `Error code: ${response?.status}. File cannot be downloaded.`
-        )
-      }
+  // Extract file name from response header.
+  const fileName = response.headers['content-disposition']!
+    .match(/filename="?([^"]+)"?/i)?.[1]
 
-      // Extract file name from response header.
-      fileName = response.headers
-        .get('content-disposition')!
-        .match(/filename="?([^"]+)"?/i)?.[1] as string
-      return response.blob()
-    })
-    .then((blob) => {
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = fileName
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-    })
+  const url = window.URL.createObjectURL(response.data as Blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
 }
 
 export const useListFilesApiCall = () => {

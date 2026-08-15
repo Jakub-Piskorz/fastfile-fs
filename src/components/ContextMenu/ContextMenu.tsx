@@ -1,18 +1,18 @@
-import Api, { FileDTO, useListFilesApiCall } from '@/api'
+import Api, { useListFilesApiCall } from '@/api'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import arrowIcon from '@/images/arrow-top-right-on-square.svg'
 import plusCircleIcon from '@/images/plus-circle.svg'
 import uploadIcon from '@/images/upload.svg'
-import { StoreI, useStore } from '@/hooks/store'
+import { useStore } from '@/hooks/store'
 import { basename } from '@/config'
 import React, { CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import { routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths } from '@/scripts/utils'
+import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
@@ -160,10 +160,10 @@ const ContextMenu = () => {
           file: input.files[0]
         })
           .then(async () => {
-            const files = await Api.api.filesInDirectory(joinPaths(location.pathname)).then(
-              (res: any) => res.ok && res.json()
-            )
-            setFiles(files)
+            const response = await Api.api.filesInDirectory(joinPaths(location.pathname))
+            if (response.status === 200) {
+              setFiles(response.data)
+            }
           })
       } else {
         new Error('No file on input')
@@ -211,13 +211,13 @@ const ContextMenu = () => {
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
-      const response: Response = await apiCall(joinPaths(location.pathname))
-      if (!response.ok) {
+      const response = await apiCall(joinPaths(location.pathname))
+      if (response.status !== 200) {
         setMenuState(MenuState.closed)
         throw new Error(response.statusText)
       }
-      const files = await response.json() as StoreI['files']
-      setFiles(files)
+      const files = response.data
+      setFiles(normalizeFiles(files))
       setMenuState(MenuState.publicShare)
       setClipboard(urlFromUUID(uuid))
       if (clipboard != null) {
@@ -230,12 +230,12 @@ const ContextMenu = () => {
 
   const onPublicShare = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await Api.api.shareFileLink(clickedItem!.metadata.path!).then(
-      (res: Response) => {
-        if (!res.ok) {
+    const link = await Api.api.shareFileLink(clickedItem!.metadata.path!).then(
+      (res) => {
+        if (res.status !== 200) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
         }
-        return res.json()
+        return res.data
       }
     )
     await createLinkAndCopy(link.uuid)
@@ -248,15 +248,15 @@ const ContextMenu = () => {
 
   const onPrivateShareFinish = async () => {
     setClipboard(null)
-    const link: { uuid: string } = await Api.api.sharePrivateFileLink({
+    const link = await Api.api.sharePrivateFileLink({
       filePath: clickedItem?.metadata.path,
       emails: Array.from(mailList)
     }).then(
-      (res: Response) => {
-        if (!res.ok) {
+      (res) => {
+        if (res.status !== 200) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
         }
-        return res.json()
+        return res.data
       }
     )
     await createLinkAndCopy(link.uuid)
@@ -267,8 +267,8 @@ const ContextMenu = () => {
     if (!clickedItem) {
       throw new Error('Something wrong with clicked item.')
     }
-    const response = await Api.api.removeFileLink(clickedItem.fileLink?.uuid!)
-    if (!response.ok) {
+    const removeLinkResponse = await Api.api.removeFileLink(clickedItem.fileLink?.uuid!)
+    if (removeLinkResponse.status !== 200) {
       throw new Error('Link couldn\'t be removed.')
     }
 
@@ -278,10 +278,11 @@ const ContextMenu = () => {
       return
     }
 
-    let files = await apiCall(joinPaths(location.pathname)).then((res) =>
-      res.ok ? res.json() : console.error('something went wrong')
-    )
-    setFiles(files)
+    let getFilesResponse = await apiCall(joinPaths(location.pathname))
+    if (getFilesResponse.status === 200) {
+      const files = getFilesResponse.data
+      setFiles(normalizeFiles(files))
+    }
   }
 
   const onGoToLink = () => {

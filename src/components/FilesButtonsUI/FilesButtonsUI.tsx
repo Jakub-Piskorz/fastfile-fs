@@ -12,7 +12,7 @@ import { routes, useCurrentRoute } from '@/router/router'
 import useUuid from '@/hooks/useUuid'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths } from '@/scripts/utils'
+import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
@@ -75,17 +75,17 @@ const FilesButtonsUI = () => {
       }
     }
 
-    let files = await apiCall(joinPaths(uuid || joinPaths(location.pathname))).then((res) =>
-      res.ok ? res.json() : console.error('something went wrong')
-    )
+    let response = await apiCall(joinPaths(uuid || joinPaths(location.pathname)))
+    if (response.status !== 200) {
+      throw new Error('something went wrong')
+    }
+    let files = normalizeFiles(response.data)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {
       navigate(routes.app)
     }
-    if (!Array.isArray(files)) {
-      files = [files]
-    }
+
     setFiles(files)
     setSelectedFiles([])
   }
