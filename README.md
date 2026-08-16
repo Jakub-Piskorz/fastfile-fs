@@ -1,12 +1,12 @@
 # FastFile
 ### Cloud storage app
-[Link to app](https://fastfile.netlify.app)
+[Link to app (if my PC is turned on)](https://jakubpiskorz.dev/fastfile)
 
 Landing Page:
 - Design by Jakub Piskorz, Frontend by Mateusz Szczykutowicz
 
 App:
-- Design and Frontend by Jakub Piskorz, Backend by Mateusz Szczykutowicz
+- Design and Frontend by Jakub Piskorz, Backend initially by Mateusz Szczykutowicz in node/express, since 2025 by Jakub Piskorz in Java/Spring Boot/Postgres
 
 
 
