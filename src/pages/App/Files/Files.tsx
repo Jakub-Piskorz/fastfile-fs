@@ -35,13 +35,13 @@ const Files = () => {
   const location = useLocation()
   const path = location.pathname.slice(1)
   const fileClick = useFileClick()
-  const apiCall = useListFilesApiCall()
+  const genericFetchFiles = useListFilesApiCall()
   const uuid = useUuid()
 
   const apiCallParam = useMemo(() => uuid || path, [uuid, path])
 
   const getFiles = async () => {
-    const response = await apiCall(apiCallParam)
+    const response = await genericFetchFiles(apiCallParam)
     let resFiles: FileDTO[] = []
     if (response.status === 200) {
       resFiles = normalizeFiles(response.data)

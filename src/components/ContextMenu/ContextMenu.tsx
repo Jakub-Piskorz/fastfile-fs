@@ -15,7 +15,7 @@ import MenuState from '@/types/MenuStateEnum'
 import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const ContextMenu = () => {
   const {
@@ -42,6 +42,13 @@ const ContextMenu = () => {
   const [error, setError] = useState<string | null>(null)
   const createDirInputRef = useRef<HTMLInputElement>(null)
   const mailRef = useRef<HTMLInputElement>(null)
+
+  const deleteMutation = useMutation(
+    {
+      mutationFn: (filePath: string) => Api.api.removeFile(filePath),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ['files'] })
+    }
+  )
 
   useEffect(() => {
     setUploadName('Select file')
@@ -119,10 +126,7 @@ const ContextMenu = () => {
 
     setMenuState(MenuState.closed)
     const filePath = encodeURIComponent(joinPaths(location.pathname, clickedItem?.metadata?.name))
-    await Api.api.removeFile(filePath)
-
-    // Reload files query
-    await queryClient.invalidateQueries({ queryKey: ['files'] })
+    deleteMutation.mutate(filePath)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
     if (currentRoute === routes.download) {

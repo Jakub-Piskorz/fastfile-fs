@@ -31,11 +31,16 @@ const Header = () => {
     setDarkMode(isDark)
   }, [])
 
-  // Automatic search files query
+  // Automatic search files on input change
   useEffect(() => {
-
-    if (!inputValue || (!isSearchDisabled && inputValue === debouncedInputValue)) {
-      queryClient.invalidateQueries({ queryKey: ['files', 'search'] })
+    console.log(inputValue, debouncedInputValue)
+    if (inputValue === debouncedInputValue) {
+      if (inputValue === '' || isSearchDisabled) {
+        setSearchedFiles(null)
+        queryClient.invalidateQueries({ queryKey: ['files'] })
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['files', 'search'] })
+      }
     }
   }, [isSearchDisabled, inputValue, debouncedInputValue])
 
@@ -52,15 +57,6 @@ const Header = () => {
   }
 
   const searchFiles = async (signal?: AbortSignal) => {
-
-    // Clear search if input empty
-    if (!inputValue || isSearchDisabled) {
-      setSearchedFiles(null)
-      return null
-    }
-
-    // POST search and update files
-
     const searchedFiles = await getSearchedFiles(inputValue, signal)
     if (searchedFiles) setSearchedFiles(searchedFiles)
     return searchedFiles
@@ -68,7 +64,8 @@ const Header = () => {
 
   useQuery({
     queryKey: ['files', 'search'],
-    queryFn: ({ signal }) => searchFiles(signal)
+    queryFn: ({ signal }) => searchFiles(signal),
+    enabled: inputValue === debouncedInputValue && inputValue !== ''
   })
 
   const clickHandler = (e: React.MouseEvent) => {
