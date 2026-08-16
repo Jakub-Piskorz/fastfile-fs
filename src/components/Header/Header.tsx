@@ -36,6 +36,7 @@ const Header = () => {
     if (inputValue === debouncedInputValue) {
       if (inputValue === '' || isSearchDisabled) {
         setSearchedFiles(null)
+        if (inputValue !== '') setInputValue('')
         queryClient.invalidateQueries({ queryKey: ['files'] })
       } else {
         queryClient.invalidateQueries({ queryKey: ['files', 'search'] })
