@@ -33,7 +33,6 @@ const Header = () => {
 
   // Automatic search files on input change
   useEffect(() => {
-    console.log(inputValue, debouncedInputValue)
     if (inputValue === debouncedInputValue) {
       if (inputValue === '' || isSearchDisabled) {
         setSearchedFiles(null)
