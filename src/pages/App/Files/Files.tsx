@@ -59,7 +59,7 @@ const Files = () => {
   }, [location.pathname])
 
   const title = useMemo(() => {
-    let currentDirectory = location.pathname
+    let currentDirectory = decodeURIComponent(location.pathname)
     if (currentDirectory === '/') currentDirectory = ''
     if (currentRoute === routes.app) return username + currentDirectory
     if (currentRoute === routes.shared) return 'Shared files'
@@ -124,9 +124,10 @@ const Files = () => {
 
     dragCounter.current = 0
     setOverlay(OverlayState.hidden)
+    const filePath = decodeURIComponent('/' + joinPaths(location.pathname.slice(1)))
     if (e.dataTransfer.files[0])
       Api.api.uploadFile({
-          filePath: '/' + joinPaths(location.pathname.slice(1)),
+          filePath,
           file: e.dataTransfer.files[0]
         }
       ).then(() => refresh())

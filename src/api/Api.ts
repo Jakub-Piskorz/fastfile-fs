@@ -94,6 +94,11 @@ export interface FilePathsDTO {
 
 export type StreamingResponseBody = object;
 
+export interface DeleteFileDTO {
+  path?: string;
+  recursive?: boolean;
+}
+
 import type {
   AxiosInstance,
   AxiosRequestConfig,
@@ -539,6 +544,22 @@ export class Api<
      * No description
      *
      * @tags file-controller
+     * @name RemoveFile
+     * @request DELETE:/api/v1/files/delete
+     */
+    removeFile: (data: DeleteFileDTO, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/api/v1/files/delete`,
+        method: "DELETE",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags file-controller
      * @name FilesInDirectory
      * @request GET:/api/v1/files/list/{path}
      */
@@ -574,34 +595,6 @@ export class Api<
       this.request<string, any>({
         path: `/api/v1/files/create-directory/${path}`,
         method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags file-controller
-     * @name RemoveFile
-     * @request DELETE:/api/v1/files/delete/{path}
-     */
-    removeFile: (path: string, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/api/v1/files/delete/${path}`,
-        method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags file-controller
-     * @name DeleteRecursively
-     * @request DELETE:/api/v1/files/delete-recursively/{path}
-     */
-    deleteRecursively: (path: string, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/api/v1/files/delete-recursively/${path}`,
-        method: "DELETE",
         ...params,
       }),
   };

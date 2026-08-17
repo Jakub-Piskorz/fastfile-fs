@@ -11,6 +11,7 @@ import useFileClick from '@/hooks/useFileClick'
 import { FileDTO } from '@/api/Api'
 import { useNavigate } from 'react-router-dom'
 import { routes } from '@/router/router'
+import { simplifyPath } from '@/scripts/utils'
 
 const File = ({ metadata, fileLink }: FileDTO) => {
   const { selectedFiles, setSelectedFiles } = useStore()
@@ -60,7 +61,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
 
   const onDoubleClick = () => {
     if (metadata!.type !== 'directory') return
-    const path = metadata.path!.split(/([\\/])+/).slice(4).join('')
+    const path = simplifyPath(metadata.path!)
     navigate(routes.app + path)
   }
 

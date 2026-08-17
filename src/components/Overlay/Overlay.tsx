@@ -6,15 +6,17 @@ import cloudIcon from '@/images/cloud-arrow-up.svg'
 import MenuState from '@/types/MenuStateEnum'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import Button from '@/components/Button/Button'
-import { useDeleteRecursively } from '@/api/utils'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import Api, { FileDTO } from '@/api'
+import { simplifyPath } from '@/scripts/utils'
 
 const Overlay = () => {
   const { setMenuState, clickedItem, setClickedItem } = useStore()
-  const { overlay, setOverlay, resolve, data } = useOverlayStore()
+  const { overlay, setOverlay, resolveOverlay, overlayData } = useOverlayStore()
+  const queryClient = useQueryClient()
 
   const toggleNav = useToggleNav()
-  const deleteRecursively = useDeleteRecursively()
 
   useEffect(() => {
     return setMenuState(MenuState.closed)
@@ -57,16 +59,23 @@ const Overlay = () => {
     toggleNav(true)
   }, [toggleNav])
 
-  const onRecursiveDelete = useCallback(async () => {
-    await deleteRecursively(data || clickedItem)
-    setOverlay(OverlayState.hidden)
-    setClickedItem(undefined)
-
-    // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
-    if (resolve) {
-      resolve(true)
+  const recursiveDeleteMutation = useMutation(
+    {
+      mutationFn: (path: string) => Api.api.removeFile({ path, recursive: true }),
+      onSuccess: () => { // Close Overlay and refresh files query
+        if (resolveOverlay) resolveOverlay(true)
+        setOverlay(OverlayState.hidden)
+        queryClient.invalidateQueries({ queryKey: ['files'] })
+        setClickedItem(undefined)
+      }
     }
-  }, [deleteRecursively, clickedItem])
+  )
+
+  const onRecursiveDelete = () => {
+    const file = overlayData || clickedItem as FileDTO
+    const path = simplifyPath(file.metadata.path!)
+    return recursiveDeleteMutation.mutate(path)
+  }
 
   const windowClass = useMemo(() => {
     if (overlay === OverlayState.upload) {
@@ -81,15 +90,15 @@ const Overlay = () => {
   const onCancel = () => {
     toggleNav(true)
     // If overlay was called as a promise, resolve it and remove resolver from resolved promise.
-    if (resolve) {
-      resolve(false)
+    if (resolveOverlay) {
+      resolveOverlay(false)
     }
   }
 
   const onDeleteAccount = () => {
     toggleNav(true)
-    if (resolve) {
-      resolve(true)
+    if (resolveOverlay) {
+      resolveOverlay(true)
     }
   }
 
@@ -108,7 +117,8 @@ const Overlay = () => {
           <div>Drop your file to upload</div>
         </div>}
         {overlay === OverlayState.deleteWarning && <div className={windowClass}>
-          <div>Are you sure you want to delete the folder {data?.metadata.name || clickedItem?.metadata.name} with its
+          <div>Are you sure you want to delete the
+            folder {overlayData?.metadata.name || clickedItem?.metadata.name} with its
             content?
           </div>
           <div className={style.buttons}>

@@ -45,7 +45,7 @@ const ContextMenu = () => {
 
   const deleteMutation = useMutation(
     {
-      mutationFn: (filePath: string) => Api.api.removeFile(filePath),
+      mutationFn: (path: string) => Api.api.removeFile({ path }),
       onSuccess: () => queryClient.invalidateQueries({ queryKey: ['files'] })
     }
   )
@@ -125,7 +125,7 @@ const ContextMenu = () => {
     }
 
     setMenuState(MenuState.closed)
-    const filePath = encodeURIComponent(joinPaths(location.pathname, clickedItem?.metadata?.name))
+    const filePath = joinPaths(location.pathname, clickedItem?.metadata?.name)
     deleteMutation.mutate(filePath)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
@@ -154,10 +154,11 @@ const ContextMenu = () => {
     e.preventDefault()
 
     const input = uploadInputRef.current
+    const filePath = decodeURIComponent('/' + joinPaths(location.pathname.slice(1)))
     try {
       if (input?.files && input.files[0]) {
         Api.api.uploadFile({
-          filePath: '/' + joinPaths(location.pathname.slice(1)),
+          filePath,
           file: input.files[0]
         })
           .then(async () => {
