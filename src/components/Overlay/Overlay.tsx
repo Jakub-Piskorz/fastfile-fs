@@ -1,4 +1,4 @@
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 import style from './Overlay.module.css'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import useToggleNav from '@/scripts/toggle-nav'

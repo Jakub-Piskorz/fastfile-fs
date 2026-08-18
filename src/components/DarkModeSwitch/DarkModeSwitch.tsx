@@ -3,7 +3,7 @@ import sun from '@/images/sun.svg'
 import moon from '@/images/moon.svg'
 import CookieScripts from '@/scripts/cookie-scripts'
 import React, { useEffect } from 'react'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 
 export default () => {
   const { darkMode, setDarkMode } = useStore()
@@ -34,12 +34,12 @@ export default () => {
 
   return (
     <div className={style.switch} onClick={stop}>
-      <img src={moon} id={style.moon} onClick={stop} />
+      <img alt="dark mode icon" src={moon} id={style.moon} onClick={stop} />
       <input type="checkbox" id={style.switchBtn} onClick={changeMode} />
       <label htmlFor={style.switchBtn} id={style.label}>
         Toggle
       </label>
-      <img src={sun} id={style.sun} onClick={stop} />
+      <img alt="light mode icon" src={sun} id={style.sun} onClick={stop} />
     </div>
   )
 }

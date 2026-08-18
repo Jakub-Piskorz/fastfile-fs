@@ -1,5 +1,5 @@
 import style from './FilesHeader.module.css'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 
 import FilesButtonsUI from '../../components/FilesButtonsUI/FilesButtonsUI'
 import folderBlackIcon from '@/images/folder-black.svg'

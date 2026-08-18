@@ -1,7 +1,7 @@
-import { routes, useCurrentRoute } from '@/router/router'
+import { Routes, useCurrentRoute } from '@/router/router'
 
 export default function useUuid() {
   const currentRoute = useCurrentRoute()
-  if (currentRoute !== routes.download) return
+  if (currentRoute !== Routes.download) return
   return location.pathname.split('/')[3]
 }

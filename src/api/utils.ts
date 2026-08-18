@@ -1,4 +1,3 @@
-import { routes, useCurrentRoute } from '@/router/router'
 import Api from '@/api'
 
 export const download = async (filePaths: string[] = [], uuid?: string) => {
@@ -27,14 +26,5 @@ export const download = async (filePaths: string[] = [], uuid?: string) => {
   document.body.appendChild(a)
   a.click()
   a.remove()
-}
-
-export const useListFilesApiCall = () => {
-  const currentRoute = useCurrentRoute()
-  if (currentRoute === routes.app) return Api.api.filesInDirectory
-  if (currentRoute === routes.shared) return Api.api.getMyLinks
-  if (currentRoute === routes.sharedWithMe) return Api.api.linksSharedToMe
-  if (currentRoute === routes.download) return Api.api.lookupLinkFile
-  return Api.api.filesInDirectory // Default
 }
 

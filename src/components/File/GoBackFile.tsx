@@ -2,7 +2,7 @@ import folderFileIcon from '@/images/folder-file.svg'
 import style from './File.module.css'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { routes } from '@/router/router'
+import { Routes } from '@/router/router'
 
 type Props = {
   path: string
@@ -13,7 +13,7 @@ const GoBackFile = ({ path }: Props) => {
   const navigate = useNavigate()
 
   const onDoubleClick = () => {
-    navigate(routes.app + path)
+    navigate(Routes.app + path)
   }
 
   const stop = (e: React.MouseEvent) => {

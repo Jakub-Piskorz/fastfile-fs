@@ -28,8 +28,8 @@ export function joinPaths(...segments: (string | undefined | null)[]) {
     .join('/')
 }
 
-export function normalizeFiles(probablyFiles: FileDTO | FileDTO[] | null): FileDTO[] {
-  if (probablyFiles === null) return []
+export function normalizeFiles(probablyFiles: FileDTO | FileDTO[] | null | undefined): FileDTO[] {
+  if (probablyFiles === null || probablyFiles === undefined) return []
   if (!Array.isArray(probablyFiles)) return [probablyFiles]
   return probablyFiles
 }

@@ -1,6 +1,6 @@
-import { useStore } from './store'
+import { useStore } from '@/store/store'
 import { useMemo, MouseEvent } from 'react'
-import { routes, useCurrentRoute } from '@/router/router'
+import { Routes, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 import { FileDTO } from '@/api/Api'
 
@@ -16,10 +16,10 @@ const useFileClick = () => {
 
   const currentRoute = useCurrentRoute()
   const MenuFileState = useMemo(() => {
-    if (routes.shared === currentRoute || routes.download === currentRoute) {
+    if (Routes.shared === currentRoute || Routes.download === currentRoute) {
       return MenuState.fileLink
     }
-    if (routes.sharedWithMe === currentRoute) {
+    if (Routes.sharedWithMe === currentRoute) {
       return MenuState.fileLinkGuest
     }
     return MenuState.file

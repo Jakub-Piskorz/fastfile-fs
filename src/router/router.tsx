@@ -7,17 +7,18 @@ import Files from '@/pages/App/Files/Files'
 import { basename } from '@/config'
 import PageNotFound from '@/pages/404/404'
 
-export type RouteValue = (typeof routes)[keyof typeof routes]
-export const routes = {
+export type RouteValue = (typeof Routes)[keyof typeof Routes]
+export const Routes = {
   landingPage: '/lp',
   app: '/',
   download: '/download',
   linkWithVariable: '/download/:uuid',
-  getLink: (uuid: string) => `/download/${uuid}`,
   register: '/register',
   shared: '/shared',
   sharedWithMe: '/shared-with-me'
 } as const
+
+export const getLink = (uuid: string) => `/download/${uuid}`
 
 
 export const router = createBrowserRouter(
@@ -30,17 +31,17 @@ export const router = createBrowserRouter(
       children: [
         { path: '/', Component: Files },
         { path: '/*', Component: Files },
-        { path: routes.linkWithVariable, Component: Files },
-        { path: routes.shared, Component: Files },
-        { path: routes.sharedWithMe, Component: Files }
+        { path: Routes.linkWithVariable, Component: Files },
+        { path: Routes.shared, Component: Files },
+        { path: Routes.sharedWithMe, Component: Files }
       ]
     },
     {
-      path: routes.landingPage,
+      path: Routes.landingPage,
       Component: LandingPage
     },
     {
-      path: routes.register,
+      path: Routes.register,
       Component: Register
     },
     { path: '*', Component: PageNotFound }
@@ -48,19 +49,19 @@ export const router = createBrowserRouter(
 )
 
 // Useful hook for checking what web page you're currently in.
-export function useCurrentRoute(): RouteValue | null {
+export function useCurrentRoute(): RouteValue {
   const pathname = useLocation().pathname.split('/')[1]
 
   switch (true) {
     case pathname === '':
-      return routes.app
+      return Routes.app
     case pathname === 'download':
-      return routes.download
+      return Routes.download
     case pathname === 'shared':
-      return routes.shared
+      return Routes.shared
     case pathname === 'shared-with-me':
-      return routes.sharedWithMe
+      return Routes.sharedWithMe
     default:
-      return routes.app
+      return Routes.app
   }
 }

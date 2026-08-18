@@ -5,23 +5,25 @@ import logoDark from '@/images/logo/FastFile-reverse.png'
 import profilePic from '@/images/user.svg'
 import style from './Header.module.css'
 import contextMenuStyle from '../ContextMenu/ContextMenu.module.css'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 import React, { useEffect, useMemo, useState } from 'react'
 import Api from '@/api'
-import { routes, useCurrentRoute } from '@/router/router'
+import { Routes, RouteValue, useCurrentRoute } from '@/router/router'
 import MenuState from '@/types/MenuStateEnum'
 import { useDebounce } from '@/scripts/utils'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { FileScreen, useFileStore } from '@/pages/App/Files/filesStore'
 
 const Header = () => {
-  const { darkMode, setDarkMode, menuState, setMenuState, setSearchedFiles, setContextMenuPosition } =
+  const { darkMode, setDarkMode, menuState, setMenuState, setContextMenuPosition } =
     useStore()
+  const setFileQuery = useFileStore(s => s.setFileQuery)
   const toggleNav = useToggleNav()
   const queryClient = useQueryClient()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
   const isSearchDisabled = useMemo(() =>
-    location.pathname.includes('/download/') || currentRoute !== routes.app, [location.pathname, currentRoute])
+    location.pathname.includes('/download/') || currentRoute !== Routes.app, [location.pathname, currentRoute])
   const [inputValue, setInputValue] = useState<string>('')
   const debouncedInputValue = useDebounce(inputValue)
 
@@ -31,15 +33,41 @@ const Header = () => {
     setDarkMode(isDark)
   }, [])
 
-  // Automatic search files on input change
+  // Automatic fileQuery setting.
+  // It is mainly used for fetching files from correct endpoint.
+  useEffect(() => {
+
+    // Search takes priority over route.
+    if (debouncedInputValue.length > 0) {
+      setFileQuery({
+        screen: FileScreen.search,
+        search: debouncedInputValue
+      })
+      return
+    }
+
+    const routeToFileScreen = {
+      [Routes.app]: FileScreen.files,
+      [Routes.shared]: FileScreen.filesIShare,
+      [Routes.sharedWithMe]: FileScreen.filesSharedWithMe,
+      [Routes.download]: FileScreen.link
+    } as Partial<Record<RouteValue, FileScreen>>
+
+    setFileQuery({
+      screen: routeToFileScreen[currentRoute] ?? FileScreen.files,
+      search: undefined
+    })
+  }, [currentRoute, debouncedInputValue])
+
+
+// Automatic search files on input change
   useEffect(() => {
     if (inputValue === debouncedInputValue) {
       if (inputValue === '' || isSearchDisabled) {
-        setSearchedFiles(null)
         if (inputValue !== '') setInputValue('')
         queryClient.invalidateQueries({ queryKey: ['files'] })
       } else {
-        queryClient.invalidateQueries({ queryKey: ['files', 'search'] })
+        queryClient.invalidateQueries({ queryKey: ['files', FileScreen.search] })
       }
     }
   }, [isSearchDisabled, inputValue, debouncedInputValue])
@@ -56,15 +84,9 @@ const Header = () => {
     return response.data
   }
 
-  const searchFiles = async (signal?: AbortSignal) => {
-    const searchedFiles = await getSearchedFiles(inputValue, signal)
-    if (searchedFiles) setSearchedFiles(searchedFiles)
-    return searchedFiles
-  }
-
   useQuery({
-    queryKey: ['files', 'search'],
-    queryFn: ({ signal }) => searchFiles(signal),
+    queryKey: ['files', FileScreen.search, debouncedInputValue],
+    queryFn: ({ signal }) => getSearchedFiles(inputValue, signal),
     enabled: inputValue === debouncedInputValue && inputValue !== ''
   })
 

@@ -6,11 +6,11 @@ import psdIcon from '@/images/psd.svg'
 import folderFileIcon from '@/images/folder-file.svg'
 import style from './File.module.css'
 import React, { MouseEvent, useMemo } from 'react'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 import useFileClick from '@/hooks/useFileClick'
 import { FileDTO } from '@/api/Api'
 import { useNavigate } from 'react-router-dom'
-import { routes } from '@/router/router'
+import { Routes } from '@/router/router'
 import { simplifyPath } from '@/scripts/utils'
 
 const File = ({ metadata, fileLink }: FileDTO) => {
@@ -62,7 +62,7 @@ const File = ({ metadata, fileLink }: FileDTO) => {
   const onDoubleClick = () => {
     if (metadata!.type !== 'directory') return
     const path = simplifyPath(metadata.path!)
-    navigate(routes.app + path)
+    navigate(Routes.app + path)
   }
 
   const stop = (e: React.MouseEvent) => {

@@ -1,18 +1,18 @@
-import Api, { download, useListFilesApiCall } from '@/api'
+import Api, { download } from '@/api'
 import style from './ContextMenu.module.css'
 import CookieScripts from '@/scripts/cookie-scripts'
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch'
 import arrowIcon from '@/images/arrow-top-right-on-square.svg'
 import plusCircleIcon from '@/images/plus-circle.svg'
 import uploadIcon from '@/images/upload.svg'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 import { basename } from '@/config'
 import React, { CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
-import { routes, useCurrentRoute } from '@/router/router'
+import { getLink, Routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths, normalizeFiles } from '@/scripts/utils'
+import { joinPaths } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -22,14 +22,12 @@ const ContextMenu = () => {
     clickedItem,
     menuState,
     setMenuState,
-    setFiles,
     contextMenuRef,
     contextMenuPosition,
     setContextMenuPosition
   } = useStore()
   const { setOverlay } = useOverlayStore()
   const user = useLoaderData()
-  const apiCall = useListFilesApiCall()
   const queryClient = useQueryClient()
   const location = useLocation()
   const currentRoute = useCurrentRoute()
@@ -129,8 +127,8 @@ const ContextMenu = () => {
     deleteMutation.mutate(filePath)
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
-    if (currentRoute === routes.download) {
-      navigate(routes.app)
+    if (currentRoute === Routes.download) {
+      navigate(Routes.app)
       return
     }
   }
@@ -150,7 +148,7 @@ const ContextMenu = () => {
     }
   }
 
-  const onUpload = (e: React.FormEvent) => {
+  const onUpload = (e: React.SyntheticEvent) => {
     e.preventDefault()
 
     const input = uploadInputRef.current
@@ -161,12 +159,7 @@ const ContextMenu = () => {
           filePath,
           file: input.files[0]
         })
-          .then(async () => {
-            const response = await Api.api.filesInDirectory(joinPaths(location.pathname))
-            if (response.status === 200) {
-              setFiles(response.data)
-            }
-          })
+          .then(() => queryClient.invalidateQueries({ queryKey: ['files'] }))
       } else {
         new Error('No file on input')
       }
@@ -181,7 +174,7 @@ const ContextMenu = () => {
     setMenuState(MenuState.newDir)
   }
 
-  const onCreateNewFolder = async (e: React.FormEvent) => {
+  const onCreateNewFolder = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     const dirName = createDirInputRef.current?.value
     if (!dirName) {
@@ -191,12 +184,7 @@ const ContextMenu = () => {
 
     const success = await Api.api.createDirectory(joinPaths(location.pathname, dirName)).then((res) => res.status === 200 && true)
     if (success) {
-      Api.api.filesInDirectory(joinPaths(location.pathname))
-        .then((res) => res.status === 200 && res.data)
-        .then((files) => {
-          if (files) setFiles(files)
-          setMenuState(MenuState.closed)
-        })
+      await queryClient.invalidateQueries({ queryKey: ['files'] })
     }
   }
 
@@ -208,18 +196,11 @@ const ContextMenu = () => {
     if (!uuid) {
       throw new Error('UUID is required')
     }
-    return routes.getLink(uuid).slice(1)
+    return getLink(uuid).slice(1)
   }
 
   const createLinkAndCopy = async (uuid?: string) => {
     if (uuid) {
-      const response = await apiCall(joinPaths(location.pathname))
-      if (response.status !== 200) {
-        setMenuState(MenuState.closed)
-        throw new Error(response.statusText)
-      }
-      const files = response.data
-      setFiles(normalizeFiles(files))
       setMenuState(MenuState.publicShare)
       setClipboard(urlFromUUID(uuid))
       if (clipboard != null) {
@@ -275,16 +256,12 @@ const ContextMenu = () => {
     }
 
     // If we're on link page, and link is removed, return to main page.
-    if (currentRoute === routes.download) {
-      navigate(routes.app)
+    if (currentRoute === Routes.download) {
+      navigate(Routes.app)
       return
     }
 
-    let getFilesResponse = await apiCall(joinPaths(location.pathname))
-    if (getFilesResponse.status === 200) {
-      const files = getFilesResponse.data
-      setFiles(normalizeFiles(files))
-    }
+    await queryClient.invalidateQueries({ queryKey: ['files'] })
   }
 
   const onGoToLink = () => {

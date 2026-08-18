@@ -6,15 +6,15 @@ import deleteIcon from '@/images/trash.svg'
 import plusIcon from '@/images/plus.svg'
 import minusIcon from '@/images/minus.svg'
 import { MouseEvent, useEffect } from 'react'
-import Api, { download, useListFilesApiCall } from '@/api'
-import { useStore } from '@/hooks/store'
-import { routes, useCurrentRoute } from '@/router/router'
-import useUuid from '@/hooks/useUuid'
+import Api, { download } from '@/api'
+import { useStore } from '@/store/store'
+import { Routes, useCurrentRoute } from '@/router/router'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths, normalizeFiles } from '@/scripts/utils'
+import { joinPaths } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
+import { useQueryClient } from '@tanstack/react-query'
 
 const FilesButtonsUI = () => {
   const {
@@ -22,18 +22,17 @@ const FilesButtonsUI = () => {
     setSelectedFiles,
     menuState,
     setMenuState,
-    setFiles,
     iconSize,
     setIconSize
   } = useStore()
   const { askOverlay } = useOverlayStore()
 
+  const queryClient = useQueryClient()
+
 
   const currentRoute = useCurrentRoute()
   const navigate = useNavigate()
   const location = useLocation()
-  const apiCall = useListFilesApiCall()
-  const uuid = useUuid()
 
   useEffect(() => {
     localStorage.setItem('icon-size', String(iconSize))
@@ -76,18 +75,13 @@ const FilesButtonsUI = () => {
       }
     }
 
-    let response = await apiCall(joinPaths(uuid || joinPaths(location.pathname)))
-    if (response.status !== 200) {
-      throw new Error('something went wrong')
-    }
-    let files = normalizeFiles(response.data)
+    await queryClient.invalidateQueries({ queryKey: ['files'] })
 
     // If we're on link page, deleting file also deletes the link, therefore return to main page
-    if (currentRoute === routes.download) {
-      navigate(routes.app)
+    if (currentRoute === Routes.download) {
+      navigate(Routes.app)
     }
 
-    setFiles(files)
     setSelectedFiles([])
   }
   const onDownload = async () => {

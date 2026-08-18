@@ -1,6 +1,6 @@
 import sidebarStyle from '@/components/Sidebar/Sidebar.module.css'
 import headerStyle from '@/components/Header/Header.module.css'
-import { useStore } from '@/hooks/store'
+import { useStore } from '@/store/store'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 
