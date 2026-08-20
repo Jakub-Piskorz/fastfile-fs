@@ -5,7 +5,7 @@ import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
 import Files from '@/pages/App/Files/Files'
 import { basename } from '@/config'
-import PageNotFound from '@/pages/404/404'
+import { PageNotFound, AuthError } from '@/pages/Error'
 
 export type RouteValue = (typeof Routes)[keyof typeof Routes]
 export const Routes = {
@@ -15,7 +15,8 @@ export const Routes = {
   linkWithVariable: '/download/:uuid',
   register: '/register',
   shared: '/shared',
-  sharedWithMe: '/shared-with-me'
+  sharedWithMe: '/shared-with-me',
+  authError: '/auth-error'
 } as const
 
 export const getLink = (uuid: string) => `/download/${uuid}`
@@ -27,7 +28,7 @@ export const router = createBrowserRouter(
       path: '/',
       Component: App,
       loader: requireAuthentication,
-      HydrateFallback: () => <div />,
+      // TODO Loading fallback
       children: [
         { path: '/', Component: Files },
         { path: '/*', Component: Files },
@@ -36,14 +37,9 @@ export const router = createBrowserRouter(
         { path: Routes.sharedWithMe, Component: Files }
       ]
     },
-    {
-      path: Routes.landingPage,
-      Component: LandingPage
-    },
-    {
-      path: Routes.register,
-      Component: Register
-    },
+    { path: Routes.landingPage, Component: LandingPage },
+    { path: Routes.register, Component: Register },
+    { path: Routes.authError, Component: AuthError },
     { path: '*', Component: PageNotFound }
   ], { basename }
 )

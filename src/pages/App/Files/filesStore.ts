@@ -48,7 +48,6 @@ export const useFilesQuery = () => {
   const uuid = useUuid()
   const location = useLocation()
   const path = location.pathname.slice(1)
-  console.log(path)
   const fileQuery = useFileStore(s => s.fileQuery)
 
   const screenToApiMapper = useMemo(() => new Map<FileScreen, AnyFilesApi>([

@@ -1,4 +1,4 @@
-import style from './404.module.css'
+import style from './PageNotFound.module.css'
 import { Link } from 'react-router-dom'
 import { Routes } from '@/router/router'
 
