@@ -15,7 +15,8 @@ export default function AuthError() {
     const interval = setInterval(() => {
       Api.auth.getCurrentUser().then(() => {
         navigate(Routes.app)
-      }).catch((ignoredError) => {
+      }).catch((error) => {
+        if (error.response) navigate(Routes.app)
       })
     }, 10000)
 

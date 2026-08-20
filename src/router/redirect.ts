@@ -10,8 +10,10 @@ export async function requireAuthentication() {
   try {
     const response = await Api.auth.getCurrentUser()
     return response.data
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
-    throw redirect(Routes.authError)
+    if (error.response) throw redirect(Routes.landingPage)
+    if (!error.response) throw redirect(Routes.authError)
+
   }
 }
