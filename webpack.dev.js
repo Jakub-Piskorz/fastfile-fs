@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 const { basename } = require('./src/config.js')
+const { readFileSync } = require('node:fs')
 
 module.exports = merge(common, {
   mode: 'development',
@@ -8,7 +9,11 @@ module.exports = merge(common, {
     port: 8081,
     open: basename,
     server: {
-      type: 'https'
+      type: 'https',
+      options: {
+        key: readFileSync('./localhost-key.pem'),
+        cert: readFileSync('./localhost.pem')
+      }
     },
     historyApiFallback: {
       index: basename
