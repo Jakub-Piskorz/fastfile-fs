@@ -1,11 +1,9 @@
 import App from '@/pages/App/App'
-import LandingPage from '@/pages/LandingPage/LandingPage'
-import Register from '@/pages/LandingPage/Register/Register'
 import { createBrowserRouter, useLocation } from 'react-router-dom'
 import { requireAuthentication } from './redirect'
 import Files from '@/pages/App/Files/Files'
 import { basename } from '@/config'
-import { PageNotFound, AuthError } from '@/pages/Error'
+import Loading from '@/pages/App/Files/Loading/Loading'
 
 export type RouteValue = (typeof Routes)[keyof typeof Routes]
 export const Routes = {
@@ -21,14 +19,13 @@ export const Routes = {
 
 export const getLink = (uuid: string) => `/download/${uuid}`
 
-
 export const router = createBrowserRouter(
   [
     {
       path: '/',
       Component: App,
+      HydrateFallback: Loading,
       loader: requireAuthentication,
-      // TODO Loading fallback
       children: [
         { path: '/', Component: Files },
         { path: '/*', Component: Files },
@@ -37,10 +34,25 @@ export const router = createBrowserRouter(
         { path: Routes.sharedWithMe, Component: Files }
       ]
     },
-    { path: Routes.landingPage, Component: LandingPage },
-    { path: Routes.register, Component: Register },
-    { path: Routes.authError, Component: AuthError },
-    { path: '*', Component: PageNotFound }
+    {
+      path: Routes.landingPage,
+      lazy: async () => ({
+        Component: (await import('@/pages/LandingPage/LandingPage')).default
+      })
+    },
+    {
+      path: Routes.register,
+      lazy: async () => ({
+        Component: (await import('@/pages/LandingPage/Register/Register')).default
+      })
+    },
+    {
+      path: Routes.authError,
+      lazy: async () => ({
+        Component: (await import('@/pages/Error/AuthError')).default
+      })
+    },
+    { path: '*', lazy: async () => ({ Component: (await import('@/pages/Error/PageNotFound')).default }) }
   ], { basename }
 )
 

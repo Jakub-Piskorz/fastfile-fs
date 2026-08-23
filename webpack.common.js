@@ -1,6 +1,5 @@
-const path = require('path')
+const path = require('node:path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
@@ -33,7 +32,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx|css)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
@@ -43,13 +42,17 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: 'style-loader',
+            options: {
+              insert: 'head'
+            }
           },
           {
             loader: 'css-loader',
             options: {
               sourceMap: true,
               modules: {
+                auto: true,
                 localIdentName: '[local]--[hash:base64:6]',
                 exportLocalsConvention: 'camelCase',
                 namedExport: false
@@ -84,10 +87,6 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       title: 'FastFile'
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css'
     }),
     new CopyWebpackPlugin({
       patterns: [
