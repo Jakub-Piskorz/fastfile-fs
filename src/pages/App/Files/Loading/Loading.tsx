@@ -6,7 +6,6 @@ export default function Loading() {
 
   return <div id={styles.loadingPage}>
     <img className={styles.logo} src={fastfileLogo} alt="Fastfile logo" />
-    <div>Loading...<br />
-    </div>
+    <div>Loading...</div>
   </div>
 }

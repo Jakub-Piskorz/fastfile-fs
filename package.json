@@ -44,7 +44,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
-    "generate-api": "swagger-typescript-api generate -p https://jakubpiskorz.dev:8080/v3/api-docs -o src/api --axios"
+    "generate-api": "swagger-typescript-api generate -p https://jakubpiskorz.dev:8080/v3/api-docs -o src/api --axios",
+    "generate-api-dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 swagger-typescript-api generate -p https://localhost:8080/v3/api-docs -o src/api --axios"
   },
   "author": "Jakub Piskorz, Mateusz Szczykutowicz",
   "license": "ISC"

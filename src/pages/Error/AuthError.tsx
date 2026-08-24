@@ -12,11 +12,15 @@ export default function AuthError() {
   // Check every 10 seconds if server is back.
   // If server responds, redirect to main page.
   useEffect(() => {
+    Api.auth.getCurrentUser().then(() => {
+      navigate(Routes.app)
+    }).catch(ignored => {
+    })
+
     const interval = setInterval(() => {
       Api.auth.getCurrentUser().then(() => {
         navigate(Routes.app)
-      }).catch((error) => {
-        if (error.response) navigate(Routes.app)
+      }).catch(ignored => {
       })
     }, 10000)
 

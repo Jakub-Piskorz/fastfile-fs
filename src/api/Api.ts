@@ -83,6 +83,10 @@ export interface FileMetadata {
   hasFiles?: boolean;
 }
 
+export interface FilePathDTO {
+  path?: string;
+}
+
 export interface PrivateFileLinkDTO {
   filePath?: string;
   emails?: string[];
@@ -92,7 +96,7 @@ export interface FilePathsDTO {
   filePaths?: string[];
 }
 
-export type StreamingResponseBody = object;
+export type StreamingResponseBody = any;
 
 export interface DeleteFileDTO {
   path?: string;
@@ -163,7 +167,7 @@ export class HttpClient<SecurityDataType = unknown> {
   }: ApiConfig<SecurityDataType> = {}) {
     this.instance = axios.create({
       ...axiosConfig,
-      baseURL: axiosConfig.baseURL || "https://jakubpiskorz.dev:8080",
+      baseURL: axiosConfig.baseURL || "https://localhost:8080",
     });
     this.secure = secure;
     this.format = format;
@@ -277,7 +281,7 @@ export class HttpClient<SecurityDataType = unknown> {
 /**
  * @title OpenAPI definition
  * @version v0
- * @baseUrl https://jakubpiskorz.dev:8080
+ * @baseUrl https://localhost:8080
  */
 export class Api<
   SecurityDataType extends unknown,
@@ -406,12 +410,12 @@ export class Api<
      * @name ShareFileLink
      * @request POST:/api/v1/files/link/create
      */
-    shareFileLink: (data: string, params: RequestParams = {}) =>
+    shareFileLink: (data: FilePathDTO, params: RequestParams = {}) =>
       this.request<FileLink, any>({
         path: `/api/v1/files/link/create`,
         method: "POST",
         body: data,
-        type: ContentType.Text,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -501,6 +505,20 @@ export class Api<
     /**
      * No description
      *
+     * @tags file-controller
+     * @name FilesInDirectory
+     * @request GET:/api/v1/files/list/{path}
+     */
+    filesInDirectory: (path: string, params: RequestParams = {}) =>
+      this.request<FileDTO[], any>({
+        path: `/api/v1/files/list/${path}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags file-share-controller
      * @name LinksSharedToMe
      * @request GET:/api/v1/files/link/shared-to-me
@@ -544,36 +562,6 @@ export class Api<
      * No description
      *
      * @tags file-controller
-     * @name RemoveFile
-     * @request DELETE:/api/v1/files/delete
-     */
-    removeFile: (data: DeleteFileDTO, params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/api/v1/files/delete`,
-        method: "DELETE",
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags file-controller
-     * @name FilesInDirectory
-     * @request GET:/api/v1/files/list/{path}
-     */
-    filesInDirectory: (path: string, params: RequestParams = {}) =>
-      this.request<FileDTO[], any>({
-        path: `/api/v1/files/list/${path}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags file-controller
      * @name DownloadFile
      * @request GET:/api/v1/files/download/{path}
      */
@@ -595,6 +583,22 @@ export class Api<
       this.request<string, any>({
         path: `/api/v1/files/create-directory/${path}`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags file-controller
+     * @name RemoveFile
+     * @request DELETE:/api/v1/files/delete
+     */
+    removeFile: (data: DeleteFileDTO, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/api/v1/files/delete`,
+        method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };

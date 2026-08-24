@@ -12,7 +12,7 @@ import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import { getLink, Routes, useCurrentRoute } from '@/router/router'
 import BeanOption from '@/components/BeanOption/BeanOption'
 import MenuState from '@/types/MenuStateEnum'
-import { joinPaths } from '@/scripts/utils'
+import { joinPaths, simplifyPath } from '@/scripts/utils'
 import OverlayState from '@/components/Overlay/OverlayStateEnum'
 import { useOverlayStore } from '@/components/Overlay/overlayStore'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -213,7 +213,8 @@ const ContextMenu = () => {
 
   const onPublicShare = async () => {
     setClipboard(null)
-    const link = await Api.api.shareFileLink(clickedItem!.metadata.path!).then(
+    const path = simplifyPath(clickedItem!.metadata.path as string)
+    const link = await Api.api.shareFileLink({ path }).then(
       (res) => {
         if (res.status !== 200) {
           throw new Error('Link couldn\'t be created. Error code: ' + res.status + ', ' + res.statusText)
@@ -231,8 +232,9 @@ const ContextMenu = () => {
 
   const onPrivateShareFinish = async () => {
     setClipboard(null)
+    const filePath = simplifyPath(clickedItem!.metadata.path as string)
     const link = await Api.api.sharePrivateFileLink({
-      filePath: clickedItem?.metadata.path,
+      filePath,
       emails: Array.from(mailList)
     }).then(
       (res) => {

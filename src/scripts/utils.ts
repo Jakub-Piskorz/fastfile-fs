@@ -35,7 +35,7 @@ export function normalizeFiles(probablyFiles: FileDTO | FileDTO[] | null | undef
 }
 
 export function simplifyPath(path: string) {
-  return path.split(/([\\/])+/).slice(1).join('')
+  return path.split(/([\\/])+/).slice(1).join('').slice(1)
 }
 
 export const useDebounce = <T, >(value: T, delay = 400) => {
