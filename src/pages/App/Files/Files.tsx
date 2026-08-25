@@ -13,6 +13,7 @@ import { useOverlayStore } from '@/components/Overlay/overlayStore'
 import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { useFilesQuery, useTitle } from '@/pages/App/Files/filesStore'
+import SkeletonFiles from '@/pages/App/Files/SkeletonFiles/SkeletonFiles'
 
 
 const Files = () => {
@@ -31,10 +32,10 @@ const Files = () => {
     return splitPath.join('/')
   }, [location.pathname])
 
-  const filesResponse = useFilesQuery()
+  const { data, isLoading } = useFilesQuery()
   const files = useMemo(
-    () => normalizeFiles(filesResponse.data?.data),
-    [filesResponse]
+    () => normalizeFiles(data?.data),
+    [data]
   )
 
   const dragCounter = useRef(0)
@@ -118,6 +119,7 @@ const Files = () => {
             files.map((fileDTO, i: number) => {
               return <File {...fileDTO} key={i} />
             })}
+          {isLoading && <SkeletonFiles />}
         </div>
       </div>
     </>

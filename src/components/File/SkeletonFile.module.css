@@ -1,0 +1,53 @@
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.skeletonFile {
+  border: 1px solid transparent;
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  position: relative;
+  flex-direction: column;
+  width: var(--fileWidth);
+  height: var(--fileHeight);
+  padding: 15px 0;
+  gap: 14px;
+  margin: 7px;
+  border-radius: 8px;
+
+  @media screen and (max-width: 800px) {
+    height: 150px;
+    margin: 0;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 400px) {
+    height: 120px;
+  }
+}
+
+.skeletonIcon {
+  height: 70%;
+  width: 42%;
+  margin: 0 15px;
+  border-radius: 6px;
+}
+
+.skeletonTitle {
+  height: 14px;
+  width: 60%;
+  margin: 0 20px;
+  border-radius: 6px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
