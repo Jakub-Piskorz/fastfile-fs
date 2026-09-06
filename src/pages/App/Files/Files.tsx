@@ -14,6 +14,7 @@ import { joinPaths, normalizeFiles } from '@/scripts/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { useFilesQuery, useTitle } from '@/pages/App/Files/filesStore'
 import SkeletonFiles from '@/pages/App/Files/SkeletonFiles/SkeletonFiles'
+import NoFiles from '@/pages/App/Files/NoFiles/NoFiles'
 
 
 const Files = () => {
@@ -115,10 +116,11 @@ const Files = () => {
         <FilesHeader title={title || ''} />
         <div className={style.files} onContextMenu={stop}>
           {isNestedDirectory && <GoBackFile path={parentDir} />}
-          {files &&
+          {files ?
             files.map((fileDTO, i: number) => {
               return <File {...fileDTO} key={i} />
-            })}
+            })
+            : <NoFiles />}
           {isLoading && <SkeletonFiles />}
         </div>
       </div>
